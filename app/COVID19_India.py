@@ -61,10 +61,10 @@ def covid19_plot(covid19_geosource,
   plt = figure(title = plot_title,
                tools='save', 
                plot_height = 500, plot_width = 550,
-               toolbar_location = 'left'
+               toolbar_location = 'left',
                #lod_factor=int(1e7),
                #lod_threshold=int(2),
-               #output_backend="webgl"
+               output_backend="webgl"
              )
   plt.xgrid.grid_line_color = None
   plt.ygrid.grid_line_color = None
