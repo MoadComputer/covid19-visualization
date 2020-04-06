@@ -83,11 +83,11 @@ def make_covid19_plot(covid19_geosource,
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 
 plot_title='COVID-19 outbreak in India'
-
+app_title='COVID19 India'
 covid19_plot = make_covid19_plot(covid19_geosource, 
                                  input_df=covid19_data,
                                  input_field='deaths',
                                  plot_title=plot_title)
-
+curdoc().title=app_title
 covid19_layout = column(covid19_plot)
 curdoc().add_root(covid19_layout)
