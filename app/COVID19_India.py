@@ -16,7 +16,7 @@ from bokeh.tile_providers import Vendors, get_provider
 from bokeh.models import Slider, HoverTool, Select, Div, Range1d, WMTSTileSource
 from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
 
-India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise.geojson')
+India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
 India_statewise.crs = {'init': 'epsg:4326'}
 India_statewise.head()
 
