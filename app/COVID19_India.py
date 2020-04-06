@@ -43,9 +43,9 @@ def covid19_plot(covid19_geosource,
                  input_df=None,
                  input_field=None,
                  plot_title=None):
-  palette = brewer['Reds'][8]
+  palette = brewer['Oranges'][8]
   palette = palette[::-1]
-  hover = HoverTool(tooltips = [ ('State','@state'),
+  hover = HoverTool(tooltips = [('State','@state'),
                                 ('Total cases', '@total_cases'),
                                 ('Total discharged/migrated', '@discharged'),
                                 ('Total deaths', '@deaths')])
@@ -74,7 +74,7 @@ def covid19_plot(covid19_geosource,
             fill_color = {'field' : 'deaths', 
                           'transform' : color_mapper},
             line_color = 'red', 
-            line_width = 0.5, 
+            line_width = 1.25, 
             fill_alpha = 1)
   plt.add_layout(color_bar, 'right')
   plt.add_tools(hover)
