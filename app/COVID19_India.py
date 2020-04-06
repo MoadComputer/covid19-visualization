@@ -60,7 +60,7 @@ def covid19_plot(covid19_geosource,
                        location = (0, 0))
   plt = figure(title = plot_title,
                tools='save', 
-               plot_height = 500, plot_width = 550,
+               plot_height = 800, plot_width = 850,
                toolbar_location = 'left',
                #lod_factor=int(1e7),
                #lod_threshold=int(2),
