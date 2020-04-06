@@ -39,10 +39,10 @@ def covid19_json(covid_df, geo_df):
 merged_data = covid19_json(covid19_data, India_statewise)
 merged_json = merged_data['json_data']
 
-def make_covid19_plot(covid19_geosource, 
-                      input_df=None,
-                      input_field=None,
-                      plot_title=None):
+def covid19_plot(covid19_geosource, 
+                 input_df=None,
+                 input_field=None,
+                 plot_title=None):
   palette = brewer['Reds'][8]
   palette = palette[::-1]
   hover = HoverTool(tooltips = [ ('State','@state'),
@@ -84,10 +84,10 @@ covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 
 plot_title='COVID-19 outbreak in India'
 app_title='COVID19 India'
-covid19_plot = make_covid19_plot(covid19_geosource, 
-                                 input_df=covid19_data,
-                                 input_field='deaths',
-                                 plot_title=plot_title)
+_covid19_plot = covid19_plot(covid19_geosource, 
+                             input_df=covid19_data,
+                             input_field='deaths',
+                             plot_title=plot_title)
 curdoc().title=app_title
-covid19_layout = column(covid19_plot)
+covid19_layout = column(_covid19_plot)
 curdoc().add_root(covid19_layout)
