@@ -60,7 +60,7 @@ def covid19_plot(covid19_geosource,
                        location = (0, 0))
   plt = figure(title = plot_title,
                tools='save', 
-               plot_height = 800, plot_width = 850,
+               plot_height = 700, plot_width = 700,
                toolbar_location = 'left',
                #lod_factor=int(1e7),
                #lod_threshold=int(2),
@@ -73,8 +73,8 @@ def covid19_plot(covid19_geosource,
             source = covid19_geosource, 
             fill_color = {'field' : 'deaths', 
                           'transform' : color_mapper},
-            line_color = 'grey', 
-            line_width = 0.25, 
+            line_color = 'red', 
+            line_width = 0.5, 
             fill_alpha = 1)
   plt.add_layout(color_bar, 'right')
   plt.add_tools(hover)
