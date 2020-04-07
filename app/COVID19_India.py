@@ -47,7 +47,7 @@ def covid19_plot(covid19_geosource,
   palette = palette[::-1]
   hover = HoverTool(tooltips = [('State','@state'),
                                 ('Cases', '@total_cases'),
-                                ('Discharged', '@discharged'),
+                                #('Discharged', '@discharged'),
                                 ('Deaths', '@deaths')])
   color_mapper = LinearColorMapper(palette = palette, 
                                    low = 0, 
