@@ -78,7 +78,7 @@ def covid19_plot(covid19_geosource,
             fill_alpha = 1)
   plt.add_layout(color_bar, 'right')
   plt.add_tools(hover)
-  plt.title.text_font_size = '42pt'
+  plt.title.text_font_size = '34pt'
   return plt
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
