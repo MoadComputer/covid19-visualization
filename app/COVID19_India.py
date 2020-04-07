@@ -21,7 +21,7 @@ India_statewise.crs = {'init': 'epsg:4326'}
 India_statewise.head()
 
 covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/India_statewise/COVID19_India_statewise.csv')
-covid19_data.head()
+covid19_data.loc[covid19_data['state'] == 'Telengana', 'state'] = 'Telangana'
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
 print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
