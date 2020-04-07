@@ -16,11 +16,11 @@ from bokeh.tile_providers import Vendors, get_provider
 from bokeh.models import Slider, HoverTool, Select, Div, Range1d, WMTSTileSource
 from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
 
-India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
+India_statewise = geopandas.read_file('../data/GeoJSON_assets/India_statewise_minified.geojson')
 India_statewise.crs = {'init': 'epsg:4326'}
 India_statewise.head()
 
-covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/India_statewise/COVID19_India_statewise.csv')
+covid19_data = pd.read_csv('../data/India_statewise/COVID19_India_statewise.csv')
 covid19_data.loc[covid19_data['state'] == 'Telengana', 'state'] = 'Telangana'
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
