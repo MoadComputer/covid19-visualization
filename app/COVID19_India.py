@@ -46,9 +46,9 @@ def covid19_plot(covid19_geosource,
   palette = brewer['Oranges'][8]
   palette = palette[::-1]
   hover = HoverTool(tooltips = [('State','@state'),
-                                ('Total cases', '@total_cases'),
-                                ('Total discharged/migrated', '@discharged'),
-                                ('Total deaths', '@deaths')])
+                                ('Cases', '@total_cases'),
+                                ('Discharged', '@discharged'),
+                                ('Deaths', '@deaths')])
   color_mapper = LinearColorMapper(palette = palette, 
                                    low = 0, 
                                    high = int(10*(np.ceil(np.max(input_df[input_field].values)/10))))
