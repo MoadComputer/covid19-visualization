@@ -60,7 +60,7 @@ def covid19_plot(covid19_geosource,
                        location = (0, 0))
   plt = figure(title = plot_title,
                tools='save', 
-               plot_height = 640, plot_width = 640,
+               plot_height = 550, plot_width = 640,
                toolbar_location = 'left',
                lod_factor=int(1e7),
                #lod_threshold=int(2),
@@ -83,7 +83,7 @@ def covid19_plot(covid19_geosource,
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 
-plot_title='COVID-19 outbreak in India'
+plot_title='COVID19 outbreak in India'
 app_title='COVID19 India'
 _covid19_plot = covid19_plot(covid19_geosource, 
                              input_df=covid19_data,
