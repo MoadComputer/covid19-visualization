@@ -58,6 +58,7 @@ def covid19_plot(covid19_geosource,
                        label_standoff=10, 
                        formatter=format_tick,
                        border_line_color=None, 
+                       major_label_text_font_size='16px',
                        location = (0, 0))
   if map_overlay:
     xmin = 8450000
