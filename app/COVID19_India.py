@@ -86,8 +86,8 @@ def covid19_plot(covid19_geosource,
               source = covid19_geosource, 
               fill_color = {'field' : 'deaths', 
                             'transform' : color_mapper},
-              line_color = 'red', 
-              line_width = 0.34, 
+              line_color = 'purple', 
+              line_width = 0.5, 
               fill_alpha = 0.85)
   plt.add_layout(color_bar, 'right')
   plt.add_tools(hover)
