@@ -3,12 +3,12 @@ import math
 import json
 import bokeh
 import geopandas
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from bokeh.io.doc import curdoc
-from bokeh.palettes import brewer
 from bokeh.plotting import figure
+from bokeh.palettes import brewer, OrRd
 from bokeh.plotting import show as plt_show
 from bokeh.tile_providers import Vendors, get_provider
 from bokeh.io import output_notebook, show, output_file
@@ -43,12 +43,26 @@ def covid19_plot(covid19_geosource,
                  input_field=None,
                  plot_title=None,
                  map_overlay=True,
-                 enable_toolbar=False):
-  palette = brewer['Oranges'][8]
-  palette = palette[::-1]
-  hover  = HoverTool(tooltips = """<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                   <font face="Arial" size="3">Cases: @total_cases</font><br>
-                                   <font face="Arial" size="3">Deaths: @deaths </font>""")
+                 palette_type='OrRd',
+                 custom_hovertool=True,
+                 enable_toolbar=True):
+  if palette_type.lower()=='OrRd'.lower():
+    palette = OrRd[9]
+    palette = palette[::-1]
+  else:
+    palette = brewer['Oranges']
+    palette = palette[::-1]
+  
+  if custom_hovertool:
+    hover  = HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
+                                    <font face="Arial" size="3">Cases: @total_cases</font><br>
+                                    <font face="Arial" size="3">Deaths: @deaths </font>""")
+  else:
+    hover = HoverTool(tooltips = [('State','@state'),
+                                  ('Cases', '@total_cases'),
+                                  #('Discharged/migrated', '@discharged'),
+                                  ('Deaths', '@deaths')])
+  
   color_mapper = LinearColorMapper(palette = palette, 
                                    low = 0, 
                                    high = int(10*(np.ceil(np.max(input_df[input_field].values)/10))))
@@ -64,6 +78,7 @@ def covid19_plot(covid19_geosource,
     xmax = 10000000
     ymin = 850000
     ymax = 4550000
+
   plt = figure(title = plot_title,
                x_range=(xmin, xmax) if map_overlay else None,
                y_range=(ymin, ymax) if map_overlay else None,
@@ -72,13 +87,14 @@ def covid19_plot(covid19_geosource,
                toolbar_location = 'left' if enable_toolbar else None,
                #lod_factor=int(1e7),
                #lod_threshold=int(2),
-               output_backend="webgl"
-               )
+               output_backend="webgl")
+  
   if map_overlay:
     wmts = WMTSTileSource(url="http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png")
     plt.add_tile(wmts)
     plt.xaxis.axis_label = 'longitude'
     plt.yaxis.axis_label = 'latitude'
+    
   plt.xgrid.grid_line_color = None
   plt.ygrid.grid_line_color = None
   plt.axis.visible = False
