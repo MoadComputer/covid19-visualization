@@ -43,7 +43,7 @@ def covid19_plot(covid19_geosource,
                  input_field=None,
                  plot_title=None,
                  map_overlay=True,
-                 enable_toolbar=True):
+                 enable_toolbar=False):
   palette = brewer['Oranges'][8]
   palette = palette[::-1]
   hover = HoverTool(tooltips = [('State','@state'),
