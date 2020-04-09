@@ -45,7 +45,7 @@ def covid19_plot(covid19_geosource,
                  map_overlay=True,
                  palette_type='OrRd',
                  custom_hovertool=True,
-                 enable_toolbar=True):
+                 enable_toolbar=False):
   if palette_type.lower()=='OrRd'.lower():
     palette = OrRd[9]
     palette = palette[::-1]
