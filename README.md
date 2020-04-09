@@ -1,19 +1,19 @@
 # covid19-visualization
 Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
-App deployment:
+## **App deployment:**
 
-1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
+### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
-2. Web application [(eg. using Heroku)](https://covid19india-visualization.herokuapp.com/COVID19_India)
+### 2. Web application ([eg. using Heroku](https://covid19india-visualization.herokuapp.com/COVID19_India))
 
-3. Bokeh server app
+### 3. Bokeh server app
     * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
     * Launch the Bokeh server: ```bokeh serve --show ./app/COVID19_India.py```
     * Go to your browser location and the app will be served
     ![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/COVID19_India_Bokeh_output.png)
 
-### **Bokeh server deployment cheatsheet**
+## **Bokeh server deployment cheatsheet**
 
 **For AMD64/x86-64 Linux users:**
 
@@ -34,7 +34,7 @@ App deployment:
 * Install pandas: ```apt install python3-pandas```
 * Install app dependecies: ```python3 -m pip install fiona geopandas shapely bokeh --no-deps```
 
-**For Windows users (Require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe)):**
+**For Windows users (require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe)):**
 
 * Create virtual Anaconda3 environment: ```conda env create --name GeoPandas python```
 * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
