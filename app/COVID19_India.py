@@ -30,7 +30,16 @@ for noCOVID19_state in noCOVID19_list:
 
 def covid19_json(covid_df, geo_df):
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
-    merged_df = merged_df.fillna(0)
+
+    try:
+      merged_df.fillna(0)
+    except:
+      merged_df.fillna({'total_cases': 0}, inplace=True)
+      merged_df.fillna({'deaths': 0}, inplace=True)
+      merged_df.fillna({'discharged': 0}, inplace=True)
+      if verbose:
+        print('Consider updating GeoPandas library ...')
+    
     merged_json = json.loads(merged_df.to_json())
     json_data = json.dumps(merged_json)
     return {'json_data': json_data, 'data_frame': merged_df}
