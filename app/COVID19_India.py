@@ -16,6 +16,8 @@ from bokeh.layouts import widgetbox, row, column, gridplot
 from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
 from bokeh.models import Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool
 
+verbose=False
+
 India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
 India_statewise = India_statewise.to_crs("EPSG:3395")
 
@@ -23,12 +25,13 @@ covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualizatio
 covid19_data.loc[covid19_data['state'] == 'Telengana', 'state'] = 'Telangana'
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
-print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
-print('\nStates in India with no COVID19 reports:')
-for noCOVID19_state in noCOVID19_list:
-  print('\n{} ...'.format(noCOVID19_state))
+if verbose:
+  print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
+  print('\nStates in India with no COVID19 reports:')
+  for noCOVID19_state in noCOVID19_list:
+    print('\n{} ...'.format(noCOVID19_state))
 
-def covid19_json(covid_df, geo_df):
+def covid19_json(covid_df, geo_df,verbose=False):
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
 
     try:
@@ -44,7 +47,8 @@ def covid19_json(covid_df, geo_df):
     json_data = json.dumps(merged_json)
     return {'json_data': json_data, 'data_frame': merged_df}
 
-merged_data = covid19_json(covid19_data, India_statewise)
+merged_data = covid19_json(covid19_data, India_statewise, 
+                           verbose=verbose)
 merged_json = merged_data['json_data']
 
 def covid19_plot(covid19_geosource, 

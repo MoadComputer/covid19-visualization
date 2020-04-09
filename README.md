@@ -24,9 +24,9 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 **For AARCH64 Linux user:**
 
-* Install build tools and CMake: ```apt-get install make clang llvm libc++-dev libc++abi-dev```
+* Install build tools and CMake: ```apt install make clang llvm libc++-dev libc++abi-dev```
 * Install ```llmvmlite``` for python3: ```python3 -m pip install llvmlite```
-* Install ```libatlas-dev```: ```apt-get install libatlas-base-dev```
+* Install ```libatlas-dev```: ```apt install libatlas-base-dev```
 * Install AARCH64 linux dependencies: ```apt install libgdal-dev gdal-bin python3-gdal libtiff-dev  libsqlite3-dev sqlite```
 * Clone and prepare PROJ repository for CMake: ```git clone https://github.com/OSGeo/PROJ; cd ./PROJ; ./autogen```
 * Configure PROJ: ```./configure```
