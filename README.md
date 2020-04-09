@@ -1,7 +1,7 @@
 # covid19-visualization
 Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
-## **App deployment:**
+## **App deployment**
 
 ### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
@@ -23,13 +23,13 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 ## **Bokeh server deployment cheatsheet**
 
-**For AMD64/x86-64 Linux users:**
+**For AMD64/x86-64 Linux users**
 
 * Install git: ```apt install git```
 * Clone the repo: ```git clone git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
 * Use the requirements file to install dependencies: ```python3 -m pip install -r ./requirements.txt```
 
-**For AARCH64 Linux user:**
+**For AARCH64 Linux users**
 
 * Install build tools and CMake: ```apt install make clang llvm libc++-dev libc++abi-dev```
 * Install ```llmvmlite``` for python3: ```python3 -m pip install llvmlite```
@@ -42,7 +42,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * Install pandas: ```apt install python3-pandas```
 * Install app dependecies: ```python3 -m pip install fiona geopandas shapely bokeh --no-deps```
 
-**For Windows users (require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe)):**
+**For Windows users (require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe))**
 
 * Create virtual Anaconda3 environment: ```conda env create --name GeoPandas python```
 * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
