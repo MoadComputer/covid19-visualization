@@ -7,6 +7,13 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 ### 2. Web application ([eg. using Heroku](https://covid19india-visualization.herokuapp.com/COVID19_India))
 
+* Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and login to your Heroku account
+* Git clone this repo: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
+* Edit the Procfile: ```web: bokeh serve --port=$PORT --address=0.0.0.0 --allow-websocket-origin=<YOUR_APP_ADDRESS> --use-xheaders app/COVID19_India.py```
+* Git commit: ```git commit -am 'COVID19 visualization tool'```
+* Deploy to Heroku: ```git push heroku master```
+* (Optional) Restart the Heroku dyno: ```heroku restart -a <YOUR_APP_NAME>```
+
 ### 3. Bokeh server app
 
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
