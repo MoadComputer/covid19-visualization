@@ -39,5 +39,5 @@ App deployment:
 * Create virtual Anaconda3 environment: ```conda env create --name GeoPandas python```
 * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
 * [Install GeoPandas using conda forge](https://geopandas.org/install.html): ```conda install --channel conda-forge geopandas```
-* [Download, unzip and extract libspatialindex dlls](http://download.osgeo.org/libspatialindex/libspatialindex-1.8.0-win-msvc-2010-x64-x32.zip) to: ```C:\ProgramData\Anaconda3\envs\GeoPandas```
+* [Download and extract libspatialindex dlls](http://download.osgeo.org/libspatialindex/libspatialindex-1.8.0-win-msvc-2010-x64-x32.zip) to: ```C:\ProgramData\Anaconda3\envs\GeoPandas```
 * Install git: ```conda install -c anaconda git```
