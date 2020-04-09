@@ -14,11 +14,11 @@ App deployment:
     ![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/COVID19_India_Bokeh_output.png)
 
 ** Bokeh server deployment cheatsheet **
-** * For AMD64/x86-64 Linux users: **
+*** For AMD64/x86-64 Linux users: **
     * Install git: ```apt install git```
     * Clone the repo: ```git clone git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
     * Use the requirements file to install dependencies: ```python3 -m pip install -r ./requirements.txt```
-** * For AARCH64 Linux user: **
+*** For AARCH64 Linux user: **
     * Install build tools and CMake: ```apt-get install make clang llvm libc++-dev libc++abi-dev```
     * Install ```llmvmlite``` for python3: ```python3 -m pip install llvmlite```
     * Install ```libatlas-dev```: ```apt-get install libatlas-base-dev```
@@ -29,7 +29,7 @@ App deployment:
     * Install pyproj: ```python3 -m pip install git+https://github.com/pyproj4/pyproj.git```
     * Install pandas: ```apt install python3-pandas```
     * Install app dependecies: ```python3 -m pip install fiona geopandas shapely bokeh --no-deps```
-** * For Windows users (Require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe)): **
+*** For Windows users (Require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe)): **
     * Create virtual Anaconda3 environment: ```conda env create --name GeoPandas python```
     * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
     * [Install GeoPandas using conda forge](https://geopandas.org/install.html): ```conda install --channel conda-forge geopandas```
