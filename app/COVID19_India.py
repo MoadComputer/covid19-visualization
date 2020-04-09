@@ -120,12 +120,13 @@ def covid19_plot(covid19_geosource,
               fill_alpha = 0.85)
   plt.add_layout(color_bar, 'right')
   plt.add_tools(hover)
-  plt.title.text_font_size = '34pt'
+  if plot_title is not None:
+    plt.title.text_font_size = '34pt'
   return plt
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 
-plot_title='COVID19 outbreak in India'
+plot_title=None#'COVID19 outbreak in India'
 app_title='COVID19 India'
 _covid19_plot = covid19_plot(covid19_geosource, 
                              input_df=covid19_data,
