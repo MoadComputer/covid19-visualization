@@ -32,7 +32,7 @@ def covid19_json(covid_df, geo_df):
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
 
     try:
-      merged_df.fillna(0)
+      merged_df = merged_df.fillna(0)
     except:
       merged_df.fillna({'total_cases': 0}, inplace=True)
       merged_df.fillna({'deaths': 0}, inplace=True)
