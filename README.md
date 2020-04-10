@@ -8,7 +8,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
   **For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines** 
     
   * Run the notebook by selecting from the menu: ```Kernel``` and  then: ```Restart & Run All```
-  ![Jupyter how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Jupyer_howto.png)
+  [![Jupyter how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Jupyer_howto.png)](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
   **For Jupyter in AARCH64 Linux machines**
     
@@ -29,9 +29,9 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
     
   * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all``` or press ```CTRL+F9```
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
-  ![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Google_Colab_howto.png)
+  [![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Google_Colab_howto.png)](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
-### 2. Web application ([eg. using Heroku](https://covid19india-visualization.herokuapp.com/COVID19_India))
+### 2. Web application ([eg. using Heroku](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python))
 
 * Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and login to your Heroku account
 * Git clone this repo: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
@@ -45,7 +45,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
 * Launch the Bokeh server: ```bokeh serve --show ./app/COVID19_India.py```
 * Go to your browser location and the app will be served
-  ![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/COVID19_India_Bokeh_output.png)
+  [![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/COVID19_India_Bokeh_output.png)](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python)
 
 ## **Bokeh server deployment cheatsheet**
 
