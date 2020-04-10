@@ -15,7 +15,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 * For Jupyter in Windows machines:
   * Deploy Bokeh server using the cheatsheet below
-  * Activate the conda virtualenv: ```conda activate GeoPandas```
+  * Activate conda virtualenv: ```conda activate GeoPandas```
   * Install Jupyter and ipykernel: ```conda install -c conda-forge python=3 notebook ipykernel --yes```
   * Run Jupyter: ```jupyter notebook```
   * Edit the first cell to: ```setup=False```
@@ -24,7 +24,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * For Google Colab:
   * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all`` or press ```CTRL+F9```
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
-  ![Google Colab example](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
+  ![Google Colab example](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Google_Colab_howto.png)
 
 ### 2. Web application ([eg. using Heroku](https://covid19india-visualization.herokuapp.com/COVID19_India))
 
@@ -70,3 +70,4 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * Install git: ```conda install -c anaconda git```
 * Install bokeh: ```conda install -c bokeh bokeh```
 * Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
+* Update nbformat: ```conda update nbformat```
