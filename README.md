@@ -67,6 +67,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * Install pyproj: ```python3 -m pip install git+https://github.com/pyproj4/pyproj.git```
 * Install pandas: ```apt install python3-pandas```
 * Install app dependecies: ```python3 -m pip install fiona geopandas shapely bokeh --no-deps```
+* Install ```visvalingamwyatt``` for GeoJSON minification: ```python3 -m pip install visvalingamwyatt```
 
 **For Windows users (require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe))**
 
@@ -76,3 +77,4 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 * Install bokeh: ```conda install -c bokeh bokeh```
 * Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
 * Update nbformat: ```conda update nbformat```
+* Install ```visvalingamwyatt``` for GeoJSON minification: ```python -m pip install visvalingamwyatt```
