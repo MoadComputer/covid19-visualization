@@ -23,7 +23,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
   * Run the notebook
 
 * For Google Colab:
-  * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all`` or press ```CTRL+F9```
+  * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all``` or press ```CTRL+F9```
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
   ![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Google_Colab_howto.png)
 
