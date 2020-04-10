@@ -5,6 +5,27 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 ### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
+* For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines: 
+  * Run the notebook by selecting from the menu: ```Kernel``` and  then: ```
+
+* For Jupyter in AARCH64 Linux machines:
+  * Deploy Bokeh server for AARCH64 Linux using the cheatsheet below
+  * Edit the first cell to: ```setup=False```
+  * Run the notebook
+
+* For Jupyter in Windows machines:
+  * Deploy Bokeh server using the cheatsheet below
+  * Activate the conda virtualenv: ```conda activate GeoPandas```
+  * Install Jupyter and ipykernel: ```conda install -c conda-forge python=3 notebook ipykernel --yes```
+  * Run Jupyter: ```jupyter notebook```
+  * Edit the first cell to: ```setup=False```
+  * Run the notebook
+
+* For Google Colab:
+  * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all`` or press ```CTRL+F9```
+  * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
+  ![Google Colab example](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
+
 ### 2. Web application ([eg. using Heroku](https://covid19india-visualization.herokuapp.com/COVID19_India))
 
 * Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and login to your Heroku account
@@ -44,8 +65,8 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 **For Windows users (require [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe))**
 
-* Create virtual Anaconda3 environment: ```conda env create --name GeoPandas python```
+* Create virtual Anaconda3 environment: ```conda create -n GeoPandas -c conda-forge python=3.7 geopandas --yes```
 * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
-* [Install GeoPandas using conda forge](https://geopandas.org/install.html): ```conda install --channel conda-forge geopandas```
-* [Download and extract libspatialindex dlls](http://download.osgeo.org/libspatialindex/libspatialindex-1.8.0-win-msvc-2010-x64-x32.zip) to: ```C:\ProgramData\Anaconda3\envs\GeoPandas```
 * Install git: ```conda install -c anaconda git```
+* Install bokeh: ```conda install -c bokeh bokeh```
+* Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
