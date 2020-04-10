@@ -21,9 +21,9 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
   * Deploy Bokeh server using the cheatsheet below
   * Activate conda virtualenv: ```conda activate GeoPandas```
   * Install Jupyter and ipykernel: ```conda install -c conda-forge python=3 notebook ipykernel --yes```
-    * Run Jupyter: ```jupyter notebook```
-    * Edit the first cell to: ```setup=False```
-    * Run the notebook
+  * Run Jupyter: ```jupyter notebook```
+  * Edit the first cell to: ```setup=False```
+  * Run the notebook
 
   **For Google Colab**
     
