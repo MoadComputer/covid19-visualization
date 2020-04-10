@@ -5,16 +5,16 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
 
 ### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/master/examples/COVID19_India.ipynb)
 
-* For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines: 
+**For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines** 
   * Run the notebook by selecting from the menu: ```Kernel``` and  then: ```Restart & Run All```
   ![Jupyter how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Jupyer_howto.png)
 
-* For Jupyter in AARCH64 Linux machines:
+**For Jupyter in AARCH64 Linux machines**
   * Deploy Bokeh server for AARCH64 Linux using the cheatsheet below
   * Edit the first cell to: ```setup=False```
   * Run the notebook
 
-* For Jupyter in Windows machines:
+**For Jupyter in Windows machines**
   * Deploy Bokeh server using the cheatsheet below
   * Activate conda virtualenv: ```conda activate GeoPandas```
   * Install Jupyter and ipykernel: ```conda install -c conda-forge python=3 notebook ipykernel --yes```
@@ -22,7 +22,7 @@ Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
   * Edit the first cell to: ```setup=False```
   * Run the notebook
 
-* For Google Colab:
+**For Google Colab**
   * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all``` or press ```CTRL+F9```
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
   ![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/master/examples/Google_Colab_howto.png)
