@@ -21,7 +21,7 @@ verbose=False
 India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
 India_statewise = India_statewise.to_crs("EPSG:3395")
 
-covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/India_statewise/COVID19_India_statewise.csv')
+covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
 covid19_data.loc[covid19_data['state'] == 'Telengana', 'state'] = 'Telangana'
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
