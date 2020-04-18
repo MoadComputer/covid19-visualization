@@ -62,14 +62,16 @@ def CustomPalette(palette_type):
   return palette
 
 def CustomHoverTool(enable_advancedStats, custom_hovertool):
-  advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                             <font face="Arial" size="3">Cases: @total_cases</font><br>
-                                             <font face="Arial" size="3">Deaths: @deaths </font>
+  advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
+                                             <font face="Arial" size="2">Cases: @total_cases</font><br>
+                                             <font face="Arial" size="2">Deaths: @deaths </font>
                                              <hr>
-                                             <strong><font face="Arial" size="2">Forecast</font></strong> <br>
-                                             <font face="Arial" size="2">Cases (+1 day): @preds_cases</font><br>
-                                             <font face="Arial" size="2">Cases (+3 days): @preds_cases_3</font><br>
-                                             <font face="Arial" size="2">Cases (+7 days): @preds_cases_7</font><br>""")
+                                             <strong><font face="Arial" size="2">Cases forecast</font></strong> <br>
+                                             <font face="Arial" size="1">+1 day: <strong>@preds_cases</strong></font><br>
+                                             <font face="Arial" size="1">+3 days: <strong>@preds_cases_3</strong></font><br>
+                                             <font face="Arial" size="1">+7 days: <strong>@preds_cases_7</strong></font><br>
+                                             <hr>
+                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases</font><br>
@@ -196,7 +198,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['id', 'state', 'preds_cases', 'preds_cases_3']
+  preds_df.columns=['id', 'state', 'preds_cases_3', 'preds_cases_7', 'preds_cases']
   preds_df.astype({'preds_cases': 'int'})
   preds_df.astype({'preds_cases_3': 'int'})
   preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
