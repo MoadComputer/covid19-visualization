@@ -1,34 +1,35 @@
-,state,total_cases
-0,Andaman and Nicobar Islands,22.0
-1,Andhra Pradesh,596.0
-2,Arunachal Pradesh,4.0
-3,Assam,37.0
-4,Bihar,99.0
-5,Chandigarh,23.0
-6,Chhattisgarh,37.0
-7,Delhi,1811.0
-8,Goa,8.0
-9,Gujarat,1258.0
-10,Haryana,224.0
-11,Himachal Pradesh,48.0
-12,Jammu and Kashmir,351.0
-13,Jharkhand,35.0
-14,Karnataka,333.0
-15,Kerala,411.0
-16,Ladakh,19.0
-17,Madhya Pradesh,1342.0
-18,Maharashtra,3973.0
-19,Manipur,3.0
-20,Meghalaya,9.0
-21,Mizoram,2.0
-22,Nagaland,0.0
-23,Odisha,71.0
-24,Puducherry,8.0
-25,Punjab,215.0
-26,Rajasthan,1397.0
-27,Tamil Nadu,1352.0
-28,Telangana,778.0
-29,Tripura,3.0
-30,Uttarakhand,45.0
-31,Uttar Pradesh,898.0
-32,West Bengal,283.0
+,state,preds_cases,total_cases,mae,
+0,Andaman and Nicobar Islands,22,12,0.833333333333333,
+1,Andhra Pradesh,596,572,0.041958041958042,
+2,Arunachal Pradesh,4,1,3,
+3,Assam,37,35,0.057142857142857,
+4,Bihar,99,83,0.192771084337349,
+5,Chandigarh,23,21,0.095238095238095,
+6,Chhattisgarh,37,36,0.027777777777778,
+7,Delhi,1811,1707,0.060925600468659,
+8,Goa,8,7,0.142857142857143,
+9,Gujarat,1258,1099,0.144676979071884,
+10,Haryana,224,225,0.004444444444444,
+11,Himachal Pradesh,48,36,0.333333333333333,
+12,Jammu and Kashmir,351,328,0.070121951219512,
+13,Jharkhand,35,33,0.060606060606061,
+14,Karnataka,333,359,0.072423398328691,
+15,Kerala,411,396,0.037878787878788,
+16,Ladakh,19,18,0.055555555555556,
+17,Madhya Pradesh,1342,1310,0.024427480916031,
+18,Maharashtra,3973,3323,0.19560637977731,
+19,Manipur,3,2,0.5,
+20,Meghalaya,9,9,0,
+21,Mizoram,2,1,1,
+22,Nagaland,0,0,,
+23,Odisha,71,60,0.183333333333333,
+24,Puducherry,8,7,0.142857142857143,
+25,Punjab,215,202,0.064356435643564,
+26,Rajasthan,1397,1229,0.136696501220504,
+27,Tamil Nadu,1352,1323,0.021919879062736,
+28,Telangana,778,766,0.015665796344648,
+29,Tripura,3,2,0.5,
+30,Uttarakhand,45,40,0.125,
+31,Uttar Pradesh,898,849,0.05771495877503,
+32,West Bengal,283,287,0.013937282229965,MAE
+,,15695,14378,0.091598275142579,0.256642488553493
