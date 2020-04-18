@@ -67,8 +67,9 @@ def CustomHoverTool(enable_advancedStats, custom_hovertool):
                                              <font face="Arial" size="3">Deaths: @deaths </font>
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
-                                             
-                                             <font face="Arial" size="2">Cases (+3 days): @preds_cases_3</font><br>""")
+                                             <font face="Arial" size="2">Cases (+1 day): @preds_cases</font><br>
+                                             <font face="Arial" size="2">Cases (+3 days): @preds_cases_3</font><br>
+                                             <font face="Arial" size="2">Cases (+7 days): @preds_cases_7</font><br>""")
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases</font><br>
