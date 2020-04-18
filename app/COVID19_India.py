@@ -215,7 +215,7 @@ if advanced_mode:
 
   advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
                                        input_df=preds_covid19_data,
-                                       input_field='preds_cases',
+                                       input_field='preds_cases_3',
                                        enable_advancedStats=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
