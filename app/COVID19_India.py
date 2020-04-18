@@ -175,25 +175,14 @@ def covid19_plot(covid19_geosource,
   
   return plt
 
-preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
+advanced_mode=True
+try:
+  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
+except:
+  print('Advanced mode disabled ...)
+  advanced_mode=False
 
-preds_df.columns=['id', 'state', 'preds_cases']
-preds_df.astype({'preds_cases': 'int'})
-preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
-preds_covid19_df=preds_covid19_df.fillna(0)
-preds_covid19_df['preds_cases']=preds_covid19_df['preds_cases'].astype('int')
-preds_covid19_df['deaths']=preds_covid19_df['deaths'].astype('int')
-del preds_covid19_df['ID']
-del preds_covid19_df['id']
-del preds_covid19_df['discharged']
-
-merged_preds_data = covid19_json(preds_covid19_df, India_statewise)
-merged_preds_json = merged_preds_data['json_data']
-preds_covid19_data=merged_preds_data['data_frame']
-
-preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
-
 plot_title=None#'COVID19 outbreak in India'
 app_title='COVID19 India'
 
@@ -201,16 +190,38 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
                                   input_df=covid19_data,
                                   input_field='deaths',
                                   plot_title=plot_title)
+basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
-advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
-                                     input_df=preds_covid19_data,
-                                     input_field='preds_cases',
-                                     enable_advancedStats=True,
-                                     plot_title=None)
+if advanced_mode:
+  preds_df.columns=['id', 'state', 'preds_cases']
+  preds_df.astype({'preds_cases': 'int'})
+  preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
+  preds_covid19_df=preds_covid19_df.fillna(0)
+  preds_covid19_df['preds_cases']=preds_covid19_df['preds_cases'].astype('int')
+  preds_covid19_df['deaths']=preds_covid19_df['deaths'].astype('int')
+  del preds_covid19_df['ID']
+  del preds_covid19_df['id']
+  del preds_covid19_df['discharged']
+
+  merged_preds_data = covid19_json(preds_covid19_df, India_statewise)
+  merged_preds_json = merged_preds_data['json_data']
+  preds_covid19_data = merged_preds_data['data_frame']
+
+  preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
+
+  advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
+                                       input_df=preds_covid19_data,
+                                       input_field='preds_cases',
+                                       enable_advancedStats=True,
+                                       plot_title=None)
+  advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
+
+
 
 curdoc().title=app_title
-basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
-advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
-covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab])
-covid19_layout = covid19_tabs#column(basic_covid19_plot)
+if advanced_mode:
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab])
+  covid19_layout = covid19_tabs
+else:
+  covid19_layout = column(basic_covid19_plot)
 curdoc().add_root(covid19_layout)
