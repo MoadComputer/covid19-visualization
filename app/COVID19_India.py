@@ -179,7 +179,7 @@ advanced_mode=True
 try:
   preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
-  print('Advanced mode disabled ...)
+  print('Advanced mode disabled ...')
   advanced_mode=False
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
