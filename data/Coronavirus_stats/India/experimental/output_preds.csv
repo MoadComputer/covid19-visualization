@@ -1,34 +1,34 @@
-,state,preds_cases_7,preds_cases_3,preds_cases
-0,Andaman and Nicobar Islands,28,20,18
-1,Andhra Pradesh,1166,812,724
-2,Arunachal Pradesh,2,2,2
-3,Assam,69,48,43
-4,Bihar,167,117,104
-5,Chandigarh,45,32,29
-6,Chhattisgarh,71,49,44
-7,Delhi,3658,2546,2271
-8,Goa,14,10,9
-9,Gujarat,2659,1851,1651
-10,Haryana,436,303,271
-11,Himachal Pradesh,76,53,48
-12,Jammu and Kashmir,660,459,410
-13,Jharkhand,67,47,42
-14,Karnataka,743,517,461
-15,Kerala,773,539,480
-16,Ladakh,36,25,22
-17,Madhya Pradesh,2719,1893,1688
-18,Maharashtra,7053,4910,4379
-19,Manipur,4,3,3
-20,Meghalaya,22,16,14
-21,Mizoram,2,2,2
-22,Nagaland,0,0,0
-23,Odisha,119,83,74
-24,Puducherry,14,10,9
-25,Punjab,391,273,243
-26,Rajasthan,2611,1818,1621
-27,Tamil Nadu,2651,1846,1646
-28,Telangana,1564,1089,971
-29,Tripura,4,3,3
-30,Uttarakhand,82,57,51
-31,Uttar Pradesh,1873,1304,1163
-32,West Bengal,600,418,373
+,state,preds_cases_7,preds_cases_3,preds_cases,preds_cases_7_std,preds_cases_3_std,preds_cases_std
+0,Andaman and Nicobar Islands,28,20,18,1,1,3
+1,Andhra Pradesh,1166,812,724,21,36,84
+2,Arunachal Pradesh,2,2,2,0,0,0
+3,Assam,69,48,43,2,2,5
+4,Bihar,167,117,104,4,5,12
+5,Chandigarh,45,32,29,1,2,4
+6,Chhattisgarh,71,49,44,2,3,5
+7,Delhi,3658,2546,2271,67,110,264
+8,Goa,14,10,9,0,1,2
+9,Gujarat,2659,1851,1651,49,80,192
+10,Haryana,436,303,271,8,14,32
+11,Himachal Pradesh,76,53,48,2,3,6
+12,Jammu and Kashmir,660,459,410,12,20,48
+13,Jharkhand,67,47,42,2,3,5
+14,Karnataka,743,517,461,14,23,54
+15,Kerala,773,539,480,15,24,56
+16,Ladakh,36,25,22,1,2,3
+17,Madhya Pradesh,2719,1893,1688,49,82,196
+18,Maharashtra,7053,4910,4379,128,212,509
+19,Manipur,4,3,3,0,0,0
+20,Meghalaya,22,16,14,1,1,2
+21,Mizoram,2,2,2,0,0,0
+22,Nagaland,0,0,0,0,0,0
+23,Odisha,119,83,74,3,4,9
+24,Puducherry,14,10,9,0,1,2
+25,Punjab,391,273,243,8,12,28
+26,Rajasthan,2611,1818,1621,48,79,189
+27,Tamil Nadu,2651,1846,1646,48,80,191
+28,Telangana,1564,1089,971,29,47,113
+29,Tripura,4,3,3,0,0,0
+30,Uttarakhand,82,57,51,2,3,6
+31,Uttar Pradesh,1873,1304,1163,34,57,136
+32,West Bengal,600,418,373,11,18,44

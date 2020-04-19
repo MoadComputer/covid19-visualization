@@ -77,9 +77,9 @@ def CustomHoverTool(enable_advancedStats, custom_hovertool):
                                              <font face="Arial" size="2">Deaths: <strong>@deaths</strong></font>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases</strong></font><br>
-                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3</strong></font><br>
-                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7</strong></font><br>
+                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std)</strong></font><br>
+                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std)</strong></font><br>
+                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std)</strong></font><br>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
@@ -208,14 +208,9 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['id', 'state', 'preds_cases_7', 'preds_cases_3', 'preds_cases']
-  preds_df.astype({'preds_cases': 'int'})
-  preds_df.astype({'preds_cases_3': 'int'})
+  preds_df.columns=['state', 'preds_cases_7', 'preds_cases_3', 'preds_cases', 'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std']
   preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
   preds_covid19_df=preds_covid19_df.fillna(0)
-  preds_covid19_df['preds_cases']=preds_covid19_df['preds_cases'].astype('int')
-  preds_covid19_df['preds_cases_3']=preds_covid19_df['preds_cases_3'].astype('int')
-  preds_covid19_df['deaths']=preds_covid19_df['deaths'].astype('int')
   try:
     del preds_covid19_df['ID']
   except:
