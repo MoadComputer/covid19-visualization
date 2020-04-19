@@ -19,11 +19,21 @@ from bokeh.models import Slider, HoverTool, Select, Div, Range1d, WMTSTileSource
 
 verbose=False
 
-India_statewise = geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
-India_statewise = India_statewise.to_crs("EPSG:3395")
+def apply_corrections(input_df):
+  input_df.loc[input_df['state']=='Telengana','state']='Telangana'
+  input_df.loc[input_df['state']=='Nagaland#','state']='Nagaland'
+  return input_df
 
-covid19_data = pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
-covid19_data.loc[covid19_data['state'] == 'Telengana', 'state'] = 'Telangana'
+India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
+India_statewise=India_statewise.to_crs("EPSG:3395")
+
+India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+India_stats=apply_corrections(India_stats)
+
+covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+covid19_data=apply_corrections(covid19_data)
+
+covid19_data=pd.merge(covid19_data, India_stats, on='state', how='left')
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
 if verbose:
@@ -63,14 +73,19 @@ def CustomPalette(palette_type):
 
 def CustomHoverTool(enable_advancedStats, custom_hovertool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
-                                             <font face="Arial" size="2">Cases: @total_cases</font><br>
-                                             <font face="Arial" size="2">Deaths: @deaths </font>
+                                             <font face="Arial" size="1">Cases: @total_cases</font><br>
+                                             <font face="Arial" size="1">Deaths: @deaths </font>
                                              <hr>
-                                             <strong><font face="Arial" size="2">Cases forecast</font></strong> <br>
+                                             <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
                                              <font face="Arial" size="1">+1 day: <strong>@preds_cases</strong></font><br>
                                              <font face="Arial" size="1">+3 days: <strong>@preds_cases_3</strong></font><br>
                                              <font face="Arial" size="1">+7 days: <strong>@preds_cases_7</strong></font><br>
                                              <hr>
+                                             <font face="Arial" size="1">Population: <strong>@population</strong></font><br>
+                                             <font face="Arial" size="1">Area: <strong>@area</strong></font><br>
+                                             <font face="Arial" size="1">Nominal GDP per-capita: <strong>@gdp</strong></font><br>
+                                             <font face="Arial" size="1">HDI: <strong>@hdi</strong></font><br>
+                                             <hr>  
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
@@ -206,9 +221,18 @@ if advanced_mode:
   preds_covid19_df['preds_cases']=preds_covid19_df['preds_cases'].astype('int')
   preds_covid19_df['preds_cases_3']=preds_covid19_df['preds_cases_3'].astype('int')
   preds_covid19_df['deaths']=preds_covid19_df['deaths'].astype('int')
-  del preds_covid19_df['ID']
-  del preds_covid19_df['id']
-  del preds_covid19_df['discharged']
+  try:
+    del preds_covid19_df['ID']
+  except:
+    print('Unable to delete dataframe item: ID')
+  try:
+    del preds_covid19_df['id']
+  except:
+    print('Unable to delete dataframe item: id')
+  try:
+    del preds_covid19_df['discharged']
+  except:
+    print('Unable to delete dataframe item: discharged')
 
   merged_preds_data = covid19_json(preds_covid19_df, India_statewise)
   merged_preds_json = merged_preds_data['json_data']
