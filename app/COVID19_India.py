@@ -208,7 +208,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['state', 'preds_cases_7', 'preds_cases_3', 'preds_cases', 'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std']
+  preds_df.columns=['id', 'state', 'preds_cases_7', 'preds_cases_3', 'preds_cases', 'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std']
   preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
   preds_covid19_df=preds_covid19_df.fillna(0)
   try:
