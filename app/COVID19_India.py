@@ -203,7 +203,7 @@ app_title='COVID19 India'
 
 basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
-                                  input_field='deaths',
+                                  input_field='total_cases',
                                   plot_title=plot_title)
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
@@ -232,7 +232,7 @@ if advanced_mode:
 
   advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
                                        input_df=preds_covid19_data,
-                                       input_field='preds_cases_3',
+                                       input_field='preds_cases_7',
                                        enable_advancedStats=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
