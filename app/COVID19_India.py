@@ -73,18 +73,13 @@ def CustomPalette(palette_type):
 
 def CustomHoverTool(enable_advancedStats, custom_hovertool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
-                                             <font face="Arial" size="1">Cases: @total_cases</font><br>
-                                             <font face="Arial" size="1">Deaths: @deaths </font>
+                                             <font face="Arial" size="2">Cases: @total_cases</font><br>
+                                             <font face="Arial" size="2">Deaths: @deaths </font>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="1">+1 day: <strong>@preds_cases</strong></font><br>
-                                             <font face="Arial" size="1">+3 days: <strong>@preds_cases_3</strong></font><br>
-                                             <font face="Arial" size="1">+7 days: <strong>@preds_cases_7</strong></font><br>
-                                             <hr>
-                                             <font face="Arial" size="1">Population: <strong>@population</strong></font><br>
-                                             <font face="Arial" size="1">Area: <strong>@area</strong></font><br>
-                                             <font face="Arial" size="1">Nominal GDP per-capita: <strong>@gdp</strong></font><br>
-                                             <font face="Arial" size="1">HDI: <strong>@hdi</strong></font><br>
+                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases</strong></font><br>
+                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3</strong></font><br>
+                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7</strong></font><br>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
