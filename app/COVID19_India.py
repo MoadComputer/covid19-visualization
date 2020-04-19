@@ -157,7 +157,7 @@ def covid19_plot(covid19_geosource,
   palette = CustomPalette(palette_type)
   color_mapper = LinearColorMapper(palette=palette, 
                                    low=0, 
-                                   high=int(10*(np.ceil(np.max(input_df[input_field].values)/10))))
+                                   high=int(10*(np.ceil(np.max(input_df['total_cases'].values)/10))))
   format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')))
   color_bar = ColorBar(color_mapper=color_mapper, 
                        label_standoff=11, 
