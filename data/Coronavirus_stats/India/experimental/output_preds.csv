@@ -1,34 +1,34 @@
 ,state,preds_cases_7,preds_cases_3,preds_cases,preds_cases_7_std,preds_cases_3_std,preds_cases_std
 0,Andaman and Nicobar Islands,31,23,20,1,3,2
-1,Andhra Pradesh,1336,1014,845,19,130,85
+1,Andhra Pradesh,1330,1004,839,22,113,77
 2,Arunachal Pradesh,2,2,2,0,0,0
-3,Assam,66,50,42,1,7,5
-4,Bihar,210,160,133,3,21,14
-5,Chandigarh,49,37,31,1,5,4
-6,Chhattisgarh,67,52,43,2,7,5
-7,Delhi,3848,2922,2434,54,373,243
+3,Assam,65,50,42,2,6,4
+4,Bihar,209,158,132,4,18,12
+5,Chandigarh,49,37,31,1,5,3
+6,Chhattisgarh,67,51,43,2,6,4
+7,Delhi,3831,2892,2417,62,325,222
 8,Goa,14,11,9,1,2,1
-9,Gujarat,3585,2722,2269,50,347,226
-10,Haryana,470,357,298,7,46,30
-11,Himachal Pradesh,73,56,46,2,8,5
-12,Jammu and Kashmir,681,517,431,10,66,43
-13,Jharkhand,86,65,55,2,9,6
-14,Karnataka,755,574,478,11,73,48
-15,Kerala,755,574,478,11,73,48
+9,Gujarat,3570,2695,2252,58,303,207
+10,Haryana,468,354,296,8,40,27
+11,Himachal Pradesh,73,55,46,2,7,5
+12,Jammu and Kashmir,678,512,428,11,58,40
+13,Jharkhand,86,65,54,2,8,5
+14,Karnataka,752,568,475,13,64,44
+15,Kerala,752,568,475,13,64,44
 16,Ladakh,34,26,22,1,3,2
-17,Madhya Pradesh,2746,2085,1738,39,266,174
-18,Maharashtra,8626,6550,5457,121,835,544
+17,Madhya Pradesh,2734,2064,1725,45,232,159
+18,Maharashtra,8588,6483,5417,139,729,498
 19,Manipur,4,4,3,0,1,0
-20,Meghalaya,21,16,14,1,3,2
+20,Meghalaya,21,16,14,1,2,2
 21,Mizoram,2,2,2,0,0,0
 22,Nagaland,0,0,0,0,0,0
-23,Odisha,138,105,88,2,14,9
+23,Odisha,137,104,87,3,12,8
 24,Puducherry,14,11,9,1,2,1
-25,Punjab,454,345,288,7,44,29
-26,Rajasthan,2914,2213,1844,41,282,184
-27,Tamil Nadu,2811,2134,1779,40,272,178
-28,Telangana,1615,1226,1022,23,157,102
+25,Punjab,452,341,285,8,39,27
+26,Rajasthan,2901,2190,1830,47,247,169
+27,Tamil Nadu,2798,2112,1765,46,238,163
+28,Telangana,1608,1214,1014,26,137,94
 29,Tripura,4,4,3,0,1,0
-30,Uttarakhand,86,65,55,2,9,6
-31,Uttar Pradesh,2189,1663,1386,31,212,138
-32,West Bengal,726,551,459,10,71,46
+30,Uttarakhand,86,65,54,2,8,5
+31,Uttar Pradesh,2180,1646,1375,36,185,127
+32,West Bengal,722,546,456,12,62,42
