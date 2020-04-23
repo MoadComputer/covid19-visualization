@@ -1,33 +1,33 @@
 ,state,preds_cases_7,preds_cases_3,preds_cases,preds_cases_7_std,preds_cases_3_std,preds_cases_std
-0,Andaman and Nicobar Islands,34,26,22,2,1,2
-1,Andhra Pradesh,1473,1119,939,47,37,86
+0,Andaman and Nicobar Islands,34,25,22,1,2,3
+1,Andhra Pradesh,1469,1081,967,41,48,113
 2,Arunachal Pradesh,2,2,2,0,0,0
-3,Assam,64,49,41,2,2,4
-4,Bihar,260,197,166,9,7,15
-5,Chandigarh,50,38,32,2,2,3
-6,Chhattisgarh,66,51,42,2,2,4
-7,Delhi,4071,3092,2594,128,100,237
-8,Goa,14,11,9,1,1,1
-9,Gujarat,4359,3311,2778,137,108,254
-10,Haryana,475,361,303,16,12,28
-11,Himachal Pradesh,73,56,47,3,2,5
-12,Jammu and Kashmir,738,561,470,23,19,43
-13,Jharkhand,90,68,57,3,3,6
-14,Karnataka,774,588,494,25,19,46
-15,Kerala,794,603,506,25,20,47
-16,Ladakh,34,26,22,2,1,2
-17,Madhya Pradesh,2884,2190,1837,91,71,168
-18,Maharashtra,10235,7774,6521,321,252,595
-19,Manipur,4,3,3,0,0,0
+3,Assam,64,47,42,2,3,5
+4,Bihar,259,191,171,8,9,20
+5,Chandigarh,50,37,33,2,2,4
+6,Chhattisgarh,66,49,44,2,2,6
+7,Delhi,4060,2987,2672,113,131,311
+8,Goa,14,10,9,1,1,1
+9,Gujarat,4347,3199,2861,121,141,333
+10,Haryana,474,349,312,14,16,37
+11,Himachal Pradesh,73,54,48,3,3,6
+12,Jammu and Kashmir,736,542,485,21,24,57
+13,Jharkhand,89,66,59,3,3,7
+14,Karnataka,772,568,508,22,25,59
+15,Kerala,792,583,521,22,26,61
+16,Ladakh,34,25,22,1,2,3
+17,Madhya Pradesh,2876,2116,1893,80,93,220
+18,Maharashtra,10206,7510,6718,284,330,780
+19,Manipur,4,3,4,0,0,1
 20,Meghalaya,23,17,15,1,1,2
 21,Mizoram,2,2,2,0,0,0
-22,Odisha,151,115,97,5,4,9
-23,Puducherry,14,11,9,1,1,1
-24,Punjab,456,346,290,15,12,27
-25,Rajasthan,3423,2600,2182,107,84,199
-26,Tamil Nadu,2950,2241,1880,93,73,172
-27,Telangana,1712,1301,1091,54,42,100
-28,Tripura,4,3,3,0,0,0
-29,Uttarakhand,84,64,54,3,2,5
-30,Uttar Pradesh,2625,1994,1672,83,65,153
-31,West Bengal,827,628,527,26,21,49
+22,Odisha,151,111,100,5,5,12
+23,Puducherry,14,10,9,1,1,1
+24,Punjab,454,335,299,13,15,35
+25,Rajasthan,3414,2512,2247,95,111,261
+26,Tamil Nadu,2942,2165,1937,82,95,225
+27,Telangana,1707,1256,1124,48,56,131
+28,Tripura,4,3,4,0,0,1
+29,Uttarakhand,84,62,56,3,3,7
+30,Uttar Pradesh,2617,1926,1723,73,85,200
+31,West Bengal,824,607,543,23,27,63
