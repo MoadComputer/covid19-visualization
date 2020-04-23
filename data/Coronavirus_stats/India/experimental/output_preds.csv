@@ -1,33 +1,33 @@
 ,state,preds_cases_7,preds_cases_3,preds_cases,preds_cases_7_std,preds_cases_3_std,preds_cases_std
-0,Andaman and Nicobar Islands,34,25,22,1,2,3
-1,Andhra Pradesh,1469,1081,967,41,48,113
+0,Andaman and Nicobar Islands,34,25,22,1,2,2
+1,Andhra Pradesh,1472,1072,957,46,49,83
 2,Arunachal Pradesh,2,2,2,0,0,0
-3,Assam,64,47,42,2,3,5
-4,Bihar,259,191,171,8,9,20
-5,Chandigarh,50,37,33,2,2,4
-6,Chhattisgarh,66,49,44,2,2,6
-7,Delhi,4060,2987,2672,113,131,311
+3,Assam,64,47,42,2,3,4
+4,Bihar,260,189,169,8,9,15
+5,Chandigarh,50,36,33,2,2,3
+6,Chhattisgarh,66,48,43,2,2,4
+7,Delhi,4068,2964,2645,125,134,229
 8,Goa,14,10,9,1,1,1
-9,Gujarat,4347,3199,2861,121,141,333
-10,Haryana,474,349,312,14,16,37
-11,Himachal Pradesh,73,54,48,3,3,6
-12,Jammu and Kashmir,736,542,485,21,24,57
-13,Jharkhand,89,66,59,3,3,7
-14,Karnataka,772,568,508,22,25,59
-15,Kerala,792,583,521,22,26,61
-16,Ladakh,34,25,22,1,2,3
-17,Madhya Pradesh,2876,2116,1893,80,93,220
-18,Maharashtra,10206,7510,6718,284,330,780
-19,Manipur,4,3,4,0,0,1
+9,Gujarat,4355,3173,2833,134,144,245
+10,Haryana,475,346,309,15,16,27
+11,Himachal Pradesh,73,54,48,3,3,5
+12,Jammu and Kashmir,737,537,480,23,25,42
+13,Jharkhand,90,66,59,3,4,5
+14,Karnataka,774,564,503,24,26,44
+15,Kerala,793,578,516,25,27,45
+16,Ladakh,34,25,22,1,2,2
+17,Madhya Pradesh,2881,2099,1874,89,95,163
+18,Maharashtra,10226,7451,6650,314,337,575
+19,Manipur,4,3,3,0,0,0
 20,Meghalaya,23,17,15,1,1,2
 21,Mizoram,2,2,2,0,0,0
-22,Odisha,151,111,100,5,5,12
+22,Odisha,151,110,99,5,6,9
 23,Puducherry,14,10,9,1,1,1
-24,Punjab,454,335,299,13,15,35
-25,Rajasthan,3414,2512,2247,95,111,261
-26,Tamil Nadu,2942,2165,1937,82,95,225
-27,Telangana,1707,1256,1124,48,56,131
-28,Tripura,4,3,4,0,0,1
-29,Uttarakhand,84,62,56,3,3,7
-30,Uttar Pradesh,2617,1926,1723,73,85,200
-31,West Bengal,824,607,543,23,27,63
+24,Punjab,455,332,296,14,15,26
+25,Rajasthan,3420,2492,2224,105,113,193
+26,Tamil Nadu,2948,2148,1917,91,97,166
+27,Telangana,1711,1247,1113,53,57,97
+28,Tripura,4,3,3,0,0,0
+29,Uttarakhand,84,62,55,3,3,5
+30,Uttar Pradesh,2622,1911,1706,81,87,148
+31,West Bengal,826,602,538,26,28,47
