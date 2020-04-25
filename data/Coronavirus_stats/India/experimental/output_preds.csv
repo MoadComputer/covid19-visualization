@@ -1,33 +1,33 @@
 ,state,preds_cases_7,preds_cases_3,preds_cases,preds_cases_7_std,preds_cases_3_std,preds_cases_std
-0,Andaman and Nicobar Islands,47,36,30,2,1,0
-1,Andhra Pradesh,1648,1244,1043,38,25,12
+0,Andaman and Nicobar Islands,47,36,30,1,1,0
+1,Andhra Pradesh,1639,1240,1044,36,22,10
 2,Arunachal Pradesh,2,2,2,0,0,0
 3,Assam,63,48,40,2,1,1
-4,Bihar,385,291,244,9,6,3
-5,Chandigarh,47,36,30,2,1,0
+4,Bihar,383,290,245,9,5,3
+5,Chandigarh,47,36,30,1,1,0
 6,Chhattisgarh,63,48,40,2,1,1
-7,Delhi,4336,3275,2743,100,66,31
+7,Delhi,4313,3263,2745,94,59,26
 8,Goa,13,10,8,1,1,0
-9,Gujarat,4855,3667,3071,112,73,35
-10,Haryana,470,355,297,11,7,4
-11,Himachal Pradesh,70,53,45,2,2,1
-12,Jammu and Kashmir,784,592,496,18,12,6
-13,Jharkhand,99,75,63,3,2,1
-14,Karnataka,818,618,518,20,13,6
-15,Kerala,777,587,492,18,12,6
-16,Ladakh,36,27,23,1,1,1
-17,Madhya Pradesh,3194,2413,2021,74,48,23
-18,Maharashtra,11756,8879,7436,271,176,84
+9,Gujarat,4829,3653,3074,105,66,29
+10,Haryana,468,354,298,10,7,3
+11,Himachal Pradesh,70,53,45,2,1,1
+12,Jammu and Kashmir,780,590,496,17,11,5
+13,Jharkhand,99,75,63,2,2,1
+14,Karnataka,814,616,518,18,11,5
+15,Kerala,773,585,492,17,11,5
+16,Ladakh,35,27,23,1,1,1
+17,Madhya Pradesh,3178,2404,2023,69,44,20
+18,Maharashtra,11694,8846,7443,254,159,70
 19,Manipur,4,3,3,0,0,0
 20,Meghalaya,22,16,14,1,0,1
 21,Mizoram,2,2,2,0,0,0
-22,Odisha,163,123,103,4,3,1
+22,Odisha,162,123,103,4,3,1
 23,Puducherry,13,10,8,1,1,0
-24,Punjab,515,389,326,12,8,4
-25,Rajasthan,3508,2650,2219,81,53,25
-26,Tamil Nadu,3027,2287,1915,70,46,22
-27,Telangana,1698,1282,1074,39,26,13
+24,Punjab,512,388,326,11,7,4
+25,Rajasthan,3490,2640,2221,76,47,21
+26,Tamil Nadu,3011,2278,1917,66,41,18
+27,Telangana,1689,1278,1075,37,23,11
 28,Tripura,4,3,3,0,0,0
 29,Uttarakhand,83,63,53,2,1,1
-30,Uttar Pradesh,2796,2112,1769,65,42,21
-31,West Bengal,985,744,624,23,15,8
+30,Uttar Pradesh,2782,2104,1771,61,38,17
+31,West Bengal,980,742,624,22,14,7
