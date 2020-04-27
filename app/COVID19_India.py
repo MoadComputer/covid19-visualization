@@ -9,7 +9,7 @@ import pandas as pd
 from bokeh.io.doc import curdoc
 from bokeh.plotting import figure
 from bokeh.models.widgets import Button
-from bokeh.palettes import brewer, OrRd
+from bokeh.palettes import brewer, OrRd, YlGn
 from bokeh.plotting import show as plt_show
 from bokeh.tile_providers import Vendors, get_provider
 from bokeh.io import output_notebook, show, output_file
@@ -63,42 +63,60 @@ merged_data = covid19_json(covid19_data, India_statewise,
                            verbose=verbose)
 merged_json = merged_data['json_data']
 
-def CustomPalette(palette_type):
-  if palette_type.lower()=='OrRd'.lower():
+def CustomPalette(palette_type, enable_colorInverse=True):
+  if (palette_type.lower()=='OrRd'.lower()) or (palette_type.lower()=='reds'):
     palette = OrRd[9]
-    palette = palette[::-1]
+  elif (palette_type.lower()=='YlGn'.lower()) or (palette_type.lower()=='greens'):
+    palette = YlGn[9]
   else:
     palette = brewer['Oranges']
+    
+  if enable_colorInverse:
     palette = palette[::-1]
+  else:
+    palette = palette[::1]
   return palette
 
-def CustomHoverTool(enable_advancedStats, custom_hovertool):
+def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
-                                             <font face="Arial" size="2">Cases: <strong>@total_cases</strong></font><br>
-                                             <font face="Arial" size="2">Deaths: <strong>@deaths</strong></font>
+                                             <font face="Arial" size="2">Cases: <strong>@total_cases{int}</strong></font><br>
+                                             <font face="Arial" size="2">Deaths: <strong>@deaths{int}</strong></font>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std)</strong></font><br>
-                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std)</strong></font><br>
-                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std)</strong></font><br>
+                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases{int} (±@preds_cases_std{int})</strong></font><br>
+                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3{int} (±@preds_cases_3_std{int})</strong></font><br>
+                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7{int} (±@preds_cases_7_std{int})</strong></font><br>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
+
+  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">Forecast error</font></strong> <br>
+                                                <hr>
+                                                <strong><font face="Arial" size="2">Mean absolute percentage</font></strong> <br>
+                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{(0.000)}</strong></font><br>
+                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{(0.000)}</strong></font><br>
+                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{(0.000)}</strong></font><br>
+                                                <hr>  
+                                               <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
+
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                           <font face="Arial" size="3">Cases: @total_cases</font><br>
-                                           <font face="Arial" size="3">Deaths: @deaths </font>""")
+                                           <font face="Arial" size="3">Cases: @total_cases{int}</font><br>
+                                           <font face="Arial" size="3">Deaths: @deaths{int} </font>""")
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
                                          #('Discharged/migrated', '@discharged'),
                                          ('Deaths', '@deaths')])
   
-  if enable_advancedStats:
+  if performance_hoverTool:
+    hover  = performanceStats_hover
+  elif advanced_hoverTool:
     hover = advancedStats_hover
-  elif custom_hovertool:
+  elif custom_hoverTool:
     hover  = simpleStats_hover
   else:
     hover = standard_hover
+  
   return hover
 
 def MapOverlayFormatter(map_overlay):
@@ -143,23 +161,30 @@ def geographic_overlay(plt,
     plt.toolbar.autohide = True
   if plt.title is not None:
     plt.title.text_font_size = '30pt'
+  
   return plt
 
 def covid19_plot(covid19_geosource, 
                  input_df=None,
                  input_field=None,
+                 color_field='total_cases',
                  plot_title=None,
                  map_overlay=True,
                  palette_type='OrRd',
                  custom_hovertool=True,
                  enable_advancedStats=False,
+                 enable_performanceStats=False,
                  enable_toolbar=False):
   
-  palette = CustomPalette(palette_type)
+  palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performanceStats else True)
   color_mapper = LinearColorMapper(palette=palette, 
                                    low=0, 
-                                   high=int(10*(np.ceil(np.max(input_df['total_cases'].values)/10))))
-  format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')))
+                                   high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
+                                        if not enable_performanceStats else np.round((np.max(input_df[color_field].values)),3)
+                                   ) 
+  format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
+                                     str(np.round((input_df[input_field].values.astype('float')),1))
+                                    )
   color_bar = ColorBar(color_mapper=color_mapper, 
                        label_standoff=11, 
                        formatter=format_tick,
@@ -167,7 +192,7 @@ def covid19_plot(covid19_geosource,
                        major_label_text_font_size='16px',
                        location = (0, 0))
   xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
-  hover = CustomHoverTool(enable_advancedStats, custom_hovertool)
+  hover = CustomHoverTool(enable_advancedStats, custom_hovertool, enable_performanceStats)
 
   plt = figure(title = plot_title,
                x_range=(xmin, xmax) if map_overlay else None,
@@ -178,7 +203,7 @@ def covid19_plot(covid19_geosource,
                lod_factor=int(1e7),
                lod_threshold=int(2),
                output_backend="webgl")
-  
+
   plt = geographic_overlay(plt, 
                            geosourceJson=covid19_geosource,
                            colorBar=color_bar,
@@ -187,13 +212,14 @@ def covid19_plot(covid19_geosource,
                            hoverTool=hover,
                            mapOverlay=map_overlay,
                            enableToolbar=enable_toolbar,
-                           enableTapTool=True if enable_advancedStats else False)
+                           enableTapTool=True)
   
   return plt
 
 advanced_mode=True
 try:
   preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
+  #preds_df=pd.read_csv('./GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
   print('Advanced mode disabled ...')
   advanced_mode=False
@@ -205,13 +231,20 @@ app_title='COVID19 India'
 basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
                                   input_field='total_cases',
+                                  color_field='total_cases',
                                   plot_title=plot_title)
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['id', 'state', 'preds_cases_7', 'preds_cases_3', 'preds_cases', 'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std']
-  preds_covid19_df=pd.merge(preds_df, covid19_data, on='state', how='left')
+  preds_df.columns=['id', 'state',                                                  \
+                    'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
+                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
+                    'MAPE', 'MAPE_3', 'MAPE_7']
+  preds_covid19_df=pd.merge(preds_df, covid19_data, 
+                            on='state', 
+                            how='left')
   preds_covid19_df=preds_covid19_df.fillna(0)
+  
   try:
     del preds_covid19_df['ID']
   except:
@@ -234,15 +267,25 @@ if advanced_mode:
   advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
                                        input_df=preds_covid19_data,
                                        input_field='preds_cases_7',
+                                       color_field='total_cases',
                                        enable_advancedStats=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
+  
+  performance_covid19_plot = covid19_plot(preds_covid19_geosource, 
+                                          input_df=preds_covid19_data,
+                                          palette_type='Greens',
+                                          input_field='MAPE_7',
+                                          color_field='MAPE_7',
+                                          enable_performanceStats=True,
+                                          plot_title=None)
+  performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
 
 
 curdoc().title=app_title
 if advanced_mode:
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab])
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab])
   covid19_layout = covid19_tabs
 else:
   covid19_layout = column(basic_covid19_plot)
