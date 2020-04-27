@@ -80,7 +80,6 @@ def CustomPalette(palette_type, enable_colorInverse=True):
 def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                              <font face="Arial" size="2">Cases: <strong>@total_cases{int}</strong></font><br>
-                                             <font face="Arial" size="2">Deaths: <strong>@deaths{int}</strong></font>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
                                              <font face="Arial" size="2">+1 day: <strong>@preds_cases{int} (±@preds_cases_std{int})</strong></font><br>
