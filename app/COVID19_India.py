@@ -211,7 +211,7 @@ def covid19_plot(covid19_geosource,
                            hoverTool=hover,
                            mapOverlay=map_overlay,
                            enableToolbar=enable_toolbar,
-                           enableTapTool=True)
+                           enableTapTool=True if ((enable_advancedStats) or (enable_performanceStats)) else False )
   
   return plt
 
