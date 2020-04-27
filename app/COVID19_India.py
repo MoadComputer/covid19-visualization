@@ -89,7 +89,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
 
 
-  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">Forecast error</font></strong> <br>
+  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">Forecast error for: @state</font></strong> <br>
                                                 <hr>
                                                 <strong><font face="Arial" size="2">Mean absolute percentage</font></strong> <br>
                                                 <font face="Arial" size="2">+1 day: <strong>@MAPE{(0.000)}</strong></font><br>
