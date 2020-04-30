@@ -236,7 +236,7 @@ def create_overlay(plt, x, y,
            line_color='purple',
            #width_units='screen',
            #height_units='screen',
-           fill_alpha=0.075)  
+           fill_alpha=0.25)  
   return plt
 
     
