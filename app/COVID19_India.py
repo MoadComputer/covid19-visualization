@@ -294,8 +294,8 @@ def covid19_plot(covid19_geosource,
   
   if enable_LakshadweepStats:
     plt = lakshadweep_correction(plt, 
-                               input_df=input_df, 
-                               advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+                                 input_df=input_df, 
+                                 advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
 
   if enable_IndiaStats:
     plt = create_overlay(plt, xmax, ymax-100000,
@@ -322,7 +322,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
                                   input_df=covid19_data,
                                   input_field='total_cases',
                                   color_field='total_cases',
-                                  enable_IndiaStats=False,
+                                  enable_IndiaStats=True,
                                   plot_title=plot_title)
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
@@ -359,7 +359,7 @@ if advanced_mode:
                                        input_df=preds_covid19_data,
                                        input_field='preds_cases_7',
                                        color_field='total_cases',
-                                       enable_IndiaStats=False,
+                                       enable_IndiaStats=True,
                                        enable_advancedStats=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
@@ -369,7 +369,7 @@ if advanced_mode:
                                           palette_type='Greens',
                                           input_field='MAPE_7',
                                           color_field='MAPE_7',
-                                          enable_IndiaStats=False,
+                                          enable_IndiaStats=True,
                                           enable_performanceStats=True,
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
