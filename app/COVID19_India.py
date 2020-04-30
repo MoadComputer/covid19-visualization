@@ -229,13 +229,13 @@ def create_overlay(plt, x, y,
                                         deaths=[input_df['deaths'].sum()]))
 
   plt.rect(x='x', y='y', 
-           width=275, 
-           height=50, 
+           width=1750000, 
+           height=500000, 
            color="#CAB2D6",
            source=source,
            line_color='purple',
-           width_units='screen',
-           height_units='screen',
+           #width_units='screen',
+           #height_units='screen',
            fill_alpha=0.075)  
   return plt
 
