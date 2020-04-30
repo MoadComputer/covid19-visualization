@@ -8,14 +8,15 @@ import pandas as pd
 
 from bokeh.io.doc import curdoc
 from bokeh.plotting import figure
+from bokeh.models.glyphs import Text
 from bokeh.models.widgets import Button
 from bokeh.palettes import brewer, OrRd, YlGn
 from bokeh.plotting import show as plt_show
 from bokeh.tile_providers import Vendors, get_provider
 from bokeh.io import output_notebook, show, output_file
 from bokeh.layouts import widgetbox, row, column, gridplot
-from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter
-from bokeh.models import Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
+from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter, LinearAxis, Grid, Label
+from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
 
 verbose=False
 
@@ -165,6 +166,80 @@ def geographic_overlay(plt,
   
   return plt
 
+def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
+  if advanced_plotting:
+    source = ColumnDataSource(data=dict(x=[8075000],
+                                        y=[1250000],
+                                        state=['Lakshadweep'],
+                                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
+                                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']],
+                                        preds_cases=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases']],
+                                        preds_cases_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_std']],
+                                        MAPE=[input_df.loc[input_df['state']=='Lakshadweep','MAPE']],
+                                        preds_cases_3=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3']],
+                                        preds_cases_3_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3_std']],
+                                        MAPE_3=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_3']],
+                                        preds_cases_7=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7']],
+                                        preds_cases_7_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7_std']],
+                                        MAPE_7=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_7']]
+                                      ))
+  else:
+    source = ColumnDataSource(data=dict(x=[8075000],
+                                        y=[1250000],
+                                        state=['Lakshadweep'],
+                                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
+                                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']]))
+
+  plt.circle(x='x', y='y', 
+             size=25, 
+             source=source,
+             line_color='purple',
+             fill_alpha=0.075,
+             color='blue')
+  return plt
+
+def create_overlay(plt, x, y, 
+                   input_df=None, 
+                   advanced_plotting=False):
+  overlayText=Label(x=x-950000, y=y-350000, 
+                    text="COVID19 in India",
+                    text_font_size='25pt')
+  plt.add_layout(overlayText) 
+  if advanced_plotting:
+    source = ColumnDataSource(data=dict(x=[x-125000],
+                                        y=[y-230000],
+                                        state=['India'],
+                                        total_cases=[input_df['total_cases'].sum()],
+                                        deaths=[input_df['deaths'].sum()],
+                                        preds_cases=[input_df['preds_cases'].sum()],
+                                        preds_cases_std=[input_df['preds_cases_std'].sum()],
+                                        MAPE=[input_df['MAPE'].mean()],
+                                        preds_cases_3=[input_df['preds_cases_3'].sum()],
+                                        preds_cases_3_std=[input_df['preds_cases_3_std'].sum()],
+                                        MAPE_3=[input_df['MAPE_3'].mean()],
+                                        preds_cases_7=[input_df['preds_cases_7'].sum()],
+                                        preds_cases_7_std=[input_df['preds_cases_7_std'].sum()],
+                                        MAPE_7=[np.mean(np.abs(input_df['MAPE_7']))]
+                                       ))
+  else:
+    source = ColumnDataSource(data=dict(x=[x-125000],
+                                        y=[y-230000],
+                                        state=['India'],
+                                        total_cases=[input_df['total_cases'].sum()],
+                                        deaths=[input_df['deaths'].sum()]))
+
+  plt.rect(x='x', y='y', 
+           width=275, 
+           height=50, 
+           color="#CAB2D6",
+           source=source,
+           line_color='purple',
+           width_units='screen',
+           height_units='screen',
+           fill_alpha=0.075)  
+  return plt
+
+    
 def covid19_plot(covid19_geosource, 
                  input_df=None,
                  input_field=None,
@@ -173,6 +248,7 @@ def covid19_plot(covid19_geosource,
                  map_overlay=True,
                  palette_type='OrRd',
                  custom_hovertool=True,
+                 enable_overlay=False,                 
                  enable_advancedStats=False,
                  enable_performanceStats=False,
                  enable_toolbar=False):
@@ -203,8 +279,8 @@ def covid19_plot(covid19_geosource,
                toolbar_location = 'left' if enable_toolbar else None,
                lod_factor=int(1e7),
                lod_threshold=int(2),
-               output_backend="webgl")
-
+               output_backend="webgl") 
+        
   plt = geographic_overlay(plt, 
                            geosourceJson=covid19_geosource,
                            colorBar=color_bar,
@@ -215,6 +291,14 @@ def covid19_plot(covid19_geosource,
                            enableToolbar=enable_toolbar,
                            enableTapTool=True if ((enable_advancedStats) or (enable_performanceStats)) else False )
   
+  plt = lakshadweep_correction(plt, 
+                               input_df=input_df, 
+                               advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+
+  if enable_overlay:
+    plt = create_overlay(plt, xmax, ymax-100000,
+                         input_df=input_df, 
+                         advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
   return plt
 
 advanced_mode=True
@@ -229,10 +313,14 @@ covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 plot_title=None#'COVID19 outbreak in India'
 app_title='COVID19 India'
 
+India_totalCases=covid19_data['total_cases'].sum()
+India_totalDeaths=covid19_data['deaths'].sum()
+
 basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
                                   input_field='total_cases',
                                   color_field='total_cases',
+                                  enable_overlay=True,
                                   plot_title=plot_title)
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
@@ -269,6 +357,7 @@ if advanced_mode:
                                        input_df=preds_covid19_data,
                                        input_field='preds_cases_7',
                                        color_field='total_cases',
+                                       enable_overlay=True,
                                        enable_advancedStats=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
@@ -278,6 +367,7 @@ if advanced_mode:
                                           palette_type='Greens',
                                           input_field='MAPE_7',
                                           color_field='MAPE_7',
+                                          enable_overlay=True,
                                           enable_performanceStats=True,
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
