@@ -248,7 +248,7 @@ def covid19_plot(covid19_geosource,
                  map_overlay=True,
                  palette_type='OrRd',
                  custom_hovertool=True,
-                 enable_LakshadweepStats=False,
+                 enable_LakshadweepStats=True,
                  enable_IndiaStats=False,                 
                  enable_advancedStats=False,
                  enable_performanceStats=False,
@@ -280,7 +280,8 @@ def covid19_plot(covid19_geosource,
                toolbar_location = 'left' if enable_toolbar else None,
                lod_factor=int(1e7),
                lod_threshold=int(2),
-               output_backend="webgl") 
+               # output_backend="webgl"
+              ) 
         
   plt = geographic_overlay(plt, 
                            geosourceJson=covid19_geosource,
