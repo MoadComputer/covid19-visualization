@@ -154,8 +154,8 @@ def geographic_overlay(plt,
                             'transform' : colorMapper},
               line_color = 'purple', 
               line_width = 0.5, 
-              fill_alpha = 0.40 if enableTapTool else 0.45,
-              nonselection_alpha = 0.45)
+              fill_alpha = 0.60 if enableTapTool else 0.65,
+              nonselection_alpha = 0.65)
   plt.add_layout(colorBar, 'right')
   plt.add_tools(hoverTool)
   if enableTapTool:
