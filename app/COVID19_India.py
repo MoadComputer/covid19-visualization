@@ -154,7 +154,8 @@ def geographic_overlay(plt,
                             'transform' : colorMapper},
               line_color = 'purple', 
               line_width = 0.5, 
-              fill_alpha = 0.85)
+              fill_alpha = 0.40,
+              nonselection_alpha = 0.45)
   plt.add_layout(colorBar, 'right')
   plt.add_tools(hoverTool)
   if enableTapTool:
@@ -195,6 +196,7 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
              source=source,
              line_color='purple',
              fill_alpha=0.075,
+             nonselection_alpha=0.20,
              color='blue')
   return plt
 
