@@ -377,15 +377,15 @@ if advanced_mode:
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
-def model_performancePlot(custom_perfHoverTool=True):
-    x=[i for i in range(len(list(modelPerformance.index.astype('int'))))]
+def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
+    x=[i for i in range(len(list(modelPerformance['date'].astype('int'))))]
 
     y_cases=list(modelPerformance['total_cases'].astype('int'))
     y_preds=list(modelPerformance['preds_cases'].astype('int'))
     y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
     y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
 
-    plotIndex=list(modelPerformance.index)
+    plotIndex=list(modelPerformance['date'])
 
     data_cases=dict(title=['Reported COVID19 cases' \
                            for i in range(len(x))],
@@ -456,7 +456,8 @@ def model_performancePlot(custom_perfHoverTool=True):
 
 curdoc().title=app_title
 if advanced_mode:
-  model_perfPlot=model_performancePlot(custom_perfHoverTool=True)
+  modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performace.csv')
+  model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)
   covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, model_perfPlot])
   covid19_layout = covid19_tabs
 else:
