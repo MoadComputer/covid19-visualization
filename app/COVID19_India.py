@@ -400,22 +400,22 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
-    data_cases=dict(title=['Reported COVID19 cases' \
+    data_cases=dict(title=['Reported cases' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_cases)
-    data_preds=dict(title=['One day ahead forecast of COVID19 cases'\
+    data_preds=dict(title=['+1 day forecast'\
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_preds)
-    data_preds3=dict(title=['Three days ahead forecast of COVID19 cases'\
+    data_preds3=dict(title=['+3 days forecast'\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds3)
-    data_preds7=dict(title=['A week ahead forecast of COVID19 cases'\
+    data_preds7=dict(title=['+7 days forecast'\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
