@@ -123,10 +123,10 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
 
 def MapOverlayFormatter(map_overlay):
   if map_overlay:
-    xmin = 8450000
-    xmax = 10000000
-    ymin = 850000
-    ymax = 4550000
+    xmin = 7570000
+    xmax = 10950000
+    ymin = 950000
+    ymax = 4850000
     
     return xmin, xmax, ymin, ymax
 
@@ -200,16 +200,23 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
              color='blue')
   return plt
 
-def create_overlay(plt, x, y, 
+def create_overlay(plt,  
                    input_df=None, 
                    advanced_plotting=False):
-  overlayText=Label(x=x-950000, y=y-350000, 
+  xtext=8200000
+  ytext=4650000
+  xbox=9225000 
+  ybox=4772500
+  
+  overlayText=Label(x=xtext, y=ytext, 
                     text="COVID19 in India",
                     text_font_size='25pt')
+    
   plt.add_layout(overlayText) 
+
   if advanced_plotting:
-    source = ColumnDataSource(data=dict(x=[x-125000],
-                                        y=[y-230000],
+    source = ColumnDataSource(data=dict(x=[xbox],
+                                        y=[ybox],
                                         state=['India'],
                                         total_cases=[input_df['total_cases'].sum()],
                                         deaths=[input_df['deaths'].sum()],
@@ -224,14 +231,14 @@ def create_overlay(plt, x, y,
                                         MAPE_7=[np.mean(np.abs(input_df['MAPE_7']))]
                                        ))
   else:
-    source = ColumnDataSource(data=dict(x=[x-125000],
-                                        y=[y-230000],
+    source = ColumnDataSource(data=dict(x=[xbox],
+                                        y=[ybox],
                                         state=['India'],
                                         total_cases=[input_df['total_cases'].sum()],
                                         deaths=[input_df['deaths'].sum()]))
 
   plt.rect(x='x', y='y', 
-           width=1750000, 
+           width=2250000, 
            height=500000, 
            color="#CAB2D6",
            source=source,
@@ -301,9 +308,15 @@ def covid19_plot(covid19_geosource,
                                  advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
 
   if enable_IndiaStats:
-    plt = create_overlay(plt, xmax, ymax-100000,
+    plt = create_overlay(plt, 
                          input_df=input_df, 
                          advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+  plt.xaxis.major_tick_line_color = None  
+  plt.yaxis.major_tick_line_color = None
+  plt.xaxis.minor_tick_line_color = None 
+  plt.yaxis.minor_tick_line_color = None 
+  plt.xaxis[0].ticker.num_minor_ticks = 0
+  plt.yaxis[0].ticker.num_minor_ticks = 0
   return plt
 
 advanced_mode=True
@@ -385,7 +398,7 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
     y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
     y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
 
-    plotIndex=list(modelPerformance['date'])
+    plotIndex=list(modelPerformance['date'].astype('str'))
 
     data_cases=dict(title=['Reported COVID19 cases' \
                            for i in range(len(x))],
@@ -416,8 +429,10 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                                              ('Cases: ','@y')]
 
     perfPlot = figure(y_axis_type="log", y_range=(2.5e4, 7.5e4), 
-                         tools='hover', 
-                         tooltips=TOOLTIPS)
+                      plot_height = 550, plot_width = 550,
+                      tools='hover', 
+                      toolbar_location=None,
+                      tooltips=TOOLTIPS)
     perfPlot.line(x, y_cases, color='black')
     r = perfPlot.circle(x='x', y='y', 
                    color='black', 
@@ -458,7 +473,8 @@ curdoc().title=app_title
 if advanced_mode:
   modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performace.csv')
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, model_perfPlot])
+  modelPerformance_tab = Panel(child=model_perfPlot, title="Forecast performance")  
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab])
   covid19_layout = covid19_tabs
 else:
   covid19_layout = column(basic_covid19_plot)
