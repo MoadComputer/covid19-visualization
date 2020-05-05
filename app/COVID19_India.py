@@ -377,11 +377,87 @@ if advanced_mode:
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
+def model_performancePlot(custom_perfHoverTool=True):
+    x=[i for i in range(len(list(modelPerformance.index.astype('int'))))]
 
+    y_cases=list(modelPerformance['total_cases'].astype('int'))
+    y_preds=list(modelPerformance['preds_cases'].astype('int'))
+    y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
+    y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
+
+    plotIndex=list(modelPerformance.index)
+
+    data_cases=dict(title=['Reported COVID19 cases' \
+                           for i in range(len(x))],
+                    plotIndex=plotIndex,
+                    x=x,
+                    y=y_cases)
+    data_preds=dict(title=['One day ahead forecast of COVID19 cases'\
+                           for i in range(len(x))],
+                    plotIndex=plotIndex,
+                    x=x,
+                    y=y_preds)
+    data_preds3=dict(title=['Three days ahead forecast of COVID19 cases'\
+                            for i in range(len(x))],
+                     plotIndex=plotIndex,
+                     x=x,
+                     y=y_preds3)
+    data_preds7=dict(title=['A week ahead forecast of COVID19 cases'\
+                            for i in range(len(x))],
+                     plotIndex=plotIndex,
+                     x=x,
+                     y=y_preds7)
+
+    TOOLTIPS = """<strong><font face="Arial" size="3">@title</font></strong> <br>
+                  <font face="Arial" size="3">Date: <strong>@plotIndex{int}</strong></font><br>
+                  <font face="Arial" size="3">Cases: <strong>@y{int}</strong></font>"""           \
+               if custom_perfHoverTool else [('Plot: ','@title'),
+                                             ('Date: ', '@plotIndex'),
+                                             ('Cases: ','@y')]
+
+    perfPlot = figure(y_axis_type="log", y_range=(2.5e4, 7.5e4), 
+                         tools='hover', 
+                         tooltips=TOOLTIPS)
+    perfPlot.line(x, y_cases, color='black')
+    r = perfPlot.circle(x='x', y='y', 
+                   color='black', 
+                   fill_color='grey',
+                   size=8, 
+                   source=data_cases)
+
+    perfPlot.line(x, y_preds, color='red')
+    r1 = perfPlot.circle(x='x', y='y', 
+                    color='red', 
+                    fill_color='orange',
+                    size=8, 
+                    source=data_preds)
+
+    perfPlot.line(x, y_preds3, color='green')
+    r3 = perfPlot.circle(x='x', y='y', 
+                    color='green', 
+                    fill_color='lime', 
+                    size=8,
+                    source=data_preds3)
+
+    perfPlot.line(x, y_preds7, color='blue')
+    r7 = perfPlot.circle(x='x', y='y', 
+                    color='blue', 
+                    fill_color='purple', 
+                    size=8,
+                    source=data_preds7)
+
+    perfPlot.hover.renderers = [r, r1, r3, r7]
+
+    perfPlot.xaxis.major_label_overrides = {i: date for i, date in enumerate(plotIndex)}
+    perfPlot.xaxis.axis_label = 'Date'
+    perfPlot.yaxis.axis_label = 'COVID19 cases'
+    perfPlot.xaxis.major_label_orientation = (math.pi*.75)/2
+    return perfPlot
 
 curdoc().title=app_title
 if advanced_mode:
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab])
+  model_perfPlot=model_performancePlot(custom_perfHoverTool=True)
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, model_perfPlot])
   covid19_layout = covid19_tabs
 else:
   covid19_layout = column(basic_covid19_plot)
