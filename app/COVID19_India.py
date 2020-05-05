@@ -378,7 +378,7 @@ if advanced_mode:
                                        enable_IndiaStats=True,
                                        enable_advancedStats=True,
                                        plot_title=None)
-  advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Advanced")
+  advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Forecast")
   
   performance_covid19_plot = covid19_plot(preds_covid19_geosource, 
                                           input_df=preds_covid19_data,
