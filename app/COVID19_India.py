@@ -428,7 +428,7 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                                              ('Date: ', '@plotIndex'),
                                              ('Cases: ','@y')]
 
-    perfPlot = figure(y_axis_type="log", y_range=(2.5e4, 7.5e4), 
+    perfPlot = figure(#y_axis_type="log", y_range=(2.5e4, 7.5e4), 
                       plot_height = 550, plot_width = 550,
                       tools='hover', 
                       toolbar_location=None,
