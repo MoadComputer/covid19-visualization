@@ -418,6 +418,16 @@ if advanced_mode:
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
+def LineSmoothing(x, y, 
+                  interpolationType='cubic',
+                  interpolationPoints=1000):
+  fn = interp1d(x, y, 
+                kind=interpolationType)
+  x_ = np.linspace(np.min(x), np.max(x), 
+                   interpolationPoints)
+  y_ = fn(x_)
+  return x_, y_
+
 def model_performancePlot(modelPerformance, 
                           enable_interpolation=True, 
                           custom_perfHoverTool=True):
@@ -429,21 +439,11 @@ def model_performancePlot(modelPerformance,
     y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
     
     if enable_interpolation:
-      f_cases = interp1d(x, y_cases, kind='quadratic')
-      x_cases_interpol = np.linspace(np.min(x), np.max(x), 1000)
-      y_cases_interpol = f_cases(x_cases_interpol)
+      x_cases_interpol, y_cases_interpol = LineSmoothing(x, y_cases)
+      x_preds_interpol, y_preds_interpol = LineSmoothing(x, y_preds)
+      x_preds3_interpol, y_preds3_interpol = LineSmoothing(x, y_preds3) 
+      x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
 
-      f_preds = interp1d(x, y_preds, kind='quadratic')
-      x_preds_interpol = np.linspace(np.min(x), np.max(x), 1000)
-      y_preds_interpol = f_preds(x_preds_interpol)    
-
-      f_preds3 = interp1d(x, y_preds3, kind='quadratic')
-      x_preds3_interpol = np.linspace(np.min(x), np.max(x), 1000)
-      y_preds3_interpol = f_preds3(x_preds3_interpol) 
-
-      f_preds7 = interp1d(x, y_preds7, kind='quadratic')
-      x_preds7_interpol = np.linspace(np.min(x), np.max(x), 1000)
-      y_preds7_interpol = f_preds7(x_preds7_interpol)
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
