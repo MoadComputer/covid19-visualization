@@ -19,6 +19,7 @@ from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Numeral
 from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
 
 verbose=False
+LAST_UPDATE_DATE='06-May-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -80,14 +81,21 @@ def CustomPalette(palette_type, enable_colorInverse=True):
 
 def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
-                                             <font face="Arial" size="2">Cases: <strong>@total_cases{int}</strong></font><br>
+                                             <font face="Arial" size="2">Cases: <strong>@total_cases{}</strong></font><br>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases{int} (±@preds_cases_std{int})</strong></font><br>
-                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3{int} (±@preds_cases_3_std{int})</strong></font><br>
-                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7{int} (±@preds_cases_7_std{int})</strong></font><br>
+                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
+                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
+                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
                                              <hr>  
-                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
+                                             <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                             <hr>  
+                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
+                                             """.format('{int}', 
+                                                        '{int}', 
+                                                        '{int}', 
+                                                        '{int}', 
+                                                        LAST_UPDATE_DATE))
 
 
   performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
@@ -391,7 +399,7 @@ if advanced_mode:
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
 def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
-    x=[i for i in range(len(list(modelPerformance['date'].astype('int'))))]
+    x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
 
     y_cases=list(modelPerformance['total_cases'].astype('int'))
     y_preds=list(modelPerformance['preds_cases'].astype('int'))
@@ -421,9 +429,13 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                      x=x,
                      y=y_preds7)
 
-    TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex{int}</font></strong> <br>
+    TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex</font></strong> <br>
                   <hr>
-                  <font face="Arial" size="3">Cases: <strong>@y{int}</strong></font>"""           \
+                  <font face="Arial" size="3">Cases: <strong>@y</strong></font>
+                  <hr>
+                  <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                  <hr>  
+                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""".format(LAST_UPDATE_DATE)           \
                if custom_perfHoverTool else [('Plot: ','@title'),
                                              ('Date: ', '@plotIndex'),
                                              ('Cases: ','@y')]
@@ -469,10 +481,16 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
     perfPlot.xaxis.major_label_orientation = (math.pi*.75)/2
     return perfPlot
 
+from datetime import datetime
+def date_formatter(x):
+  datetimeobject = datetime.strptime(str(x),'%Y%m%d')
+  return datetimeobject.strftime('%d-%B-%Y')
+
 curdoc().title=app_title
 if advanced_mode:
   modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performace.csv')
-  model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)
+  modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
+  model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
   modelPerformance_tab = Panel(child=model_perfPlot, title="Forecast performance")  
   covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab])
   covid19_layout = covid19_tabs
