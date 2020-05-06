@@ -1,6 +1,7 @@
 fiona
 pandas
+scipy
 numpy
-geopandas
 bokeh
+geopandas
 visvalingamwyatt

@@ -6,6 +6,8 @@ import geopandas
 import numpy as np
 import pandas as pd
 
+from scipy.interpolate import interp1d 
+
 from bokeh.io.doc import curdoc
 from bokeh.plotting import figure
 from bokeh.models.glyphs import Text
@@ -416,13 +418,32 @@ if advanced_mode:
                                           plot_title=None)
   performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
 
-def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
+def model_performancePlot(modelPerformance, 
+                          enable_interpolation=True, 
+                          custom_perfHoverTool=True):
     x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
 
     y_cases=list(modelPerformance['total_cases'].astype('int'))
     y_preds=list(modelPerformance['preds_cases'].astype('int'))
     y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
     y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
+    
+    if enable_interpolation:
+      f_cases = interp1d(x, y_cases, kind='quadratic')
+      x_cases_interpol = np.linspace(np.min(x), np.max(x), 1000)
+      y_cases_interpol = f_cases(x_cases_interpol)
+
+      f_preds = interp1d(x, y_preds, kind='quadratic')
+      x_preds_interpol = np.linspace(np.min(x), np.max(x), 1000)
+      y_preds_interpol = f_preds(x_preds_interpol)    
+
+      f_preds3 = interp1d(x, y_preds3, kind='quadratic')
+      x_preds3_interpol = np.linspace(np.min(x), np.max(x), 1000)
+      y_preds3_interpol = f_preds3(x_preds3_interpol) 
+
+      f_preds7 = interp1d(x, y_preds7, kind='quadratic')
+      x_preds7_interpol = np.linspace(np.min(x), np.max(x), 1000)
+      y_preds7_interpol = f_preds7(x_preds7_interpol)
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
@@ -463,28 +484,37 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                       tools='hover', 
                       toolbar_location=None,
                       tooltips=TOOLTIPS)
-    perfPlot.line(x, y_cases, line_width=2.5, color='black')
+    perfPlot.line(x_cases_interpol if enable_interpolation else x, 
+                  y_cases_interpol if enable_interpolation else y_cases, 
+                  line_width=2.5, 
+                  color='black')
     r = perfPlot.circle(x='x', y='y', 
                    color='black', 
                    fill_color='grey',
                    size=8, 
                    source=data_cases)
 
-    perfPlot.line(x, y_preds, color='red')
+    perfPlot.line(x_preds_interpol if enable_interpolation else x, 
+                  y_preds_interpol if enable_interpolation else y_preds, 
+                  color='red')
     r1 = perfPlot.circle(x='x', y='y', 
                     color='red', 
                     fill_color='orange',
                     size=8, 
                     source=data_preds)
 
-    perfPlot.line(x, y_preds3, color='green')
+    perfPlot.line(x_preds3_interpol if enable_interpolation else x, 
+                  y_preds3_interpol if enable_interpolation else Y_preds3, 
+                  color='green')
     r3 = perfPlot.circle(x='x', y='y', 
                     color='green', 
                     fill_color='lime', 
                     size=8,
                     source=data_preds3)
 
-    perfPlot.line(x, y_preds7, color='blue')
+    perfPlot.line(x_preds7_interpol if enable_interpolation else x, 
+                  y_preds7_interpol if enable_interpolation else y_preds7, 
+                  color='blue')
     r7 = perfPlot.circle(x='x', y='y', 
                     color='blue', 
                     fill_color='purple', 
