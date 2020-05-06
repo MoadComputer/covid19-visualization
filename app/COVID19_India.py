@@ -414,7 +414,7 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
-    data_cases=dict(title=['Reported cases for: ' \
+    data_cases=dict(title=['Reported for: ' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
@@ -436,7 +436,6 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                      y=y_preds7)
 
     TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex</font></strong> <br>
-                  <hr>
                   <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
