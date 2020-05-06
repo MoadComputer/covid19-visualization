@@ -447,22 +447,22 @@ def model_performancePlot(modelPerformance,
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
-    data_cases=dict(title=['Reported for: ' \
+    data_cases=dict(title=['Report for ' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_cases)
-    data_preds=dict(title=['Forecast 1 day ago for: '\
+    data_preds=dict(title=['Forecast 1 day ago for '\
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_preds)
-    data_preds3=dict(title=['Forecast 3 days ago for: '\
+    data_preds3=dict(title=['Forecast 3 days ago for '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds3)
-    data_preds7=dict(title=['Forecast 7 days ago for: '\
+    data_preds7=dict(title=['Forecast 7 days ago for '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
