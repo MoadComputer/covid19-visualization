@@ -437,11 +437,12 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
 
     TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex</font></strong> <br>
                   <hr>
-                  <font face="Arial" size="3">Cases: <strong>@y</strong></font>
+                  <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                   <hr>  
-                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""".format(LAST_UPDATE_DATE)           \
+                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""".format('{int}',
+                                                                                                                        LAST_UPDATE_DATE)           \
                if custom_perfHoverTool else [('Plot: ','@title'),
                                              ('Date: ', '@plotIndex'),
                                              ('Cases: ','@y')]
