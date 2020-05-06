@@ -400,29 +400,29 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
-    data_cases=dict(title=['Reported cases' \
+    data_cases=dict(title=['Reported cases for: ' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_cases)
-    data_preds=dict(title=['+1 day forecast'\
+    data_preds=dict(title=['Forecast a day ago for: '\
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_preds)
-    data_preds3=dict(title=['+3 days forecast'\
+    data_preds3=dict(title=['Forecast three days ago for: '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds3)
-    data_preds7=dict(title=['+7 days forecast'\
+    data_preds7=dict(title=['Forecast seven days ago for: '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds7)
 
-    TOOLTIPS = """<strong><font face="Arial" size="3">@title</font></strong> <br>
-                  <font face="Arial" size="3">Date: <strong>@plotIndex{int}</strong></font><br>
+    TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex{int}</font></strong> <br>
+                  <hr>
                   <font face="Arial" size="3">Cases: <strong>@y{int}</strong></font>"""           \
                if custom_perfHoverTool else [('Plot: ','@title'),
                                              ('Date: ', '@plotIndex'),
