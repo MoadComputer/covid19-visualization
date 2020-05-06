@@ -214,13 +214,20 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
              color='blue')
   return plt
 
-def create_overlay(plt,  
-                   input_df=None, 
-                   advanced_plotting=False):
-  xtext=8200000
+def CustomTitleFormatter():
+  xtext=8250000
   ytext=4650000
-  xbox=9225000 
-  ybox=4772500
+  xbox=9250000
+  ybox=4785000
+  return xtext, ytext, xbox, ybox
+
+def CustomTitleOverlay(plt,  
+                       xtext=0,
+                       ytext=0,
+                       xbox=0, 
+                       ybox=0,
+                       input_df=None, 
+                       advanced_plotting=False):
   
   overlayText=Label(x=xtext, y=ytext, 
                     text="COVID19 in India",
@@ -322,9 +329,14 @@ def covid19_plot(covid19_geosource,
                                  advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
 
   if enable_IndiaStats:
-    plt = create_overlay(plt, 
-                         input_df=input_df, 
-                         advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+    xtext, ytext, xbox, ybox = CustomTitleFormatter()
+    plt = CustomTitleOverlay(plt, 
+                             xtext=xtext,
+                             ytext=ytext,
+                             xbox=xbox, 
+                             ybox=ybox,
+                             input_df=input_df, 
+                             advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
   plt.xaxis.major_tick_line_color = None  
   plt.yaxis.major_tick_line_color = None
   plt.xaxis.minor_tick_line_color = None 
