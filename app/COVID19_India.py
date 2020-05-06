@@ -103,11 +103,17 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <strong><font face="Arial" size="2">Forecast error</font></strong> <br>
                                                 <hr>
                                                 <strong><font face="Arial" size="2">Mean absolute percentage</font></strong> <br>
-                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{(0.000)}</strong></font><br>
-                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{(0.000)}</strong></font><br>
-                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{(0.000)}</strong></font><br>
+                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{}</strong></font><br>
+                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{}</strong></font><br>
+                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{}</strong></font><br>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""")
+                                                <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                                <hr>  
+                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
+                                                """.format('{(0.000)}', 
+                                                           '{(0.000)}', 
+                                                           '{(0.000)}',
+                                                           LAST_UPDATE_DATE))
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases{int}</font><br>
