@@ -463,7 +463,7 @@ def model_performancePlot(modelPerformance, custom_perfHoverTool=True):
                       tools='hover', 
                       toolbar_location=None,
                       tooltips=TOOLTIPS)
-    perfPlot.line(x, y_cases, color='black')
+    perfPlot.line(x, y_cases, line_width=2.5, color='black')
     r = perfPlot.circle(x='x', y='y', 
                    color='black', 
                    fill_color='grey',
@@ -509,7 +509,8 @@ if advanced_mode:
   modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performace.csv')
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
-  modelPerformance_tab = Panel(child=model_perfPlot, title="Forecast performance")  
+  modelPerformance_tab = Panel(child=model_perfPlot, 
+                               title="Forecast performance")  
   covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab])
   covid19_layout = covid19_tabs
 else:
