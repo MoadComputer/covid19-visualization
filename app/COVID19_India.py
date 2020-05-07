@@ -448,7 +448,7 @@ def model_performancePlot(modelPerformance,
 
     plotIndex=list(modelPerformance['date'].astype('str'))
 
-    data_cases=dict(title=['Report for ' \
+    data_cases=dict(title=['report' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
