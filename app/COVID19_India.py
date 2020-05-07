@@ -114,8 +114,13 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                            LAST_UPDATE_DATE))
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                           <font face="Arial" size="3">Cases: @total_cases{int}</font><br>
-                                           <font face="Arial" size="3">Deaths: @deaths{int} </font>""")
+                                           <font face="Arial" size="3">Cases: @total_cases{}</font><br>
+                                           <font face="Arial" size="3">Deaths: @deaths{} </font>
+                                           <hr>  
+                                           <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
+                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               """.format('{int}', 
+                                               '{int}',
+                                               LAST_UPDATE_DATE))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
