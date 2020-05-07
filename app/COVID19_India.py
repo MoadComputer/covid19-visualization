@@ -453,23 +453,23 @@ def model_performancePlot(modelPerformance,
                     plotIndex=plotIndex,
                     x=x,
                     y=y_cases)
-    data_preds=dict(title=['Forecast for: {} 1 day before'.format('@plotIndex')\
+    data_preds=dict(title=['forecast a day before'\
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_preds)
-    data_preds3=dict(title=['Forecast for: {} 3 days before'.format('@plotIndex')\
+    data_preds3=dict(title=['forecast 3 days before'\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds3)
-    data_preds7=dict(title=['Forecast for {} 7 days before'.format('@plotIndex')\
+    data_preds7=dict(title=['forecast 7 days before'\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds7)
 
-    TOOLTIPS = """<strong><font face="Arial" size="2">@title</font></strong> <br>
+    TOOLTIPS = """<strong><font face="Arial" size="2">@plotIndex @title</font></strong> <br>
                   <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
