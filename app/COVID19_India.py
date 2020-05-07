@@ -82,16 +82,15 @@ def CustomPalette(palette_type, enable_colorInverse=True):
   return palette
 
 def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool):
-  advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="1">@state</font></strong> <br>
-                                             <font face="Arial" size="1">Cases: <strong>@total_cases{}</strong></font><br>
+  advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                              <hr>
-                                             <strong><font face="Arial" size="1">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="1">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
-                                             <font face="Arial" size="1">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
-                                             <font face="Arial" size="1">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
+                                             <strong><font face="Arial" size="2">Forecast</font></strong> <br>
+                                             <font face="Arial" size="2">Cases: <strong>@total_cases{}</strong></font><br>
+                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
+                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
+                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
                                              <hr>  
                                              <strong><font face="Arial" size="0.5">Updated on: {}</font></strong> <br>
-                                             <hr>  
                                              <strong><font face="Arial" size="0.5">Forecast by: https://moad.computer</font></strong> <br>
                                              """.format('{int}', 
                                                         '{int}', 
