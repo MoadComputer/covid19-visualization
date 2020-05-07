@@ -99,15 +99,15 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                         LAST_UPDATE_DATE))
 
 
-  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">Forecast quality for @state</font></strong> <br>
+  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                                 <hr>
-                                                <strong><font face="Arial" size="1">Mean absolute percentage error</font></strong> <br>
-                                                <font face="Arial" size="1">+1 day: <strong>@MAPE{}</strong></font><br>
-                                                <font face="Arial" size="1">+3 days: <strong>@MAPE_3{}</strong></font><br>
-                                                <font face="Arial" size="1">+7 days: <strong>@MAPE_7{}</strong></font><br>
+                                                <strong><font face="Arial" size="2">MAPE</font></strong> <br>
+                                                <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong> <br>
+                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{}</strong></font><br>
+                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{}</strong></font><br>
+                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{}</strong></font><br>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Updated on: {}</font></strong>
-                                                <hr>  
+                                                <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                                                 <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    """.format('{(0.000)}', 
                                                            '{(0.000)}', 
                                                            '{(0.000)}',
