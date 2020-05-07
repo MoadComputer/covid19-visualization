@@ -464,11 +464,10 @@ def model_performancePlot(modelPerformance,
                      x=x,
                      y=y_preds7)
 
-    TOOLTIPS = """<strong><font face="Arial" size="1">@title @plotIndex</font></strong> <br>
+    TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex</font></strong> <br>
                   <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
                   <hr>
-                  <strong><font face="Arial" size="1">Updated on: {}</font></strong>
-                  <hr>  
+                  <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{int}',
                                                                                                                         LAST_UPDATE_DATE)           \
                if custom_perfHoverTool else [('Plot: ','@title'),
