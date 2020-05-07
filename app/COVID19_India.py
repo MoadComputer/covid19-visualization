@@ -85,14 +85,14 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="1">@state</font></strong> <br>
                                              <font face="Arial" size="1">Cases: <strong>@total_cases{}</strong></font><br>
                                              <hr>
-                                             <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Case forecast</font></strong> <br>
                                              <font face="Arial" size="1">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
                                              <font face="Arial" size="1">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
                                              <font face="Arial" size="1">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
                                              <hr>  
-                                             <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                             <strong><font face="Arial" size="0.5">Updated on: {}</font></strong> <br>
                                              <hr>  
-                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
+                                             <strong><font face="Arial" size="0.5">Forecast by: https://moad.computer</font></strong> <br>
                                              """.format('{int}', 
                                                         '{int}', 
                                                         '{int}', 
@@ -109,9 +109,9 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <font face="Arial" size="1">+3 days: <strong>@MAPE_3{}</strong></font><br>
                                                 <font face="Arial" size="1">+7 days: <strong>@MAPE_7{}</strong></font><br>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                                <strong><font face="Arial" size="0.5">Updated on: {}</font></strong> <br>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
+                                                <strong><font face="Arial" size="0.5">Forecast by: https://moad.computer</font></strong> <br>
                                                 """.format('{(0.000)}', 
                                                            '{(0.000)}', 
                                                            '{(0.000)}',
@@ -468,12 +468,12 @@ def model_performancePlot(modelPerformance,
                      x=x,
                      y=y_preds7)
 
-    TOOLTIPS = """<strong><font face="Arial" size="2">@title @plotIndex</font></strong> <br>
-                  <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
+    TOOLTIPS = """<strong><font face="Arial" size="1">@title @plotIndex</font></strong> <br>
+                  <font face="Arial" size="1">Cases: <strong>@y{}</strong></font>
                   <hr>
-                  <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                  <strong><font face="Arial" size="0.5">Updated on: {}</font></strong> <br>
                   <hr>  
-                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>""".format('{int}',
+                  <strong><font face="Arial" size="0.5">Forecast by: https://moad.computer</font></strong> <br>""".format('{int}',
                                                                                                                         LAST_UPDATE_DATE)           \
                if custom_perfHoverTool else [('Plot: ','@title'),
                                              ('Date: ', '@plotIndex'),
