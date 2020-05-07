@@ -90,8 +90,8 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
                                              <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
                                              <hr>  
-                                             <strong><font face="Arial" size="0.5">Updated on: {}</font></strong> <br>
-                                             <strong><font face="Arial" size="0.5">Forecast by: https://moad.computer</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
                                              """.format('{int}', 
                                                         '{int}', 
                                                         '{int}', 
@@ -453,17 +453,17 @@ def model_performancePlot(modelPerformance,
                     plotIndex=plotIndex,
                     x=x,
                     y=y_cases)
-    data_preds=dict(title=['Forecast 1 day ago for '\
+    data_preds=dict(title=['Forecast 1 day ago before '\
                            for i in range(len(x))],
                     plotIndex=plotIndex,
                     x=x,
                     y=y_preds)
-    data_preds3=dict(title=['Forecast 3 days ago for '\
+    data_preds3=dict(title=['Forecast 3 days ago before '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
                      y=y_preds3)
-    data_preds7=dict(title=['Forecast 7 days ago for '\
+    data_preds7=dict(title=['Forecast 7 days before '\
                             for i in range(len(x))],
                      plotIndex=plotIndex,
                      x=x,
