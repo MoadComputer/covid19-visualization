@@ -86,9 +86,9 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <font face="Arial" size="1">Cases: <strong>@total_cases{}</strong></font><br>
                                              <hr>
                                              <strong><font face="Arial" size="2">Case forecast</font></strong> <br>
-                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
-                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
-                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
+                                             <font face="Arial" size="1">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
+                                             <font face="Arial" size="1">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
+                                             <font face="Arial" size="1">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                                              <hr>  
@@ -105,9 +105,9 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <strong><font face="Arial" size="1">Forecast error</font></strong> <br>
                                                 <hr>
                                                 <strong><font face="Arial" size="1">Mean absolute percentage</font></strong> <br>
-                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{}</strong></font><br>
-                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{}</strong></font><br>
-                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{}</strong></font><br>
+                                                <font face="Arial" size="1">+1 day: <strong>@MAPE{}</strong></font><br>
+                                                <font face="Arial" size="1">+3 days: <strong>@MAPE_3{}</strong></font><br>
+                                                <font face="Arial" size="1">+7 days: <strong>@MAPE_7{}</strong></font><br>
                                                 <hr>  
                                                 <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                                                 <hr>  
