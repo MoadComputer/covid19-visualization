@@ -21,7 +21,7 @@ from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Numeral
 from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
 
 verbose=False
-LAST_UPDATE_DATE='07-May-2020'
+LAST_UPDATE_DATE='08-May-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
