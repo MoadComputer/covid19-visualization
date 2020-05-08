@@ -21,15 +21,21 @@ from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Numeral
 from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
 
 verbose=False
+enable_GeoJSON_saving=False
 LAST_UPDATE_DATE='08-May-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
   input_df.loc[input_df['state']=='Nagaland#','state']='Nagaland'
   input_df.loc[input_df['state']=='Jharkhand#','state']='Jharkhand'
+  input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadar and Nagar Haveli'
+  input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadar and Nagar Haveli'  
   return input_df
 
 India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
+India_statewise=apply_corrections(India_statewise)
+if enable_GeoJSON_saving:
+    India_statewise.to_file("India_statewise_minified.geojson", driver='GeoJSON')
 India_statewise=India_statewise.to_crs("EPSG:3395")
 
 India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
@@ -39,6 +45,7 @@ covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/
 covid19_data=apply_corrections(covid19_data)
 
 covid19_data=pd.merge(covid19_data, India_stats, on='state', how='left')
+covid19_data_copy=covid19_data.copy()
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
 if verbose:
@@ -119,8 +126,8 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                            <hr>  
                                            <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                                            <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               """.format('{int}', 
-                                               '{int}',
-                                               LAST_UPDATE_DATE))
+                                             '{int}',
+                                             LAST_UPDATE_DATE))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
@@ -239,6 +246,7 @@ def CustomTitleOverlay(plt,
   plt.add_layout(overlayText) 
 
   if advanced_plotting:
+    print(input_df['total_cases'].sum())    
     source = ColumnDataSource(data=dict(x=[xbox],
                                         y=[ybox],
                                         state=['India'],
@@ -362,7 +370,7 @@ app_title='COVID19 India'
 
 India_totalCases=covid19_data['total_cases'].sum()
 India_totalDeaths=covid19_data['deaths'].sum()
-
+print(India_totalCases)
 basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
                                   input_field='total_cases',
@@ -376,7 +384,7 @@ if advanced_mode:
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
-  preds_covid19_df=pd.merge(preds_df, covid19_data, 
+  preds_covid19_df=pd.merge(covid19_data_copy, preds_df, 
                             on='state', 
                             how='left')
   preds_covid19_df=preds_covid19_df.fillna(0)
@@ -397,7 +405,8 @@ if advanced_mode:
   merged_preds_data = covid19_json(preds_covid19_df, India_statewise)
   merged_preds_json = merged_preds_data['json_data']
   preds_covid19_data = merged_preds_data['data_frame']
-
+  print(preds_covid19_data['state'].equals(covid19_data['state']))
+  print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))  
   preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
 
   advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
