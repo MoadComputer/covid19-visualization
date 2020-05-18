@@ -22,7 +22,7 @@ from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='17-May-2020'
+LAST_UPDATE_DATE='18-May-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -531,7 +531,9 @@ def model_performancePlot(modelPerformance,
                     source=data_preds7)
 
     perfPlot.hover.renderers = [r, r1, r3, r7]
-
+    
+    perfPlot.left[0].formatter.use_scientific = False
+    
     perfPlot.xaxis.major_label_overrides = {i: date for i, date in enumerate(plotIndex)}
     perfPlot.xaxis.axis_label = 'Date'
     perfPlot.yaxis.axis_label = 'COVID19 cases'
