@@ -441,8 +441,6 @@ def LineSmoothing(x, y,
 def model_performancePlot(modelPerformance, 
                           enable_interpolation=True, 
                           custom_perfHoverTool=True):
-    plotIndex=list(modelPerformance['date'].astype('str'))
-    dateLabels={i: date for i, date in enumerate(plotIndex)}
     modelPerformance=modelPerformance.dropna()
     
     x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
@@ -460,6 +458,11 @@ def model_performancePlot(modelPerformance,
 
 
     plotIndex=list(modelPerformance['date'].astype('str'))
+    dateLabels={i: date for i, date in enumerate(plotIndex)}
+    if len(plotIndex)%25==0:
+      dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
+      dateLabel_extra=dateLabelObject + timedelta(days=1)
+      dateLabels.update({len(plotIndex): str(dateLabel_extra.strftime('%d-%B-%Y')) })
 
     data_cases=dict(title=['report' \
                            for i in range(len(x))],
@@ -544,7 +547,7 @@ def model_performancePlot(modelPerformance,
     perfPlot.xaxis.major_label_orientation = (math.pi*.75)/2
     return perfPlot
 
-from datetime import datetime
+from datetime import datetime, timedelta
 def date_formatter(x):
   datetimeobject = datetime.strptime(str(x),'%Y%m%d')
   return datetimeobject.strftime('%d-%B-%Y')
