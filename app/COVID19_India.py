@@ -536,9 +536,9 @@ def model_performancePlot(modelPerformance,
 
     perfPlot.hover.renderers = [r, r1, r3, r7]
     
-    perfPlot.left[0].formatter.use_scientific = False
+    perfPlot.yaxis.formatter.use_scientific = False
     
-    perfPlot.xaxis.major_label_overrides = {i: date for i, date in enumerate(plotIndex)}
+    perfPlot.xaxis.major_label_overrides = dateLabels
     perfPlot.xaxis.axis_label = 'Date'
     perfPlot.yaxis.axis_label = 'COVID19 cases'
     perfPlot.xaxis.major_label_orientation = (math.pi*.75)/2
