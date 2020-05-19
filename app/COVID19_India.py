@@ -456,7 +456,6 @@ def model_performancePlot(modelPerformance,
       x_preds3_interpol, y_preds3_interpol = LineSmoothing(x, y_preds3) 
       x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
 
-
     plotIndex=list(modelPerformance['date'].astype('str'))
     dateLabels={i: date for i, date in enumerate(plotIndex)}
     if len(plotIndex)%25==0:
