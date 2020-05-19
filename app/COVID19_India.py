@@ -22,7 +22,7 @@ from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='18-May-2020'
+LAST_UPDATE_DATE='19-May-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -441,6 +441,10 @@ def LineSmoothing(x, y,
 def model_performancePlot(modelPerformance, 
                           enable_interpolation=True, 
                           custom_perfHoverTool=True):
+    plotIndex=list(modelPerformance['date'].astype('str'))
+    dateLabels={i: date for i, date in enumerate(plotIndex)}
+    modelPerformance=modelPerformance.dropna()
+    
     x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
 
     y_cases=list(modelPerformance['total_cases'].astype('int'))
