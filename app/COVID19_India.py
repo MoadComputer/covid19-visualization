@@ -459,9 +459,10 @@ def model_performancePlot(modelPerformance,
     plotIndex=list(modelPerformance['date'].astype('str'))
     dateLabels={i: date for i, date in enumerate(plotIndex)}
     if len(plotIndex)%25==0:
-      dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
-      dateLabel_extra=dateLabelObject + timedelta(days=1)
-      dateLabels.update({len(plotIndex): str(dateLabel_extra.strftime('%d-%B-%Y')) })
+      for i in range(len(plotIndex)//25):
+        dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
+        dateLabel_extra=dateLabelObject + timedelta(days=(i+1))
+        dateLabels.update({ len(plotIndex): str(dateLabel_extra.strftime('%d-%B-%Y')) })
 
     data_cases=dict(title=['report' \
                            for i in range(len(x))],
