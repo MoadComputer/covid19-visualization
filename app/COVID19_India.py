@@ -458,8 +458,8 @@ def model_performancePlot(modelPerformance,
 
     plotIndex=list(modelPerformance['date'].astype('str'))
     dateLabels={i: date for i, date in enumerate(plotIndex)}
-    if len(plotIndex)%25==0:
-      for i in range(len(plotIndex)//25):
+    if len(plotIndex)%5==0:
+      for i in range(len(plotIndex)//5):
         dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
         dateLabel_extra=dateLabelObject + timedelta(days=(i+1))
         dateLabels.update({ len(plotIndex): str(dateLabel_extra.strftime('%d-%B-%Y')) })
