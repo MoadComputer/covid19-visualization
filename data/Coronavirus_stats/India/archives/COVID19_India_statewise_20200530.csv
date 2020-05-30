@@ -1,36 +1,36 @@
-ID,state,active_cases,discharged,deaths,total_cases
-1,Andaman and Nicobar Islands,0,33,0,33
-2,Andhra Pradesh,1150,2226,60,3436
-3,Arunachal Pradesh,2,1,0,3
-4,Assam,895,125,4,1024
-5,Bihar,2150,1211,15,3376
-6,Chandigarh,96,189,4,289
-7,Chhattisgarh,314,100,1,415
+ID,state,total_cases,discharged,deaths,active_cases
+1,Andaman and Nicobar Islands,33,33,0,0
+2,Andhra Pradesh,3436,2226,60,1150
+3,Arunachal Pradesh,3,1,0,2
+4,Assam,1024,125,4,895
+5,Bihar,3376,1211,15,2150
+6,Chandigarh,289,189,4,96
+7,Chhattisgarh,415,100,1,314
 8,Dadar Nagar Haveli,2,0,0,2
-9,Delhi,9142,7846,398,17386
-10,Goa,28,41,0,69
-11,Gujarat,6343,8611,980,15934
-12,Haryana,762,940,19,1721
-13,Himachal Pradesh,203,87,5,295
-14,Jammu and Kashmir,1261,875,28,2164
-15,Jharkhand,290,216,5,511
-16,Karnataka,1839,894,48,2781
-17,Kerala,577,565,8,1150
-18,Ladakh,31,43,0,74
-19,Madhya Pradesh,3042,4269,334,7645
-20,Maharashtra,33133,26997,2098,62228
-21,Manipur,51,8,0,59
-22,Meghalaya,14,12,1,27
-23,Mizoram,0,1,0,1
+9,Delhi,17386,7846,398,9142
+10,Goa,69,41,0,28
+11,Gujarat,15934,8611,980,6343
+12,Haryana,1721,940,19,762
+13,Himachal Pradesh,295,87,5,203
+14,Jammu and Kashmir,2164,875,28,1261
+15,Jharkhand,511,216,5,290
+16,Karnataka,2781,894,48,1839
+17,Kerala,1150,565,8,577
+18,Ladakh,74,43,0,31
+19,Madhya Pradesh,7645,4269,334,3042
+20,Maharashtra,62228,26997,2098,33133
+21,Manipur,59,8,0,51
+22,Meghalaya,27,12,1,14
+23,Mizoram,1,1,0,0
 24,Nagaland,25,0,0,25
-25,Odisha,829,887,7,1723
-26,Puducherry,37,14,0,51
-27,Punjab,206,1949,42,2197
-28,Rajasthan,2937,5244,184,8365
+25,Odisha,1723,887,7,829
+26,Puducherry,51,14,0,37
+27,Punjab,2197,1949,42,206
+28,Rajasthan,8365,5244,184,2937
 29,Sikkim,1,0,0,1
-30,Tamil Nadu,8779,11313,154,20246
-31,Telengana,973,1381,71,2425
-32,Tripura,80,171,0,251
-33,Uttarakhand,609,102,5,716
-34,Uttar Pradesh,2842,4244,198,7284
-35,West Bengal,2736,1775,302,4813
+30,Tamil Nadu,20246,11313,154,8779
+31,Telengana,2425,1381,71,973
+32,Tripura,251,171,0,80
+33,Uttarakhand,716,102,5,609
+34,Uttar Pradesh,7284,4244,198,2842
+35,West Bengal,4813,1775,302,2736
