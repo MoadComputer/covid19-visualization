@@ -42,6 +42,8 @@ India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/r
 India_stats=apply_corrections(India_stats)
 
 covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+if len(covid19_data.columns) ==6:
+  del covid19_data['active_cases']
 covid19_data=apply_corrections(covid19_data)
 
 covid19_data=pd.merge(covid19_data, India_stats, on='state', how='left')
