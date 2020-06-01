@@ -556,7 +556,7 @@ def date_formatter(x):
 
 curdoc().title=app_title
 if advanced_mode:
-  modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performace_India.csv')
+  modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
   modelPerformance_tab = Panel(child=model_perfPlot, 
