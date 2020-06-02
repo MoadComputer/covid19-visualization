@@ -96,10 +96,10 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
-                                             <font face="Arial" size="2">Reported cases: <strong>@total_cases{}</strong></font><br>
-                                             <font face="Arial" size="2">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></font><br>
-                                             <font face="Arial" size="2">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></font><br>
-                                             <font face="Arial" size="2">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></font><br>
+                                             <font face="Arial" size="2">Reported cases: <strong>@total_cases{}</strong></font>
+                                             <font face="Arial" size="2"><p style="color:red">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:green">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:blue">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></p></font>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
@@ -112,11 +112,11 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
 
   performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                                 <hr>
-                                                <strong><font face="Arial" size="2">MAPE</font></strong> <br>
-                                                <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong> <br>
-                                                <font face="Arial" size="2">+1 day: <strong>@MAPE{}</strong></font><br>
-                                                <font face="Arial" size="2">+3 days: <strong>@MAPE_3{}</strong></font><br>
-                                                <font face="Arial" size="2">+7 days: <strong>@MAPE_7{}</strong></font><br>
+                                                <strong><font face="Arial" size="2">MAPE</font></strong>
+                                                <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong>
+                                                <font face="Arial" size="2"><p style="color:red">+1 day: <strong>@MAPE{}</strong></p></font>
+                                                <font face="Arial" size="2"><p style="color:green">+3 days: <strong>@MAPE_3{}</strong></p></font>
+                                                <font face="Arial" size="2"><p style="color:blue">+7 days: <strong>@MAPE_7{}</strong></p></font>
                                                 <hr>  
                                                 <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                                                 <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    """.format('{(0.000)}', 
@@ -230,7 +230,7 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
 
 def CustomTitleFormatter():
   xtext=8350000
-  ytext=4625000
+  ytext=4600000
   xbox=9250000
   ybox=4750000
   return xtext, ytext, xbox, ybox
