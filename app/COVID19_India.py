@@ -11,9 +11,11 @@ from scipy.interpolate import interp1d
 from bokeh.io.doc import curdoc
 from bokeh.plotting import figure
 from bokeh.models.glyphs import Text
-from bokeh.models.widgets import Button
-from bokeh.palettes import brewer, OrRd, YlGn
+from bokeh.application import Application
 from bokeh.plotting import show as plt_show
+from bokeh.palettes import brewer, OrRd, YlGn
+from bokeh.models.widgets import Button, Select
+from bokeh.application.handlers import FunctionHandler
 from bokeh.tile_providers import Vendors, get_provider
 from bokeh.io import output_notebook, show, output_file
 from bokeh.layouts import widgetbox, row, column, gridplot
@@ -22,7 +24,7 @@ from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='31-May-2020'
+LAST_UPDATE_DATE='01-June-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -440,17 +442,31 @@ def LineSmoothing(x, y,
   y_ = fn(x_)
   return x_, y_
 
-def model_performancePlot(modelPerformance, 
+def model_performancePlot(source, 
+                          use_cds=False,
                           enable_interpolation=True, 
                           custom_perfHoverTool=True):
-    modelPerformance=modelPerformance.dropna()
-    
-    x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
+    if use_cds:
+      plotIndex=source.data['plot_index']
+      plotIndex_labels=source.data['plot_labels']
+      dateLabels={i: date for i, date in enumerate(plotIndex_labels)}
+      x=source.data['x']
+        
+      y_cases=source.data['y_cases'] 
+      y_preds=source.data['y_preds']
+      y_preds3=source.data['y_preds3']
+      y_preds7=source.data['y_preds7']
+    else:
+      modelPerformance=source.dropna()  
+      x=[i for i in range(len(list(source['date'].astype('str'))))]
 
-    y_cases=list(modelPerformance['total_cases'].astype('int'))
-    y_preds=list(modelPerformance['preds_cases'].astype('int'))
-    y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
-    y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
+      y_cases=list(source['total_cases'].astype('int'))
+      y_preds=list(source['preds_cases'].astype('int'))
+      y_preds3=list(source['preds_cases_3'].astype('int'))
+      y_preds7=list(source['preds_cases_7'].astype('int'))
+      
+      plotIndex=list(source['date'].astype('str'))
+      dateLabels={i: date for i, date in enumerate(plotIndex)}
     
     if enable_interpolation:
       x_cases_interpol, y_cases_interpol = LineSmoothing(x, y_cases)
@@ -458,8 +474,6 @@ def model_performancePlot(modelPerformance,
       x_preds3_interpol, y_preds3_interpol = LineSmoothing(x, y_preds3) 
       x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
 
-    plotIndex=list(modelPerformance['date'].astype('str'))
-    dateLabels={i: date for i, date in enumerate(plotIndex)}
     if len(plotIndex)%5==0:
       for i in range(len(plotIndex)//5):
         dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
@@ -554,15 +568,55 @@ def date_formatter(x):
   datetimeobject = datetime.strptime(str(x),'%Y%m%d')
   return datetimeobject.strftime('%d-%B-%Y')
 
+def make_dataset(state):
+  DATA_SOURCE='https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_'
+  DATA_URL='{}{}.csv'.format(DATA_SOURCE,
+                             state)
+  DATA_URL=DATA_URL.replace(" ", "%20")
+  modelPerformance=pd.read_csv(DATA_URL)
+  modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))  
+  plotIndex_labels=list(modelPerformance['date'].astype('str'))
+  
+  modelPerformance=modelPerformance.dropna()
+  plotIndex=list(modelPerformance['date'].astype('str'))   
+    
+  x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
+
+  y_cases=list(modelPerformance['total_cases'].astype('int'))
+  y_preds=list(modelPerformance['preds_cases'].astype('int'))
+  y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
+  y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
+  
+  return ColumnDataSource({'x':x, 'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
+                           'y_cases':y_cases, 'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7})
+
+def update_plot(attrname, old, new):
+  updated_data=make_dataset(state_select.value) 
+  source.data.update(updated_data.data)
+
 curdoc().title=app_title
 if advanced_mode:
   modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
   modelPerformance_tab = Panel(child=model_perfPlot, 
-                               title="Forecast performance")  
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab])
-  covid19_layout = covid19_tabs
+                               title="Forecast performance") 
+    
+  stateList=list(preds_df['state'])  
+  stateList.append('India')
+  state_select = Select(value='India', title='Select region or state: ', options=sorted(stateList))
+  state_select.on_change('value', update_plot) 
+    
+  source = make_dataset('India')
+  statewise_plot = model_performancePlot(source, 
+                                         use_cds=True)
+  
+  statewise_layout = column(state_select, statewise_plot) 
+  statewisePerf_tab = Panel(child=statewise_layout, title="Statewise performance") 
+
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab#, statewisePerf_tab
+                           ])
+  covid19_layout = covid19_tabs 
 else:
   covid19_layout = column(basic_covid19_plot)
 curdoc().add_root(covid19_layout)
