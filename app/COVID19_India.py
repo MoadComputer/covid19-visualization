@@ -508,21 +508,27 @@ def model_performancePlot(source,
                      y='y_preds7',
                      source=source)
 
-    TOOLTIPS = """<strong><font face="Arial" size="2">@plotIndex @title</font></strong> <br>
-                  <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
+    TOOLTIPS = """<strong><font face="Arial" size="2">Forecast performance for @plot_index</font></strong> <br>
+                  <font face="Arial" size="2"><p style="color:black">Reported cases: <strong>@y_cases{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:red">Forecast a day ago: <strong>@y_preds{}</strong></p></font> 
+                  <font face="Arial" size="2"><p style="color:green">Forecast 3 days ago: <strong>@y_preds3{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:blue">Forecast 7 days ago: <strong>@y_preds7{}</strong></p></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{int}',
-                                                                                                                        LAST_UPDATE_DATE)           \
-               if custom_perfHoverTool else [('Plot: ','@title'),
-                                             ('Date: ', '@plotIndex'),
-                                             ('Cases: ','@y')]
+                                                                                                                   '{int}',
+                                                                                                                   '{int}',
+                                                                                                                   '{int}',
+                                                                                                                    LAST_UPDATE_DATE)           \
+               if custom_perfHoverTool else [('Date: ', '@plot_index'),
+                                             ('Cases: ','@y_cases')]
 
     perfPlot = figure(#y_axis_type="log", y_range=(2.5e4, 7.5e4), 
                       plot_height = 550, plot_width = 550,
                       tools='hover', 
                       toolbar_location=None,
-                      tooltips=TOOLTIPS)
+                      tooltips=TOOLTIPS
+                      )
     perfPlot.line(x='x', y='y_cases',
                   source=source,
                   line_width=2.5, 
