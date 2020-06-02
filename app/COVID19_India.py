@@ -229,10 +229,10 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
   return plt
 
 def CustomTitleFormatter():
-  xtext=8250000
-  ytext=4650000
+  xtext=8350000
+  ytext=4625000
   xbox=9250000
-  ybox=4785000
+  ybox=4750000
   return xtext, ytext, xbox, ybox
 
 def CustomTitleOverlay(plt,  
@@ -275,7 +275,7 @@ def CustomTitleOverlay(plt,
 
   plt.rect(x='x', y='y', 
            width=2250000, 
-           height=500000, 
+           height=250000, 
            color="#CAB2D6",
            source=source,
            line_color='purple',
