@@ -620,12 +620,12 @@ if advanced_mode:
                                          use_cds=True)
   
   statewise_layout = column(state_select, statewise_plot) 
-  statewisePerf_tab = Panel(child=statewise_layout, title="Statewise performance") 
+  statewisePerf_tab = Panel(child=statewise_layout, title="Forecast performance") 
 
   covid19_tabs = Tabs(tabs=[basicPlot_tab, 
                             advancedPlot_tab, 
                             performancePlot_tab, 
-                            modelPerformance_tab, 
+                            #modelPerformance_tab, 
                             statewisePerf_tab
                            ])
   covid19_layout = covid19_tabs 
