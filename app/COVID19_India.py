@@ -491,19 +491,19 @@ def model_performancePlot(source,
                     source=source)
     data_preds=dict(title=['forecast a day before'\
                            for i in range(len(x))],
-                    plotIndex='plotIndex',
+                    plotIndex='plot_index',
                     x='x',
                     y='y_preds',
                     source=source)
     data_preds3=dict(title=['forecast 3 days before'\
                             for i in range(len(x))],
-                     plotIndex='plotIndex',
+                     plotIndex='plot_index',
                      x='x',
                      y='y_preds3',
                      source=source)
     data_preds7=dict(title=['forecast 7 days before'\
                             for i in range(len(x))],
-                     plotIndex='plotIndex',
+                     plotIndex='plot_index',
                      x='x',
                      y='y_preds7',
                      source=source)
