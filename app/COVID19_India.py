@@ -97,9 +97,9 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
                                              <font face="Arial" size="2">Reported cases: <strong>@total_cases{}</strong></font>
-                                             <font face="Arial" size="2"><p style="color:red">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:green">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:blue">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></p></font>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
@@ -114,9 +114,9 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <hr>
                                                 <strong><font face="Arial" size="2">MAPE</font></strong>
                                                 <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong>
-                                                <font face="Arial" size="2"><p style="color:red">+1 day: <strong>@MAPE{}</strong></p></font>
-                                                <font face="Arial" size="2"><p style="color:green">+3 days: <strong>@MAPE_3{}</strong></p></font>
-                                                <font face="Arial" size="2"><p style="color:blue">+7 days: <strong>@MAPE_7{}</strong></p></font>
+                                                <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@MAPE{}</strong></p></font>
+                                                <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
+                                                <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
                                                 <hr>  
                                                 <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                                                 <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    """.format('{(0.000)}', 
@@ -509,10 +509,10 @@ def model_performancePlot(source,
                      source=source)
 
     TOOLTIPS = """<strong><font face="Arial" size="2">Forecast performance for @plot_index</font></strong> <br>
-                  <font face="Arial" size="2"><p style="color:black">Reported cases: <strong>@y_cases{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:red">Forecast a day ago: <strong>@y_preds{}</strong></p></font> 
-                  <font face="Arial" size="2"><p style="color:green">Forecast 3 days ago: <strong>@y_preds3{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:blue">Forecast 7 days ago: <strong>@y_preds7{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{}</strong></p></font> 
+                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{}</strong></p></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{int}',
