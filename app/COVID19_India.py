@@ -457,6 +457,7 @@ def model_performancePlot(source,
       y_preds3=source.data['y_preds3']
       y_preds7=source.data['y_preds7']
     else:
+      plotIndex_labels=list(source['date'].astype('str'))  
       modelPerformance=source.dropna()  
       x=[i for i in range(len(list(source['date'].astype('str'))))]
 
@@ -467,6 +468,8 @@ def model_performancePlot(source,
       
       plotIndex=list(source['date'].astype('str'))
       dateLabels={i: date for i, date in enumerate(plotIndex)}
+      source=ColumnDataSource({'x':x, 'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
+                               'y_cases':y_cases, 'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7})
     
     if enable_interpolation:
       x_cases_interpol, y_cases_interpol = LineSmoothing(x, y_cases)
@@ -483,23 +486,27 @@ def model_performancePlot(source,
     data_cases=dict(title=['report' \
                            for i in range(len(x))],
                     plotIndex=plotIndex,
-                    x=x,
-                    y=y_cases)
+                    x='x',
+                    y='y_cases',
+                    source=source)
     data_preds=dict(title=['forecast a day before'\
                            for i in range(len(x))],
-                    plotIndex=plotIndex,
-                    x=x,
-                    y=y_preds)
+                    plotIndex='plotIndex',
+                    x='x',
+                    y='y_preds',
+                    source=source)
     data_preds3=dict(title=['forecast 3 days before'\
                             for i in range(len(x))],
-                     plotIndex=plotIndex,
-                     x=x,
-                     y=y_preds3)
+                     plotIndex='plotIndex',
+                     x='x',
+                     y='y_preds3',
+                     source=source)
     data_preds7=dict(title=['forecast 7 days before'\
                             for i in range(len(x))],
-                     plotIndex=plotIndex,
-                     x=x,
-                     y=y_preds7)
+                     plotIndex='plotIndex',
+                     x='x',
+                     y='y_preds7',
+                     source=source)
 
     TOOLTIPS = """<strong><font face="Arial" size="2">@plotIndex @title</font></strong> <br>
                   <font face="Arial" size="2">Cases: <strong>@y{}</strong></font>
@@ -516,42 +523,43 @@ def model_performancePlot(source,
                       tools='hover', 
                       toolbar_location=None,
                       tooltips=TOOLTIPS)
-    perfPlot.line(x_cases_interpol if enable_interpolation else x, 
-                  y_cases_interpol if enable_interpolation else y_cases, 
+    perfPlot.line(x='x', y='y_cases',
+                  source=source,
                   line_width=2.5, 
                   color='black')
-    r = perfPlot.circle(x='x', y='y', 
+    r = perfPlot.circle(x='x', y='y_cases', 
                    color='black', 
                    fill_color='grey',
                    size=8, 
-                   source=data_cases)
+                   source=source)
 
-    perfPlot.line(x_preds_interpol if enable_interpolation else x, 
-                  y_preds_interpol if enable_interpolation else y_preds, 
+    perfPlot.line(x='x', y='y_preds',
+                  source=source,
                   color='red')
-    r1 = perfPlot.circle(x='x', y='y', 
+    r1 = perfPlot.circle(x='x', y='y_preds', 
                     color='red', 
                     fill_color='orange',
                     size=8, 
-                    source=data_preds)
+                    source=source)
 
-    perfPlot.line(x_preds3_interpol if enable_interpolation else x, 
-                  y_preds3_interpol if enable_interpolation else Y_preds3, 
+    perfPlot.line(x='x',y='y_preds3',
+                  source=source,
                   color='green')
-    r3 = perfPlot.circle(x='x', y='y', 
+    r3 = perfPlot.circle(x='x', y='y_preds3', 
                     color='green', 
                     fill_color='lime', 
                     size=8,
-                    source=data_preds3)
+                    source=source)
 
-    perfPlot.line(x_preds7_interpol if enable_interpolation else x, 
-                  y_preds7_interpol if enable_interpolation else y_preds7, 
+    perfPlot.line(x='x', 
+                  y='y_preds7', 
+                  source=source,
                   color='blue')
-    r7 = perfPlot.circle(x='x', y='y', 
+    r7 = perfPlot.circle(x='x', y='y_preds7', 
                     color='blue', 
                     fill_color='purple', 
                     size=8,
-                    source=data_preds7)
+                    source=source)
 
     perfPlot.hover.renderers = [r, r1, r3, r7]
     
@@ -605,16 +613,20 @@ if advanced_mode:
   stateList=list(preds_df['state'])  
   stateList.append('India')
   state_select = Select(value='India', title='Select region or state: ', options=sorted(stateList))
-  state_select.on_change('value', update_plot) 
     
   source = make_dataset('India')
+  state_select.on_change('value', update_plot) 
   statewise_plot = model_performancePlot(source, 
                                          use_cds=True)
   
   statewise_layout = column(state_select, statewise_plot) 
   statewisePerf_tab = Panel(child=statewise_layout, title="Statewise performance") 
 
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, advancedPlot_tab, performancePlot_tab, modelPerformance_tab#, statewisePerf_tab
+  covid19_tabs = Tabs(tabs=[basicPlot_tab, 
+                            advancedPlot_tab, 
+                            performancePlot_tab, 
+                            modelPerformance_tab, 
+                            statewisePerf_tab
                            ])
   covid19_layout = covid19_tabs 
 else:
