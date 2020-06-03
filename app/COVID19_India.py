@@ -112,7 +112,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
 
   performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                                 <hr>
-                                                <strong><font face="Arial" size="2">MAPE</font></strong>
+                                                <strong><font face="Arial" size="2">MAPE</font></strong><br>
                                                 <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong>
                                                 <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@MAPE{}</strong></p></font>
                                                 <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
