@@ -24,7 +24,7 @@ from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='08-June-2020'
+LAST_UPDATE_DATE='09-June-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
