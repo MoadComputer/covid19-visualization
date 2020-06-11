@@ -30,6 +30,7 @@ def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
   input_df.loc[input_df['state']=='Nagaland#','state']='Nagaland'
   input_df.loc[input_df['state']=='Jharkhand#','state']='Jharkhand'
+  input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Daman & Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
