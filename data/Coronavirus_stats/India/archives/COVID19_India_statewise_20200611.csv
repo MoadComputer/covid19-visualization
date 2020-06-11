@@ -6,32 +6,31 @@ ID,state,total_cases,discharged,deaths,active_cases
 5,Bihar,5710,3071,33,2606
 6,Chandigarh,327,286,5,36
 7,Chhattisgarh,1262,402,6,854
-8,Dadar Nagar Haveli,26,2,0,24
-9,Daman & Diu,2,0,0,2
-10,Delhi,32810,12245,984,19581
-11,Goa,387,67,0,320
-12,Gujarat,21521,14735,1347,5439
-13,Haryana,5579,2188,52,3339
-14,Himachal Pradesh,451,254,6,191
-15,Jammu and Kashmir,4507,1671,51,2785
-16,Jharkhand,1489,592,8,889
-17,Karnataka,6041,2862,69,3110
-18,Kerala,2161,905,18,1238
-19,Ladakh,115,52,1,62
-20,Madhya Pradesh,10049,6892,427,2730
-21,Maharashtra,94041,44517,3438,46086
-22,Manipur,311,63,0,248
-23,Meghalaya,44,13,1,30
-24,Mizoram,93,1,0,92
-25,Nagaland,128,22,0,106
-26,Odisha,3250,2282,9,959
-27,Puducherry,127,53,0,74
-28,Punjab,2805,2232,55,518
-29,Rajasthan,11600,8569,259,2772
-30,Sikkim,13,0,0,13
-31,Tamil Nadu,36841,19333,326,17182
-32,Telengana,4111,1817,156,2138
-33,Tripura,895,239,1,655
-34,Uttarakhand,1562,831,15,716
-35,Uttar Pradesh,11610,6871,321,4418
-36,West Bengal,9328,3779,432,5117
+8,Dadra and Nagar Haveli and Daman and Diu,28,2,0,26
+9,Delhi,32810,12245,984,19581
+10,Goa,387,67,0,320
+11,Gujarat,21521,14735,1347,5439
+12,Haryana,5579,2188,52,3339
+13,Himachal Pradesh,451,254,6,191
+14,Jammu and Kashmir,4507,1671,51,2785
+15,Jharkhand,1489,592,8,889
+16,Karnataka,6041,2862,69,3110
+17,Kerala,2161,905,18,1238
+18,Ladakh,115,52,1,62
+19,Madhya Pradesh,10049,6892,427,2730
+20,Maharashtra,94041,44517,3438,46086
+21,Manipur,311,63,0,248
+22,Meghalaya,44,13,1,30
+23,Mizoram,93,1,0,92
+24,Nagaland,128,22,0,106
+25,Odisha,3250,2282,9,959
+26,Puducherry,127,53,0,74
+27,Punjab,2805,2232,55,518
+28,Rajasthan,11600,8569,259,2772
+29,Sikkim,13,0,0,13
+30,Tamil Nadu,36841,19333,326,17182
+31,Telangana,4111,1817,156,2138
+32,Tripura,895,239,1,655
+33,Uttarakhand,1562,831,15,716
+34,Uttar Pradesh,11610,6871,321,4418
+35,West Bengal,9328,3779,432,5117
