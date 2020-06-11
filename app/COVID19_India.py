@@ -30,8 +30,10 @@ def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
   input_df.loc[input_df['state']=='Nagaland#','state']='Nagaland'
   input_df.loc[input_df['state']=='Jharkhand#','state']='Jharkhand'
-  input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli'
-  input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli'
+  input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Daman & Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'  
   return input_df
 
 India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
