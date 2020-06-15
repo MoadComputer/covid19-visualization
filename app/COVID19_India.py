@@ -1,4 +1,5 @@
 import os
+import sys
 import math
 import json
 import bokeh
@@ -37,18 +38,58 @@ def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'  
   return input_df
 
-India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
+def os_style_formatter(input_str):
+  return str(input_str).replace('/', "\\") if os.environ['OS'] == 'Windows_NT' else str(input_str)  
+
+try:
+  India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
+  India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+  covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
+except:
+  India_GeoJSON_repoFile=os_style_formatter(
+      './GitHub/MoadComputer/covid19-visualization/data/GeoJSON_assets/India_statewise_minified.geojson')  
+  covid19_statewise_repoFile=os_style_formatter(
+      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+  India_statewise_statsFile=os_style_formatter(
+      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+  saved_predsFile=os_style_formatter(
+      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/output_preds.csv') 
+    
+  if os.path.exists(India_GeoJSON_repoFile):
+    India_statewise=geopandas.read_file(India_GeoJSON_repoFile)  
+    print('Reading India GeoJSON file from saved repo ...')
+  else:
+    sys.exit('Failed to read GeoJSON file for India ...')
+    
+  if os.path.exists(covid19_statewise_repoFile):
+    covid19_data=pd.read_csv(covid19_statewise_repoFile)  
+    print('Reading India COVID19 file from saved repo ...')
+  else:
+    sys.exit('Failed to read India COVID19 file ...')
+    
+  if os.path.exists(India_statewise_statsFile):
+    India_stats=pd.read_csv(India_statewise_statsFile)  
+    print('Reading India stats file from saved repo ...')
+  else:
+    sys.exit('Failed to read India stats file ...')
+    
+  if os.path.exists(saved_predsFile):
+    preds_df=pd.read_csv(saved_predsFile)
+  else:
+    print('Advanced mode disabled ...')
+    advanced_mode=False  
+    
 India_statewise=apply_corrections(India_statewise)
 if enable_GeoJSON_saving:
-    India_statewise.to_file("India_statewise_minified.geojson", driver='GeoJSON')
+  India_statewise.to_file("India_statewise_minified.geojson", driver='GeoJSON')
 India_statewise=India_statewise.to_crs("EPSG:3395")
 
-India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
 India_stats=apply_corrections(India_stats)
 
-covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
 if len(covid19_data.columns) ==6:
   del covid19_data['active_cases']
+
 covid19_data=apply_corrections(covid19_data)
 
 covid19_data=pd.merge(covid19_data, India_stats, on='state', how='left')
@@ -253,21 +294,22 @@ def CustomTitleOverlay(plt,
   plt.add_layout(overlayText) 
 
   if advanced_plotting:
-    print(input_df['total_cases'].sum())    
+    print(input_df['total_cases'].sum())  
+    
     source = ColumnDataSource(data=dict(x=[xbox],
                                         y=[ybox],
                                         state=['India'],
-                                        total_cases=[input_df['total_cases'].sum()],
-                                        deaths=[input_df['deaths'].sum()],
-                                        preds_cases=[input_df['preds_cases'].sum()],
-                                        preds_cases_std=[input_df['preds_cases_std'].sum()],
-                                        MAPE=[input_df['MAPE'].mean()],
-                                        preds_cases_3=[input_df['preds_cases_3'].sum()],
-                                        preds_cases_3_std=[input_df['preds_cases_3_std'].sum()],
-                                        MAPE_3=[input_df['MAPE_3'].mean()],
-                                        preds_cases_7=[input_df['preds_cases_7'].sum()],
-                                        preds_cases_7_std=[input_df['preds_cases_7_std'].sum()],
-                                        MAPE_7=[np.mean(np.abs(input_df['MAPE_7']))]
+                                        total_cases=[covid19_data['total_cases'].sum()],
+                                        deaths=[covid19_data['deaths'].sum()],
+                                        preds_cases=[preds_df['preds_cases'].sum()],
+                                        preds_cases_std=[preds_df['preds_cases_std'].sum()],
+                                        MAPE=[preds_df['MAPE'].mean()],
+                                        preds_cases_3=[preds_df['preds_cases_3'].sum()],
+                                        preds_cases_3_std=[preds_df['preds_cases_3_std'].sum()],
+                                        MAPE_3=[preds_df['MAPE_3'].mean()],
+                                        preds_cases_7=[preds_df['preds_cases_7'].sum()],
+                                        preds_cases_7_std=[preds_df['preds_cases_7_std'].sum()],
+                                        MAPE_7=[np.mean(np.abs(preds_df['MAPE_7']))]
                                        ))
   else:
     source = ColumnDataSource(data=dict(x=[xbox],
@@ -364,12 +406,6 @@ def covid19_plot(covid19_geosource,
   return plt
 
 advanced_mode=True
-try:
-  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
-  #preds_df=pd.read_csv('./GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/output_preds.csv')
-except:
-  print('Advanced mode disabled ...')
-  advanced_mode=False
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 plot_title=None#'COVID19 outbreak in India'
@@ -590,7 +626,17 @@ def make_dataset(state):
   DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
   DATA_URL=DATA_URL.replace(" ", "%20")
-  modelPerformance=pd.read_csv(DATA_URL)
+  try:
+    modelPerformance=pd.read_csv(DATA_URL)
+  except:
+    statewise_modelPerformance_file=os_style_formatter(
+        './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
+            state))
+    if os.path.exists(statewise_modelPerformance_file):
+      modelPerformance=pd.read_csv(statewise_modelPerformance_file)  
+      print('Reading model performance for: {} from saved repo ...'.format(state))
+    else:
+      sys.exit('No statewise model performance file found ...')      
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))  
   plotIndex_labels=list(modelPerformance['date'].astype('str'))
   
@@ -613,7 +659,16 @@ def update_plot(attrname, old, new):
 
 curdoc().title=app_title
 if advanced_mode:
-  modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+  try:
+    modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+  except:
+    India_modelPerformance_file=os_style_formatter(
+        './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    if os.path.exists(India_modelPerformance_file):
+      modelPerformance=pd.read_csv(India_modelPerformance_file)
+      print('Reading India model performance file from saved repo ...')      
+    else:
+      print('Failed to read India model performance file ...')        
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
   modelPerformance_tab = Panel(child=model_perfPlot, 
