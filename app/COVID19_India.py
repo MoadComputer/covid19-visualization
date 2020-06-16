@@ -294,7 +294,7 @@ def CustomTitleOverlay(plt,
   plt.add_layout(overlayText) 
 
   if advanced_plotting:
-    print(input_df['total_cases'].sum())  
+    print(covid19_data['total_cases'].sum())  
     
     source = ColumnDataSource(data=dict(x=[xbox],
                                         y=[ybox],
@@ -414,6 +414,7 @@ app_title='COVID19 India'
 India_totalCases=covid19_data['total_cases'].sum()
 India_totalDeaths=covid19_data['deaths'].sum()
 print(India_totalCases)
+
 basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
                                   input_field='total_cases',
@@ -626,14 +627,15 @@ def make_dataset(state):
   DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
   DATA_URL=DATA_URL.replace(" ", "%20")
-  try:
-    modelPerformance=pd.read_csv(DATA_URL)
-  except:
-    statewise_modelPerformance_file=os_style_formatter(
+  DATA_FILE=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
             state))
-    if os.path.exists(statewise_modelPerformance_file):
-      modelPerformance=pd.read_csv(statewise_modelPerformance_file)  
+  try:
+    modelPerformance=pd.read_csv(DATA_URL)
+    print('Reading model performance for: {} from URL ...'.format(state))
+  except:
+    if os.path.exists(DATA_FILE):
+      modelPerformance=pd.read_csv(DATA_FILE)  
       print('Reading model performance for: {} from saved repo ...'.format(state))
     else:
       sys.exit('No statewise model performance file found ...')      
