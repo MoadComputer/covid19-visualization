@@ -39,7 +39,11 @@ def apply_corrections(input_df):
   return input_df
 
 def os_style_formatter(input_str):
-  return str(input_str).replace('/', "\\") if os.environ['OS'] == 'Windows_NT' else str(input_str)  
+  try:
+    os_env=os.environ['OS'] 
+  except:
+    os_env='unknown'
+  return str(input_str).replace('/', "\\") if os_env == == 'Windows_NT' else str(input_str)  
 
 try:
   India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
