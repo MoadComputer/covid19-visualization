@@ -1,0 +1,36 @@
+ID,state,total_cases,discharged,deaths,active_cases
+1,Andaman and Nicobar Islands,59,43,0,16
+2,Andhra Pradesh,10884,4988,136,5760
+3,Arunachal Pradesh,160,38,1,121
+4,Assam,6321,4033,9,2279
+5,Bihar,8473,6441,57,1975
+6,Chandigarh,423,329,6,88
+7,Chhattisgarh,2452,1755,12,685
+8,Dadra and Nagar Haveli and Daman and Diu,155,32,0,123
+9,Delhi,73780,44765,2429,26586
+10,Goa,995,335,2,658
+11,Gujarat,29520,21498,1753,6269
+12,Haryana,12463,7380,198,4885
+13,Himachal Pradesh,839,477,9,353
+14,Jammu and Kashmir,6549,3967,90,2492
+15,Jharkhand,2262,1605,12,645
+16,Karnataka,10560,6670,170,3720
+17,Kerala,3726,1943,22,1761
+18,Ladakh,941,358,1,582
+19,Madhya Pradesh,12596,9619,542,2435
+20,Maharashtra,147741,77453,6931,63357
+21,Manipur,1056,354,0,702
+22,Meghalaya,46,42,1,3
+23,Mizoram,145,30,0,115
+24,Nagaland,355,160,0,195
+25,Odisha,5962,4291,17,1654
+26,Puducherry,502,187,9,306
+27,Punjab,4769,3192,120,1457
+28,Rajasthan,16296,12840,379,3077
+29,Sikkim,85,39,0,46
+30,Tamil Nadu,70977,39999,911,30067
+31,Telangana,11364,4688,230,6446
+32,Tripura,1290,1019,1,270
+33,Uttarakhand,2691,1758,36,897
+34,Uttar Pradesh,20193,13119,611,6463
+35,West Bengal,15648,10190,606,4852
