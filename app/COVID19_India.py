@@ -25,7 +25,7 @@ from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='28-July-2020'
+LAST_UPDATE_DATE='29-July-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -360,7 +360,7 @@ def covid19_plot(covid19_geosource,
                                      str(np.round((input_df[input_field].values.astype('float')),1))
                                     )
   color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=11, 
+                       label_standoff=15, 
                        formatter=format_tick,
                        border_line_color=None, 
                        major_label_text_font_size='16px',
