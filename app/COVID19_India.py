@@ -360,10 +360,10 @@ def covid19_plot(covid19_geosource,
                                      str(np.round((input_df[input_field].values.astype('float')),1))
                                     )
   color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=15, 
+                       label_standoff=12, 
                        formatter=format_tick,
                        border_line_color=None, 
-                       major_label_text_font_size='16px',
+                       major_label_text_font_size='14px',
                        location = (0, 0))
   xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
   hover = CustomHoverTool(enable_advancedStats, custom_hovertool, enable_performanceStats)
