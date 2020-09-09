@@ -524,7 +524,9 @@ def model_performancePlot(source,
       x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
 
     if len(plotIndex)%5==0:
-      for i in range(len(plotIndex)//5):
+      for i in range(
+                  len(plotIndex)#//5
+                    ):
         dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
         dateLabel_extra=dateLabelObject + timedelta(days=(i+1))
         dateLabels.update({ len(plotIndex)+i: str(dateLabel_extra.strftime('%d-%B-%Y')) })
