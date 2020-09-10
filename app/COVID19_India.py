@@ -523,7 +523,7 @@ def model_performancePlot(source,
       x_preds3_interpol, y_preds3_interpol = LineSmoothing(x, y_preds3) 
       x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
 
-    if len(plotIndex)%2==0 or len(plotIndex)%5==0:
+    if len(plotIndex)%2==0 or len(plotIndex)%5==0 or np.round(len(plotIndex)/10-(len(plotIndex)//10))==1:
       for i in range(
                   len(plotIndex)//2
                     ):
