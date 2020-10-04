@@ -582,8 +582,8 @@ def model_performancePlot(source,
                   line_width=2.5, 
                   color='black')
     r = perfPlot.circle(x='x', y='y_cases', 
-                   color='black', 
-                   fill_color='grey',
+                   color='grey', 
+                   fill_color='black',
                    size=8, 
                    source=source)
 
@@ -686,12 +686,11 @@ if advanced_mode:
     
   stateList=list(preds_df['state'])  
   stateList.append('India')
-  state_select = Select(value='India', title='Select region or state: ', options=sorted(stateList))
+  state_select = Select(value='India',title='Select region or state: ',options=sorted(stateList))
     
-  source = make_dataset('India')
-  state_select.on_change('value', update_plot) 
-  statewise_plot = model_performancePlot(source, 
-                                         use_cds=True)
+  source=make_dataset('India')
+  state_select.on_change('value',update_plot) 
+  statewise_plot=model_performancePlot(source,use_cds=True)
   
   statewise_layout = column(state_select, statewise_plot) 
   statewisePerf_tab = Panel(child=statewise_layout, title="Forecast performance") 
