@@ -336,13 +336,14 @@ def CustomTitleOverlay(plt,
   return plt
 
     
-def covid19_plot(covid19_geosource, 
+def covid19_plot(covid19_geosource,
                  input_df=None,
                  input_field=None,
                  color_field='total_cases',
                  plot_title=None,
                  map_overlay=True,
                  palette_type='OrRd',
+                 integer_plot=False,
                  custom_hovertool=True,
                  enable_LakshadweepStats=True,
                  enable_IndiaStats=False,                 
@@ -356,10 +357,11 @@ def covid19_plot(covid19_geosource,
                                    high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
                                         if not enable_performanceStats else np.round((np.max(input_df[color_field].values)),3)
                                    ) 
-  format_tick = NumeralTickFormatter(format='0,0'
-                                     #str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
-                                     #str(np.round((input_df[input_field].values.astype('float')),1))
-                                    )
+  if integer_plot:
+    format_tick=NumeralTickFormatter(format='0,0')
+  else:
+    format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
+                                     str(np.round((input_df[input_field].values.astype('float')),1)))
   color_bar = ColorBar(color_mapper=color_mapper, 
                        label_standoff=15, 
                        formatter=format_tick,
@@ -428,6 +430,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
                                   input_field='total_cases',
                                   color_field='total_cases',
                                   enable_IndiaStats=True,
+                                  integer_plot=True,
                                   plot_title=plot_title)
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
@@ -467,6 +470,7 @@ if advanced_mode:
                                        color_field='total_cases',
                                        enable_IndiaStats=True,
                                        enable_advancedStats=True,
+                                       integer_plot=True,
                                        plot_title=None)
   advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Forecast")
   
