@@ -356,11 +356,12 @@ def covid19_plot(covid19_geosource,
                                    high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
                                         if not enable_performanceStats else np.round((np.max(input_df[color_field].values)),3)
                                    ) 
-  format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
-                                     str(np.round((input_df[input_field].values.astype('float')),1))
+  format_tick = NumeralTickFormatter(format='0,0'
+                                     #str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
+                                     #str(np.round((input_df[input_field].values.astype('float')),1))
                                     )
   color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=12, 
+                       label_standoff=15, 
                        formatter=format_tick,
                        border_line_color=None, 
                        major_label_text_font_size='14px',
@@ -590,10 +591,10 @@ def model_performancePlot(source,
 
     perfPlot.line(x='x', y='y_preds',
                   source=source,
-                  color='red')
+                  color='darkred')
     r1 = perfPlot.circle(x='x', y='y_preds', 
-                    color='orange', 
-                    fill_color='darkred',
+                    color='darkred', 
+                    fill_color='red',
                     size=8, 
                     source=source)
 
