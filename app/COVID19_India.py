@@ -591,8 +591,8 @@ def model_performancePlot(source,
                   source=source,
                   color='red')
     r1 = perfPlot.circle(x='x', y='y_preds', 
-                    color='red', 
-                    fill_color='orange',
+                    color='orange', 
+                    fill_color='red',
                     size=8, 
                     source=source)
 
@@ -600,8 +600,8 @@ def model_performancePlot(source,
                   source=source,
                   color='green')
     r3 = perfPlot.circle(x='x', y='y_preds3', 
-                    color='green', 
-                    fill_color='lime', 
+                    color='lime', 
+                    fill_color='darkgreen', 
                     size=8,
                     source=source)
 
@@ -610,8 +610,8 @@ def model_performancePlot(source,
                   source=source,
                   color='blue')
     r7 = perfPlot.circle(x='x', y='y_preds7', 
-                    color='blue', 
-                    fill_color='purple', 
+                    color='purple', 
+                    fill_color='blue', 
                     size=8,
                     source=source)
 
