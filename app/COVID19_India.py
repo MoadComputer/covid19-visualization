@@ -409,6 +409,7 @@ def covid19_plot(covid19_geosource,
   plt.yaxis.minor_tick_line_color = None 
   plt.xaxis[0].ticker.num_minor_ticks = 0
   plt.yaxis[0].ticker.num_minor_ticks = 0
+  plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
   return plt
 
 advanced_mode=True
@@ -592,7 +593,7 @@ def model_performancePlot(source,
                   color='red')
     r1 = perfPlot.circle(x='x', y='y_preds', 
                     color='orange', 
-                    fill_color='red',
+                    fill_color='darkred',
                     size=8, 
                     source=source)
 
@@ -618,7 +619,7 @@ def model_performancePlot(source,
     perfPlot.hover.renderers = [r, r1, r3, r7]
     
     perfPlot.yaxis.formatter.use_scientific = False
-    #perfPlot.yaxis.formatter=NumeralTickFormatter(format=‘0,0’)
+    perfPlot.yaxis.formatter=NumeralTickFormatter(format='0,0')
     
     perfPlot.xaxis.major_label_overrides = dateLabels
     perfPlot.xaxis.axis_label = 'Date'
