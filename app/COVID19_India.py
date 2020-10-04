@@ -618,7 +618,7 @@ def model_performancePlot(source,
     perfPlot.hover.renderers = [r, r1, r3, r7]
     
     perfPlot.yaxis.formatter.use_scientific = False
-    perfPlot.yaxis.formatter=NumeralTickFormatter(format=‘0,0’)
+    #perfPlot.yaxis.formatter=NumeralTickFormatter(format=‘0,0’)
     
     perfPlot.xaxis.major_label_overrides = dateLabels
     perfPlot.xaxis.axis_label = 'Date'
