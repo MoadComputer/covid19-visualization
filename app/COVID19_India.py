@@ -160,7 +160,6 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
-                                                        '{(0,0)}', 
                                                         LAST_UPDATE_DATE))
 
 
