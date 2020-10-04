@@ -147,16 +147,20 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
                                              <font face="Arial" size="2">Reported cases: <strong>@total_cases{}</strong></font>
-                                             <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases (±@preds_cases_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3 (±@preds_cases_3_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7 (±@preds_cases_7_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases{} (±@preds_cases_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3{} (±@preds_cases_3_std{})</strong></p></font>
+                                             <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7{} (±@preds_cases_7_std{})</strong></p></font>
                                              <hr>  
                                              <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
-                                             """.format('{int}', 
-                                                        '{int}', 
-                                                        '{int}', 
-                                                        '{int}', 
+                                             """.format('{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
+                                                        '{(0,0)}', 
                                                         LAST_UPDATE_DATE))
 
 
@@ -169,19 +173,21 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
                                                 <hr>  
                                                 <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
-                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    """.format('{(0.000)}', 
-                                                           '{(0.000)}', 
-                                                           '{(0.000)}',
-                                                           LAST_UPDATE_DATE))
+                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    
+                                              """.format('{(0.000)}', 
+                                                         '{(0.000)}', 
+                                                         '{(0.000)}',
+                                                         LAST_UPDATE_DATE))
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases{}</font><br>
                                            <font face="Arial" size="3">Deaths: @deaths{} </font>
                                            <hr>  
                                            <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
-                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               """.format('{int}', 
-                                             '{int}',
-                                             LAST_UPDATE_DATE))
+                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
+                                        """.format('{(0,0)}', 
+                                                   '{(0,0)}',
+                                                   LAST_UPDATE_DATE))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
@@ -569,10 +575,10 @@ def model_performancePlot(source,
                   <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{}</strong></p></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
-                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{int}',
-                                                                                                                   '{int}',
-                                                                                                                   '{int}',
-                                                                                                                   '{int}',
+                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{(0,0)}',
+                                                                                                                   '{(0,0)}',
+                                                                                                                   '{(0,0)}',
+                                                                                                                   '{(0,0)}',
                                                                                                                     LAST_UPDATE_DATE)           \
                if custom_perfHoverTool else [('Date: ', '@plot_index'),
                                              ('Cases: ','@y_cases')]
