@@ -10,9 +10,11 @@ import pandas as pd
 from scipy.interpolate import interp1d 
 
 from bokeh.io.doc import curdoc
+from bokeh.layouts import layout
 from bokeh.plotting import figure
 from bokeh.models.glyphs import Text
 from bokeh.application import Application
+from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
 from bokeh.palettes import brewer, OrRd, YlGn
 from bokeh.models.widgets import Button, Select
@@ -20,8 +22,8 @@ from bokeh.application.handlers import FunctionHandler
 from bokeh.tile_providers import Vendors, get_provider
 from bokeh.io import output_notebook, show, output_file
 from bokeh.layouts import widgetbox, row, column, gridplot
-from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter, LinearAxis, Grid, Label
 from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
+from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter, LinearAxis, Grid, Label, Band, Legend, LegendItem
 
 verbose=False
 enable_GeoJSON_saving=False
@@ -373,8 +375,8 @@ def covid19_plot(covid19_geosource,
                        border_line_color=None, 
                        major_label_text_font_size='14px',
                        location = (0, 0))
-  xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
-  hover = CustomHoverTool(enable_advancedStats, custom_hovertool, enable_performanceStats)
+  xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
+  hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats)
 
   plt = figure(title = plot_title,
                x_range=(xmin, xmax) if map_overlay else None,
@@ -411,12 +413,12 @@ def covid19_plot(covid19_geosource,
                              ybox=ybox,
                              input_df=input_df, 
                              advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
-  plt.xaxis.major_tick_line_color = None  
-  plt.yaxis.major_tick_line_color = None
-  plt.xaxis.minor_tick_line_color = None 
-  plt.yaxis.minor_tick_line_color = None 
-  plt.xaxis[0].ticker.num_minor_ticks = 0
-  plt.yaxis[0].ticker.num_minor_ticks = 0
+  plt.xaxis.major_tick_line_color=None  
+  plt.yaxis.major_tick_line_color=None
+  plt.xaxis.minor_tick_line_color=None 
+  plt.yaxis.minor_tick_line_color=None 
+  plt.xaxis[0].ticker.num_minor_ticks=0
+  plt.yaxis[0].ticker.num_minor_ticks=0
   plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
   return plt
 
@@ -440,7 +442,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['id', 'state',                                                  \
+  preds_df.columns=['id','state',                                                  \
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
@@ -513,6 +515,15 @@ def model_performancePlot(source,
       y_preds=source.data['y_preds']
       y_preds3=source.data['y_preds3']
       y_preds7=source.data['y_preds7']
+
+      y_stdev=source.data['y_std']
+      y_3_stdev=source.data['y_3std']
+      y_7_stdev=source.data['y_7std']
+      
+      upper_lim=list(np.asarray(y_preds)-3*np.asarray(y_stdev))
+      lower_lim=list(np.asarray(y_preds)+3*np.asarray(y_stdev))
+      source.data['lower_lim']=upper_lim
+      source.data['upper_lim']=lower_lim
     else:
       plotIndex_labels=list(source['date'].astype('str'))  
       modelPerformance=source.dropna()  
@@ -522,17 +533,28 @@ def model_performancePlot(source,
       y_preds=list(source['preds_cases'].astype('int'))
       y_preds3=list(source['preds_cases_3'].astype('int'))
       y_preds7=list(source['preds_cases_7'].astype('int'))
+
+      y_stdev=list(source['preds_cases_std'].astype('int'))
+      y_3_stdev=list(source['preds_cases_3_std'].astype('int'))
+      y_7_stdev=list(source['preds_cases_7_std'].astype('int'))
+
+      lower_lim=list(np.asarray(y_preds)-3*np.asarray(y_stdev))
+
+      upper_lim=list(np.asarray(y_preds)+3*np.asarray(y_stdev))
       
       plotIndex=list(source['date'].astype('str'))
       dateLabels={i: date for i, date in enumerate(plotIndex)}
-      source=ColumnDataSource({'x':x, 'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
-                               'y_cases':y_cases, 'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7})
+      source=ColumnDataSource({'x':x,'plot_index':plotIndex,'plot_labels':plotIndex_labels, 
+                               'y_cases':y_cases,'y_preds':y_preds,'y_preds3':y_preds3,'y_preds7':y_preds7,
+                               'y_std':y_stdev,'y_3std':y_3_stdev,'y_7std':y_7_stdev,
+                               'upper_lim':upper_lim,
+                               'lower_lim':lower_lim})
     
     if enable_interpolation:
-      x_cases_interpol, y_cases_interpol = LineSmoothing(x, y_cases)
-      x_preds_interpol, y_preds_interpol = LineSmoothing(x, y_preds)
-      x_preds3_interpol, y_preds3_interpol = LineSmoothing(x, y_preds3) 
-      x_preds7_interpol, y_preds7_interpol = LineSmoothing(x, y_preds7)
+      x_cases_interpol, y_cases_interpol=LineSmoothing(x,y_cases)
+      x_preds_interpol, y_preds_interpol=LineSmoothing(x,y_preds)
+      x_preds3_interpol, y_preds3_interpol=LineSmoothing(x,y_preds3) 
+      x_preds7_interpol, y_preds7_interpol=LineSmoothing(x,y_preds7)
 
     if len(plotIndex)%2==0 or len(plotIndex)%5==0 or np.round(len(plotIndex)/10-(len(plotIndex)//10))==1:
       for i in range(
@@ -569,9 +591,9 @@ def model_performancePlot(source,
 
     TOOLTIPS = """<strong><font face="Arial" size="2">Forecast performance for @plot_index</font></strong> <br>
                   <font face="Arial" size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{}</strong></p></font> 
-                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{}</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std)</strong></p></font> 
+                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std)</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std)</strong></p></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{(0,0)}',
@@ -582,12 +604,11 @@ def model_performancePlot(source,
                if custom_perfHoverTool else [('Date: ', '@plot_index'),
                                              ('Cases: ','@y_cases')]
 
-    perfPlot = figure(#y_axis_type="log", y_range=(2.5e4, 7.5e4), 
-                      plot_height = 550, plot_width = 550,
-                      tools='hover', 
-                      toolbar_location=None,
-                      tooltips=TOOLTIPS
-                      )
+    perfPlot=figure(#y_axis_type="log", y_range=(2.5e4,7.5e4), 
+                    plot_height=550, plot_width=550,
+                    tools='hover', 
+                    toolbar_location=None,
+                    tooltips=TOOLTIPS)
     perfPlot.line(x='x', y='y_cases',
                   source=source,
                   line_width=2.5, 
@@ -620,21 +641,39 @@ def model_performancePlot(source,
                   y='y_preds7', 
                   source=source,
                   color='blue')
-    r7 = perfPlot.circle(x='x', y='y_preds7', 
-                    color='purple', 
-                    fill_color='blue', 
-                    size=8,
-                    source=source)
+    r7=perfPlot.circle(x='x', y='y_preds7', 
+                       color='purple', 
+                       fill_color='blue', 
+                       size=8,
+                       source=source)
+ 
 
-    perfPlot.hover.renderers = [r, r1, r3, r7]
+    x_ul_interpol,ul_interpol=LineSmoothing(x,upper_lim)
+    x_ll_interpol,ll_interpol=LineSmoothing(x,lower_lim)
+    src_interpol=ColumnDataSource({'x_ul_interpol':x_ul_interpol,'ul_interpol':ul_interpol,
+                                   'x_ll_interpol':x_ll_interpol,'ll_interpol':ll_interpol})
+    ul=perfPlot.line(x='x_ul_interpol',
+                     y='ul_interpol',
+                     source=src_interpol,
+                     color='pink')
+    ll=perfPlot.line(x='x_ll_interpol',
+                     y='ll_interpol',
+                     source=src_interpol,
+                     color='pink')
+
+    perfPlot.hover.renderers=[r,r1,r3,r7]
     
-    perfPlot.yaxis.formatter.use_scientific = False
+    perfPlot.yaxis.formatter.use_scientific=False
     perfPlot.yaxis.formatter=NumeralTickFormatter(format='0,0')
     
-    perfPlot.xaxis.major_label_overrides = dateLabels
-    perfPlot.xaxis.axis_label = 'Date'
-    perfPlot.yaxis.axis_label = 'COVID19 cases'
-    perfPlot.xaxis.major_label_orientation = (math.pi*.75)/2
+    perfPlot.xaxis.major_label_overrides=dateLabels
+    perfPlot.xaxis.axis_label='Date'
+    perfPlot.yaxis.axis_label='COVID19 cases'
+    perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
+
+    band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
+            level='overlay',fill_alpha=0.35,line_width=1,line_color='pink')
+    perfPlot.renderers.append(band)
     return perfPlot
 
 from datetime import datetime, timedelta
@@ -668,12 +707,19 @@ def make_dataset(state):
   x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
 
   y_cases=list(modelPerformance['total_cases'].astype('int'))
+
   y_preds=list(modelPerformance['preds_cases'].astype('int'))
   y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
   y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
-  
-  return ColumnDataSource({'x':x, 'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
-                           'y_cases':y_cases, 'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7})
+
+  y_std=list(modelPerformance['preds_cases_std'].astype('int'))
+  y_3std=list(modelPerformance['preds_cases_3_std'].astype('int'))
+  y_7std=list(modelPerformance['preds_cases_7_std'].astype('int'))
+
+  return ColumnDataSource({'x':x, 'y_cases':y_cases, 
+                           'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
+                           'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7,
+                           'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std})
 
 def update_plot(attrname, old, new):
   updated_data=make_dataset(state_select.value) 
@@ -693,26 +739,24 @@ if advanced_mode:
       print('Failed to read India model performance file ...')        
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
-  modelPerformance_tab = Panel(child=model_perfPlot, 
-                               title="Forecast performance") 
+  modelPerformance_tab=Panel(child=model_perfPlot,title="Forecast performance") 
     
   stateList=list(preds_df['state'])  
   stateList.append('India')
-  state_select = Select(value='India',title='Select region or state: ',options=sorted(stateList))
+  state_select=Select(value='India',title='Select region or state: ',options=sorted(stateList))
     
   source=make_dataset('India')
   state_select.on_change('value',update_plot) 
   statewise_plot=model_performancePlot(source,use_cds=True)
   
-  statewise_layout = column(state_select, statewise_plot) 
-  statewisePerf_tab = Panel(child=statewise_layout, title="Forecast performance") 
+  statewise_layout=column(state_select,statewise_plot) 
+  statewisePerf_tab=Panel(child=statewise_layout,title='Forecast performance') 
 
   covid19_tabs = Tabs(tabs=[basicPlot_tab, 
                             advancedPlot_tab, 
                             performancePlot_tab, 
                             #modelPerformance_tab, 
-                            statewisePerf_tab
-                           ])
+                            statewisePerf_tab])
   covid19_layout = covid19_tabs 
 else:
   covid19_layout = column(basic_covid19_plot)
