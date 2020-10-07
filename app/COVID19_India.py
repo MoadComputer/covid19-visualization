@@ -510,24 +510,6 @@ def model_performancePlot(source,
       plotIndex_labels=source.data['plot_labels']
       dateLabels={i: date for i, date in enumerate(plotIndex_labels)}
       x=source.data['x']
-        
-      #y_cases=source.data['y_cases'] 
-      #y_preds=source.data['y_preds']
-      #y_preds3=source.data['y_preds3']
-      #y_preds7=source.data['y_preds7']
-
-      #y_stdev=source.data['y_std']
-      #y_3_stdev=source.data['y_3std']
-      #y_7_stdev=source.data['y_7std']
-      
-      
-      #source.data['upper_lim']=upper_lim
-      #source.data['upper_3_lim']=upper_3_lim
-      #source.data['upper_7_lim']=upper_7_lim
-
-      #source.data['lower_lim']=lower_lim
-      #source.data['lower_3_lim']=lower_3_lim
-      #source.data['lower_7_lim']=lower_7_lim
     else:
       plotIndex_labels=list(source['date'].astype('str'))  
       modelPerformance=source.dropna()  
@@ -678,16 +660,16 @@ def model_performancePlot(source,
     perfPlot.yaxis.axis_label='COVID19 cases'
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
 
-    #band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-    #          level='underlay',fill_alpha=0.4,line_width=1,line_color='pink')
-    #band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
-    #           level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
-    #band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
-    #           level='underlay',fill_alpha=0.4,line_width=1,line_color='darkblue')
+    band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
+              level='underlay',fill_alpha=0.4,line_width=1,line_color='pink')
+    band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
+               level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
+    band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
+               level='underlay',fill_alpha=0.4,line_width=1,line_color='darkblue')
 
-    #perfPlot.renderers.append(band)
-    #perfPlot.renderers.append(band3)
-    #perfPlot.renderers.append(band7)
+    perfPlot.renderers.append(band)
+    perfPlot.renderers.append(band3)
+    perfPlot.renderers.append(band7)
     return perfPlot
 
 from datetime import datetime, timedelta
@@ -729,11 +711,21 @@ def make_dataset(state):
   y_std=list(modelPerformance['preds_cases_std'].astype('int'))
   y_3std=list(modelPerformance['preds_cases_3_std'].astype('int'))
   y_7std=list(modelPerformance['preds_cases_7_std'].astype('int'))
+      
+  lower_lim=list(np.asarray(y_preds)-3*np.asarray(y_std))
+  lower_3_lim=list(np.asarray(y_preds3)-3*np.asarray(y_3std))
+  lower_7_lim=list(np.asarray(y_preds7)-3*np.asarray(y_7std))
+
+  upper_lim=list(np.asarray(y_preds)+3*np.asarray(y_std))
+  upper_3_lim=list(np.asarray(y_preds3)+3*np.asarray(y_3std))
+  upper_7_lim=list(np.asarray(y_preds7)+3*np.asarray(y_7std))
 
   return ColumnDataSource({'x':x, 'y_cases':y_cases, 
                            'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
                            'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7,
-                           'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std})
+                           'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std,
+                           'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
+                           'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim})
 
 def update_plot(attrname, old, new):
   updated_data=make_dataset(state_select.value) 
