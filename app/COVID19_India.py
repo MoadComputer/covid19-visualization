@@ -225,7 +225,7 @@ def geographic_overlay(plt,
                        enableTapTool=False,
                        enableToolbar=True):
   if mapOverlay:
-    wmts = WMTSTileSource(url="http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png")
+    wmts = WMTSTileSource(url="https://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png")
     plt.add_tile(wmts)
     plt.xaxis.axis_label = 'longitude'
     plt.yaxis.axis_label = 'latitude'
