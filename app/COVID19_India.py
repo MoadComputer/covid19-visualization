@@ -591,7 +591,7 @@ def model_performancePlot(source,
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                     LAST_UPDATE_DATE)           \
-               if custom_perfHoverTool else [('Date: ', '@plot_index'),
+               if custom_perfHoverTool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
     perfPlot=figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
