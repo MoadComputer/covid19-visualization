@@ -503,7 +503,7 @@ def LineSmoothing(x, y,
 
 def model_performancePlot(source, 
                           use_cds=False,
-                          enable_interpolation=True, 
+                          enable_interpolation=False, 
                           custom_perfHoverTool=True):
     if use_cds:
       plotIndex=source.data['plot_index']
@@ -511,30 +511,23 @@ def model_performancePlot(source,
       dateLabels={i: date for i, date in enumerate(plotIndex_labels)}
       x=source.data['x']
         
-      y_cases=source.data['y_cases'] 
-      y_preds=source.data['y_preds']
-      y_preds3=source.data['y_preds3']
-      y_preds7=source.data['y_preds7']
+      #y_cases=source.data['y_cases'] 
+      #y_preds=source.data['y_preds']
+      #y_preds3=source.data['y_preds3']
+      #y_preds7=source.data['y_preds7']
 
-      y_stdev=source.data['y_std']
-      y_3_stdev=source.data['y_3std']
-      y_7_stdev=source.data['y_7std']
+      #y_stdev=source.data['y_std']
+      #y_3_stdev=source.data['y_3std']
+      #y_7_stdev=source.data['y_7std']
       
-      upper_lim=list(np.asarray(y_preds)+3*np.asarray(y_stdev))
-      upper_3_lim=list(np.asarray(y_preds3)+3*np.asarray(y_3_stdev))
-      upper_7_lim=list(np.asarray(y_preds7)+3*np.asarray(y_7_stdev))
+      
+      #source.data['upper_lim']=upper_lim
+      #source.data['upper_3_lim']=upper_3_lim
+      #source.data['upper_7_lim']=upper_7_lim
 
-      lower_lim=list(np.asarray(y_preds)-3*np.asarray(y_stdev))
-      lower_3_lim=list(np.asarray(y_preds3)-3*np.asarray(y_3_stdev))
-      lower_7_lim=list(np.asarray(y_preds7)-3*np.asarray(y_7_stdev))
-
-      source.data['upper_lim']=upper_lim
-      source.data['upper_3_lim']=upper_3_lim
-      source.data['upper_7_lim']=upper_7_lim
-
-      source.data['lower_lim']=lower_lim
-      source.data['lower_3_lim']=lower_3_lim
-      source.data['lower_7_lim']=lower_7_lim
+      #source.data['lower_lim']=lower_lim
+      #source.data['lower_3_lim']=lower_3_lim
+      #source.data['lower_7_lim']=lower_7_lim
     else:
       plotIndex_labels=list(source['date'].astype('str'))  
       modelPerformance=source.dropna()  
@@ -661,19 +654,19 @@ def model_performancePlot(source,
                        size=8,
                        source=source)
  
-    x_ul_interpol,ul_interpol=LineSmoothing(x,upper_lim)
-    x_ll_interpol,ll_interpol=LineSmoothing(x,lower_lim)
-    src_interpol=ColumnDataSource({'x_ul_interpol':x_ul_interpol,'ul_interpol':ul_interpol,
-                                   'x_ll_interpol':x_ll_interpol,'ll_interpol':ll_interpol})
+    #x_ul_interpol,ul_interpol=LineSmoothing(x,upper_lim)
+    #x_ll_interpol,ll_interpol=LineSmoothing(x,lower_lim)
+    #src_interpol=ColumnDataSource({'x_ul_interpol':x_ul_interpol,'ul_interpol':ul_interpol,
+    #                               'x_ll_interpol':x_ll_interpol,'ll_interpol':ll_interpol})
     
-    ul=perfPlot.line(x='x_ul_interpol',
-                     y='ul_interpol',
-                     source=src_interpol,
-                     color='pink')
-    ll=perfPlot.line(x='x_ll_interpol',
-                     y='ll_interpol',
-                     source=src_interpol,
-                     color='pink')
+    #ul=perfPlot.line(x='x_ul_interpol',
+    #                 y='ul_interpol',
+    #                 source=src_interpol,
+    #                 color='pink')
+    #ll=perfPlot.line(x='x_ll_interpol',
+    #                 y='ll_interpol',
+    #                 source=src_interpol,
+    #                 color='pink')
 
     perfPlot.hover.renderers=[r,r1,r3,r7]
     
@@ -685,16 +678,16 @@ def model_performancePlot(source,
     perfPlot.yaxis.axis_label='COVID19 cases'
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
 
-    band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-              level='underlay',fill_alpha=0.4,line_width=1,line_color='pink')
-    band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
-               level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
-    band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
-               level='underlay',fill_alpha=0.4,line_width=1,line_color='darkblue')
+    #band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
+    #          level='underlay',fill_alpha=0.4,line_width=1,line_color='pink')
+    #band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
+    #           level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
+    #band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
+    #           level='underlay',fill_alpha=0.4,line_width=1,line_color='darkblue')
 
-    perfPlot.renderers.append(band)
-    perfPlot.renderers.append(band3)
-    perfPlot.renderers.append(band7)
+    #perfPlot.renderers.append(band)
+    #perfPlot.renderers.append(band3)
+    #perfPlot.renderers.append(band7)
     return perfPlot
 
 from datetime import datetime, timedelta
