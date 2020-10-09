@@ -661,11 +661,14 @@ def model_performancePlot(source,
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
 
     band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-              level='underlay',fill_alpha=0.5,line_width=1,line_color='pink')
+              level='underlay',fill_alpha=0.5,line_width=1,
+              fill_color='indianred',line_color='indianred')
     band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
-               level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
+               level='underlay',fill_alpha=0.4,line_width=1,
+               fill_color='lime',line_color='lime')
     band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
-               level='underlay',fill_alpha=0.4,line_width=1,line_color='darkblue')
+               level='underlay',fill_alpha=0.25,line_width=1,
+               fill_color='indigo',line_color='indigo')
 
     perfPlot.renderers.append(band)
     perfPlot.renderers.append(band3)
