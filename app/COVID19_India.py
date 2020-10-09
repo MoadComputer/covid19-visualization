@@ -581,12 +581,15 @@ def model_performancePlot(source,
 
     TOOLTIPS = """<strong><font face="Arial" size="2">Forecast performance for @plot_index</font></strong> <br>
                   <font face="Arial" size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std)</strong></p></font> 
-                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std)</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std)</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std{})</strong></p></font> 
+                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std{})</strong></p></font>
+                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std{})</strong></p></font>
                   <hr>
                   <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{(0,0)}',
+                                                                                                                   '{(0,0)}',
+                                                                                                                   '{(0,0)}',
+                                                                                                                   '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
