@@ -378,41 +378,41 @@ def covid19_plot(covid19_geosource,
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
   hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats)
 
-  plt = figure(title = plot_title,
-               x_range=(xmin, xmax) if map_overlay else None,
-               y_range=(ymin, ymax) if map_overlay else None,
-               tools='save' if enable_toolbar else '', 
-               plot_height = 600, plot_width = 600,
-               toolbar_location = 'left' if enable_toolbar else None,
-               lod_factor=int(1e7),
-               lod_threshold=int(2),
-               # output_backend="webgl"
-              ) 
+  plt=figure(title = plot_title,
+             x_range=(xmin, xmax) if map_overlay else None,
+             y_range=(ymin, ymax) if map_overlay else None,
+             tools='save' if enable_toolbar else '', 
+             plot_height = 600, plot_width = 600,
+             toolbar_location = 'left' if enable_toolbar else None,
+             lod_factor=int(1e7),
+             lod_threshold=int(2),
+             # output_backend="webgl"
+            ) 
         
-  plt = geographic_overlay(plt, 
-                           geosourceJson=covid19_geosource,
-                           colorBar=color_bar,
-                           colorMapper=color_mapper,
-                           colorMode=input_field,
-                           hoverTool=hover,
-                           mapOverlay=map_overlay,
-                           enableToolbar=enable_toolbar,
-                           enableTapTool=True if ((enable_advancedStats) or (enable_performanceStats)) else False )
+  plt=geographic_overlay(plt, 
+                         geosourceJson=covid19_geosource,
+                         colorBar=color_bar,
+                         colorMapper=color_mapper,
+                         colorMode=input_field,
+                         hoverTool=hover,
+                         mapOverlay=map_overlay,
+                         enableToolbar=enable_toolbar,
+                         enableTapTool=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
   
   if enable_LakshadweepStats:
-    plt = lakshadweep_correction(plt, 
-                                 input_df=input_df, 
-                                 advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+    plt=lakshadweep_correction(plt, 
+                               input_df=input_df, 
+                               advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
 
   if enable_IndiaStats:
-    xtext, ytext, xbox, ybox = CustomTitleFormatter()
-    plt = CustomTitleOverlay(plt, 
-                             xtext=xtext,
-                             ytext=ytext,
-                             xbox=xbox, 
-                             ybox=ybox,
-                             input_df=input_df, 
-                             advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+    xtext,ytext,xbox,ybox=CustomTitleFormatter()
+    plt=CustomTitleOverlay(plt, 
+                           xtext=xtext,
+                           ytext=ytext,
+                           xbox=xbox, 
+                           ybox=ybox,
+                           input_df=input_df, 
+                           advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
   plt.xaxis.major_tick_line_color=None  
   plt.yaxis.major_tick_line_color=None
   plt.xaxis.minor_tick_line_color=None 
@@ -464,42 +464,42 @@ if advanced_mode:
   except:
     print('Unable to delete dataframe item: discharged')
 
-  merged_preds_data = covid19_json(preds_covid19_df, India_statewise)
-  merged_preds_json = merged_preds_data['json_data']
-  preds_covid19_data = merged_preds_data['data_frame']
+  merged_preds_data=covid19_json(preds_covid19_df, India_statewise)
+  merged_preds_json=merged_preds_data['json_data']
+  preds_covid19_data=merged_preds_data['data_frame']
   print(preds_covid19_data['state'].equals(covid19_data['state']))
   print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))  
   preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
 
-  advanced_covid19_plot = covid19_plot(preds_covid19_geosource, 
-                                       input_df=preds_covid19_data,
-                                       input_field='preds_cases_7',
-                                       color_field='total_cases',
-                                       enable_IndiaStats=True,
-                                       enable_advancedStats=True,
-                                       integer_plot=True,
-                                       plot_title=None)
-  advancedPlot_tab = Panel(child=advanced_covid19_plot, title="Forecast")
+  advanced_covid19_plot=covid19_plot(preds_covid19_geosource, 
+                                     input_df=preds_covid19_data,
+                                     input_field='preds_cases_7',
+                                     color_field='total_cases',
+                                     enable_IndiaStats=True,
+                                     enable_advancedStats=True,
+                                     integer_plot=True,
+                                     plot_title=None)
+  advancedPlot_tab=Panel(child=advanced_covid19_plot, title="Forecast")
   
-  performance_covid19_plot = covid19_plot(preds_covid19_geosource, 
-                                          input_df=preds_covid19_data,
-                                          palette_type='Greens',
-                                          input_field='MAPE_7',
-                                          color_field='MAPE_7',
-                                          enable_IndiaStats=True,
-                                          enable_performanceStats=True,
-                                          plot_title=None)
-  performancePlot_tab = Panel(child=performance_covid19_plot, title="Forecast quality")
+  performance_covid19_plot=covid19_plot(preds_covid19_geosource, 
+                                        input_df=preds_covid19_data,
+                                        palette_type='Greens',
+                                        input_field='MAPE_7',
+                                        color_field='MAPE_7',
+                                        enable_IndiaStats=True,
+                                        enable_performanceStats=True,
+                                        plot_title=None)
+  performancePlot_tab=Panel(child=performance_covid19_plot,title="Forecast quality")
 
-def LineSmoothing(x, y, 
+def LineSmoothing(x,y, 
                   interpolationType='cubic',
                   interpolationPoints=1000):
-  fn = interp1d(x, y, 
-                kind=interpolationType)
-  x_ = np.linspace(np.min(x), np.max(x), 
-                   interpolationPoints)
-  y_ = fn(x_)
-  return x_, y_
+  fn=interp1d(x,y, 
+              kind=interpolationType)
+  x_=np.linspace(np.min(x), np.max(x), 
+                 interpolationPoints)
+  y_=fn(x_)
+  return x_,y_
 
 def model_performancePlot(source, 
                           use_cds=False,
@@ -661,7 +661,7 @@ def model_performancePlot(source,
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
 
     band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-              level='underlay',fill_alpha=0.4,line_width=1,line_color='pink')
+              level='underlay',fill_alpha=0.5,line_width=1,line_color='pink')
     band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
                level='underlay',fill_alpha=0.4,line_width=1,line_color='lime')
     band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
