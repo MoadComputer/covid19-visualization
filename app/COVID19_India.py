@@ -16,18 +16,18 @@ from bokeh.models.glyphs import Text
 from bokeh.application import Application
 from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
-from bokeh.palettes import brewer, OrRd, YlGn
-from bokeh.models.widgets import Button, Select
+from bokeh.palettes import brewer,OrRd,YlGn
+from bokeh.models.widgets import Button,Select
+from bokeh.tile_providers import Vendors,get_provider
+from bokeh.io import output_notebook,show,output_file
 from bokeh.application.handlers import FunctionHandler
-from bokeh.tile_providers import Vendors, get_provider
-from bokeh.io import output_notebook, show, output_file
-from bokeh.layouts import widgetbox, row, column, gridplot
-from bokeh.models import ColumnDataSource, Slider, HoverTool, Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Panel, Tabs
-from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, NumeralTickFormatter, LinearAxis, Grid, Label, Band, Legend, LegendItem
+from bokeh.layouts import widgetbox,row,column,gridplot
+from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,Range1d,WMTSTileSource,BoxZoomTool,TapTool,Panel,Tabs
+from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,NumeralTickFormatter,LinearAxis,Grid,Label,Band,Legend,LegendItem
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='05-November-2020'
+LAST_UPDATE_DATE='06-November-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
@@ -47,7 +47,7 @@ def os_style_formatter(input_str):
     os_env=os.environ['OS'] 
   except:
     os_env='unknown'
-  return str(input_str).replace('/', "\\") if os_env == 'Windows_NT' else str(input_str)  
+  return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
   India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
