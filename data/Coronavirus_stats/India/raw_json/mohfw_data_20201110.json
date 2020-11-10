@@ -268,9 +268,9 @@
 		"positive": "1719858",
 		"cured": "1577322",
 		"death": "45240",
-		"new_active": "100488",
+		"new_active": "96437",
 		"new_positive": "1723135",
-		"new_cured": "1577322",
+		"new_cured": "1581373",
 		"new_death": "45325",
 		"state_code": "27"
 	},
@@ -478,9 +478,9 @@
 		"positive": "8553657",
 		"cured": "7917373",
 		"death": "126611",
-		"new_active": "505265",
+		"new_active": "501214",
 		"new_positive": "8591730",
-		"new_cured": "7959406",
+		"new_cured": "7963457",
 		"new_death": "127059",
 		"state_code": ""
 		}
