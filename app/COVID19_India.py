@@ -32,7 +32,7 @@ LAST_UPDATE_DATE='15-November-2020'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
-    input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z]+', '',str(state))
+    input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z ]+', '',str(state))
   input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
@@ -444,10 +444,13 @@ if advanced_mode:
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
+  print(preds_df.head(10))
+  print(covid19_data_copy.head(10))
   preds_covid19_df=pd.merge(covid19_data_copy, preds_df, 
                             on='state', 
                             how='left')
   preds_covid19_df=preds_covid19_df.fillna(0)
+  print(preds_covid19_df.head(10))
   
   try:
     del preds_covid19_df['ID']
@@ -462,7 +465,7 @@ if advanced_mode:
   except:
     print('Unable to delete dataframe item: discharged')
 
-  merged_preds_data=covid19_json(preds_covid19_df, India_statewise)
+  merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
   merged_preds_json=merged_preds_data['json_data']
   preds_covid19_data=merged_preds_data['data_frame']
   print(preds_covid19_data['state'].equals(covid19_data['state']))
