@@ -33,6 +33,7 @@ LAST_UPDATE_DATE='15-November-2020'
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
     input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z ]+', '',str(state))
+  input_df.loc[input_df['state']=='Telengana','state']='Telangana'  
   input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
