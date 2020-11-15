@@ -30,17 +30,13 @@ enable_GeoJSON_saving=False
 LAST_UPDATE_DATE='15-November-2020'
 
 def apply_corrections(input_df):
-  input_df.loc[input_df['state']=='Telengana','state']='Telangana'
-  input_df.loc[input_df['state']=='Telengana***','state']='Telangana'
-  input_df.loc[input_df['state']=='Telangana***','state']='Telangana' 
-  input_df.loc[input_df['state']=='Maharashtra***','state']='Maharashtra' 
-  input_df.loc[input_df['state']=='Nagaland#','state']='Nagaland'
-  input_df.loc[input_df['state']=='Jharkhand#','state']='Jharkhand'
+  for state in list(input_df['state'].values):
+    input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z]+', '',str(state))
   input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
   input_df.loc[input_df['state']=='Daman & Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
-  input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'  
+  input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
   return input_df
 
 def os_style_formatter(input_str):

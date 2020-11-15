@@ -4,7 +4,7 @@ ID,state,total_cases,discharged,deaths,active_cases
 3,Arunachal Pradesh,15792,14421,48,1323
 4,Assam,210175,205250,961,3964
 5,Bihar,225595,218689,1179,5727
-6,Chandigarh***,15636,14381,246,1009
+6,Chandigarh,15636,14381,246,1009
 7,Chhattisgarh,210004,188167,2562,19275
 8,Dadra and Nagar Haveli and Daman and Diu,3285,3263,2,20
 9,Delhi,482170,430195,7519,44456
@@ -26,7 +26,7 @@ ID,state,total_cases,discharged,deaths,active_cases
 25,Nagaland,9750,8891,52,807
 26,Odisha,307906,296516,1510,9880
 27,Puducherry,36299,34637,608,1054
-28,Punjab***,140605,130406,4428,5771
+28,Punjab,140605,130406,4428,5771
 29,Rajasthan,223633,203524,2056,18053
 30,Sikkim,4456,4073,87,296
 31,Tamil Nadu,756372,727752,11466,17154
