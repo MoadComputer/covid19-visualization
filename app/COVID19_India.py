@@ -27,7 +27,7 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,NumeralTic
 
 verbose=False
 enable_GeoJSON_saving=False
-LAST_UPDATE_DATE='14-November-2020'
+LAST_UPDATE_DATE='15-November-2020'
 
 def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Telengana','state']='Telangana'
