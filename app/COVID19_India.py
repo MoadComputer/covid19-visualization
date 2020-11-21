@@ -381,7 +381,7 @@ def covid19_plot(covid19_geosource,
              x_range=(xmin, xmax) if map_overlay else None,
              y_range=(ymin, ymax) if map_overlay else None,
              tools='save' if enable_toolbar else '', 
-             plot_height = 600, plot_width = 600,
+             plot_height = 580, plot_width = 580,
              toolbar_location = 'left' if enable_toolbar else None,
              lod_factor=int(1e7),
              lod_threshold=int(2),
@@ -441,7 +441,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title=" ■■■ ")
 
 if advanced_mode:
-  preds_df.columns=['id','state',                                                  \
+  preds_df.columns=['id','state',                                                   \
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
