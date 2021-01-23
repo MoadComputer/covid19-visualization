@@ -272,3 +272,4 @@ date,total_cases,preds_cases,preds_cases_3,preds_cases_7,preds_cases_std,preds_c
 20210120,21,15,0,0,0,0,0
 20210121,30,22,0,0,0,0,0
 20210122,48,31,15,0,0,0,0
+20210123,50,51,23,0,1,0,0
