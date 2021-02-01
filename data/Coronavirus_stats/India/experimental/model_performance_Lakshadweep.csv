@@ -281,3 +281,4 @@ date,total_cases,preds_cases,preds_cases_3,preds_cases_7,preds_cases_std,preds_c
 20210129,69,72,72,56,0,1,0
 20210130,70,72,74,59,2,0,0
 20210131,79,71,74,67,0,1,0
+20210201,87,81,73,70,0,0,1
