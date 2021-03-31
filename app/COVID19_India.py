@@ -665,7 +665,12 @@ def model_performancePlot(source,
     perfPlot.xaxis.axis_label='Date'
     perfPlot.yaxis.axis_label=' '
     perfPlot.yaxis.axis_label_text_align='left'
+    #perfPlot.yaxis.axis_label_text_font='times'
+    perfPlot.xaxis.axis_label_text_font='times'
+    perfPlot.xaxis.major_label_text_font='times'
+    perfPlot.yaxis.major_label_text_font='times'
     perfPlot.add_layout(LinearAxis(axis_label='COVID19 cases',
+                                   axis_label_text_font='times',
                                    major_tick_line_color=None,
                                    minor_tick_line_color=None,
                                    major_label_text_font_size='0pt',
