@@ -369,7 +369,7 @@ def covid19_plot(covid19_geosource,
     format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
                                      str(np.round((input_df[input_field].values.astype('float')),1)))
   color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=12, 
+                       label_standoff=14, 
                        formatter=format_tick,
                        border_line_color=None, 
                        major_label_text_font_size='12px',
@@ -600,7 +600,7 @@ def model_performancePlot(source,
                                              ('Cases: ','@y_cases')]
 
     perfPlot=figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
-                    plot_height=510, plot_width=510,
+                    plot_height=500, plot_width=500,
                     tools='hover', 
                     toolbar_location=None,
                     tooltips=TOOLTIPS)
