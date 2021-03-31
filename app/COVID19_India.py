@@ -600,6 +600,7 @@ def model_performancePlot(source,
                                              ('Cases: ','@y_cases')]
 
     perfPlot=figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
+                    y_axis_location='left',
                     plot_height=500, plot_width=500,
                     tools='hover', 
                     toolbar_location=None,
@@ -662,7 +663,13 @@ def model_performancePlot(source,
     
     perfPlot.xaxis.major_label_overrides=dateLabels
     perfPlot.xaxis.axis_label='Date'
-    perfPlot.yaxis.axis_label='COVID19 cases'
+    perfPlot.yaxis.axis_label=' '
+    perfPlot.yaxis.axis_label_text_align='left'
+    perfPlot.add_layout(LinearAxis(axis_label='COVID19 cases',
+                                   major_tick_line_color=None,
+                                   minor_tick_line_color=None,
+                                   major_label_text_font_size='0pt',
+                                   major_label_orientation=math.pi), 'right')
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
 
     band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
