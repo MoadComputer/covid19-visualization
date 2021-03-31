@@ -287,8 +287,8 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
 def CustomTitleFormatter():
   xtext=8350000
   ytext=4425000
-  xbox=9250000
-  ybox=4525000
+  xbox=9252500
+  ybox=4550000
   return xtext, ytext, xbox, ybox
 
 def CustomTitleOverlay(plt,  
