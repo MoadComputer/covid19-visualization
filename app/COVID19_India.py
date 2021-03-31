@@ -369,10 +369,10 @@ def covid19_plot(covid19_geosource,
     format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
                                      str(np.round((input_df[input_field].values.astype('float')),1)))
   color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=15, 
+                       label_standoff=14, 
                        formatter=format_tick,
                        border_line_color=None, 
-                       major_label_text_font_size='14px',
+                       major_label_text_font_size='12px',
                        location = (0, 0))
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
   hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats)
@@ -381,7 +381,7 @@ def covid19_plot(covid19_geosource,
              x_range=(xmin, xmax) if map_overlay else None,
              y_range=(ymin, ymax) if map_overlay else None,
              tools='save' if enable_toolbar else '', 
-             plot_height = 580, plot_width = 580,
+             plot_height = 530, plot_width = 530,
              toolbar_location = 'left' if enable_toolbar else None,
              lod_factor=int(1e7),
              lod_threshold=int(2),
