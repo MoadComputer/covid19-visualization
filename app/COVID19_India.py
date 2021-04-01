@@ -49,10 +49,10 @@ def os_style_formatter(input_str):
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
-  India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/master/data/GeoJSON_assets/India_statewise_minified.geojson')
-  India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
-  covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
-  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/output_preds.csv')
+  India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/main/data/GeoJSON_assets/India_statewise_minified.geojson')
+  India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+  covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
   India_GeoJSON_repoFile=os_style_formatter(
       './GitHub/MoadComputer/covid19-visualization/data/GeoJSON_assets/India_statewise_minified.geojson')  
@@ -699,7 +699,7 @@ def date_formatter(x):
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  DATA_SOURCE='https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_'
+  DATA_SOURCE='https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_'
   DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
   DATA_URL=DATA_URL.replace(" ", "%20")
@@ -755,7 +755,7 @@ def update_plot(attrname, old, new):
 curdoc().title=app_title
 if advanced_mode:
   try:
-    modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/master/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
   except:
     India_modelPerformance_file=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
