@@ -438,7 +438,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
                                   enable_IndiaStats=True,
                                   integer_plot=True,
                                   plot_title=plot_title)
-basicPlot_tab = Panel(child=basic_covid19_plot, title=" 🏠 ")
+basicPlot_tab = Panel(child=basic_covid19_plot, title="⌂")
 
 if advanced_mode:
   preds_df.columns=['id','state',                                                   \
