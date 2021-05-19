@@ -1,5 +1,5 @@
 # covid19-visualization
-Visualization tool for COVID19 outbreak using GeoPandas and Bokeh
+Visualization tool for COVID19 outbreak in India using GeoPandas and Bokeh
 
 ## **App deployment**
 
