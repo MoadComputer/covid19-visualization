@@ -145,7 +145,7 @@ def CustomPalette(palette_type, enable_colorInverse=True):
     palette = palette[::1]
   return palette
 
-def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool):
+def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool, perfstats_hovertool):
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
@@ -195,6 +195,18 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                    '{(0,0)}',
                                                    LAST_UPDATE_DATE))
 
+  perfStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
+                                           <font face="Arial" size="3">Cases: @total_cases{}</font><br>
+                                           <font face="Arial" size="3">Deaths: @deaths{} </font>
+                                           <hr>  
+                                           <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
+                                           <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong><br>
+                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
+                                        """.format('{(0,0)}', 
+                                                   '{(0,0)}',
+                                                   LAST_UPDATE_DATE,
+                                                   FORECASTS_UPDATE_DATE))
+
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
                                          #('Discharged/migrated', '@discharged'),
@@ -206,6 +218,8 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
     hover = advancedStats_hover
   elif custom_hoverTool:
     hover  = simpleStats_hover
+  elif perfstats_hovertool:
+    hover = perfStats_hover
   else:
     hover = standard_hover
   
@@ -361,6 +375,7 @@ def covid19_plot(covid19_geosource,
                  enable_IndiaStats=False,                 
                  enable_advancedStats=False,
                  enable_performanceStats=False,
+                 enable_foecastPerf=False,
                  enable_toolbar=False):
   
   palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performanceStats else True)
@@ -381,7 +396,7 @@ def covid19_plot(covid19_geosource,
                        major_label_text_font_size='12px',
                        location = (0, 0))
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
-  hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats)
+  hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats,enable_foecastPerf)
 
   plt=figure(title = plot_title,
              x_range=(xmin, xmax) if map_overlay else None,
@@ -593,7 +608,8 @@ def model_performancePlot(source,
                   <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std{})</strong></p></font>
                   <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std{})</strong></p></font>
                   <hr>
-                  <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
+                  <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
+                  <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
@@ -601,7 +617,8 @@ def model_performancePlot(source,
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
-                                                                                                                    LAST_UPDATE_DATE)           \
+                                                                                                                    LAST_UPDATE_DATE,
+                                                                                                                    FORECASTS_UPDATE_DATE)      \
                if custom_perfHoverTool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
