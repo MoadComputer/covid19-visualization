@@ -29,7 +29,8 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,NumeralTic
 verbose=False
 enable_GeoJSON_saving=False
 
-LAST_UPDATE_DATE='27-May-2021'
+LAST_UPDATE_DATE='28-May-2021'
+FORECASTS_UPDATE_DATE='27-May-2021'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
@@ -153,7 +154,8 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                              <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3{} (±@preds_cases_3_std{})</strong></p></font>
                                              <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7{} (±@preds_cases_7_std{})</strong></p></font>
                                              <hr>  
-                                             <strong><font face="Arial" size="1">Updated on: {}</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Data updated on: {}</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
                                              <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
                                              """.format('{(0,0)}', 
                                                         '{(0,0)}', 
@@ -162,7 +164,8 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
-                                                        LAST_UPDATE_DATE))
+                                                        LAST_UPDATE_DATE,
+                                                        FORECASTS_UPDATE_DATE))
 
 
   performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
@@ -173,12 +176,14 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool)
                                                 <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
                                                 <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
+                                                <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
+                                                <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
                                                 <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    
                                               """.format('{(0.000)}', 
                                                          '{(0.000)}', 
                                                          '{(0.000)}',
-                                                         LAST_UPDATE_DATE))
+                                                         LAST_UPDATE_DATE,
+                                                         FORECASTS_UPDATE_DATE))
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases{}</font><br>
