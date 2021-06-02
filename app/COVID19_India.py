@@ -156,7 +156,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                              <hr>  
                                              <strong><font face="Arial" size="1">Data updated on: {}</font></strong> <br>
                                              <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
-                                             <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong> <br>
+                                             <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong> <br>
                                              """.format('{(0,0)}', 
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
@@ -178,7 +178,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                                 <hr>  
                                                 <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
                                                 <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
-                                                <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>                                                    
+                                                <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong>                                                    
                                               """.format('{(0.000)}', 
                                                          '{(0.000)}', 
                                                          '{(0.000)}',
@@ -610,7 +610,7 @@ def model_performancePlot(source,
                   <hr>
                   <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
                   <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong><br> 
-                  <strong><font face="Arial" size="1">Forecast by: https://moad.computer</font></strong>""".format('{(0,0)}',
+                  <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong>""".format('{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
