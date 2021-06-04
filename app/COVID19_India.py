@@ -29,7 +29,7 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,NumeralTic
 verbose=False
 enable_GeoJSON_saving=False
 
-LAST_UPDATE_DATE='03-June-2021'
+DATA_UPDATE_DATE='04-June-2021'
 FORECASTS_UPDATE_DATE='03-June-2021'
 
 def apply_corrections(input_df):
@@ -164,7 +164,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
                                                         '{(0,0)}', 
-                                                        LAST_UPDATE_DATE,
+                                                        DATA_UPDATE_DATE,
                                                         FORECASTS_UPDATE_DATE))
 
 
@@ -182,7 +182,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                               """.format('{(0.000)}', 
                                                          '{(0.000)}', 
                                                          '{(0.000)}',
-                                                         LAST_UPDATE_DATE,
+                                                         DATA_UPDATE_DATE,
                                                          FORECASTS_UPDATE_DATE))
 
   simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
@@ -193,7 +193,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                            <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
                                         """.format('{(0,0)}', 
                                                    '{(0,0)}',
-                                                   LAST_UPDATE_DATE))
+                                                   DATA_UPDATE_DATE))
 
   perfStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
                                            <font face="Arial" size="3">Cases: @total_cases{}</font><br>
@@ -204,7 +204,7 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                            <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
                                         """.format('{(0,0)}', 
                                                    '{(0,0)}',
-                                                   LAST_UPDATE_DATE,
+                                                   DATA_UPDATE_DATE,
                                                    FORECASTS_UPDATE_DATE))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
@@ -617,7 +617,7 @@ def model_performancePlot(source,
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
                                                                                                                    '{(0,0)}',
-                                                                                                                    LAST_UPDATE_DATE,
+                                                                                                                    DATA_UPDATE_DATE,
                                                                                                                     FORECASTS_UPDATE_DATE)      \
                if custom_perfHoverTool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
