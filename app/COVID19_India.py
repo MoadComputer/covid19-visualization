@@ -35,14 +35,14 @@ FORECASTS_UPDATE_DATE='19-July-2021'
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
     input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z ]+', '',str(state))
-    input_df.loc[input_df['state']=='Karanataka','state']='Karnataka' 
-    input_df.loc[input_df['state']=='Himanchal Pradesh','state']='Himachal Pradesh' 
-    input_df.loc[input_df['state']=='Telengana','state']='Telangana'  
-    input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
-    input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
-    input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
-    input_df.loc[input_df['state']=='Daman & Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
-    input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Karanataka','state']='Karnataka' 
+  input_df.loc[input_df['state']=='Himanchal Pradesh','state']='Himachal Pradesh' 
+  input_df.loc[input_df['state']=='Telengana','state']='Telangana'  
+  input_df.loc[input_df['state']=='Dadra and Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Dadar Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Dadra Nagar Haveli','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Daman & Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
+  input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
   return input_df
 
 def os_style_formatter(input_str):
