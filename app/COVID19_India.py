@@ -780,7 +780,7 @@ def update_plot(attrname, old, new):
 curdoc().title=app_title
 if advanced_mode:
   try:
-    modelPerformance=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    modelPerformance=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
   except:
     India_modelPerformance_file=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
