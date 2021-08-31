@@ -724,7 +724,7 @@ def date_formatter(x):
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  DATA_SOURCE='https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_'
+  DATA_SOURCE='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/experimental/model_performance_'
   DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
   DATA_URL=DATA_URL.replace(" ", "%20")
