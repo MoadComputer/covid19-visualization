@@ -724,7 +724,7 @@ def date_formatter(x):
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  DATA_SOURCE='https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_'
+  DATA_SOURCE='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_'
   DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
   DATA_URL=DATA_URL.replace(" ", "%20")
@@ -780,7 +780,7 @@ def update_plot(attrname, old, new):
 curdoc().title=app_title
 if advanced_mode:
   try:
-    modelPerformance=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    modelPerformance=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
   except:
     India_modelPerformance_file=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
