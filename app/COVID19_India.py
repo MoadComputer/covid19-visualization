@@ -1,12 +1,5 @@
-﻿import os
-import re
-import sys
-import math
-import json
-import bokeh
-import geopandas
-import numpy as np
-import pandas as pd
+﻿import os, re, sys, math, json, bokeh, geopandas, \
+       numpy as np, pandas as pd
 
 from scipy.interpolate import interp1d 
 
