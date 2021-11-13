@@ -1,8 +1,5 @@
-﻿import os, re, sys, math, json, bokeh, geopandas, \
-       numpy as np, pandas as pd
-
+﻿import os, re, sys, math, json, bokeh, geopandas, numpy as np, pandas as pd
 from scipy.interpolate import interp1d 
-
 from bokeh.io.doc import curdoc
 from bokeh.layouts import layout
 from bokeh.plotting import figure
