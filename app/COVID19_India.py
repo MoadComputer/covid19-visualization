@@ -13,14 +13,17 @@ from bokeh.tile_providers import Vendors,get_provider
 from bokeh.io import output_notebook,show,output_file
 from bokeh.application.handlers import FunctionHandler
 from bokeh.layouts import widgetbox,row,column,gridplot
-from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,Range1d,WMTSTileSource,BoxZoomTool,TapTool,Panel,Tabs
-from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,NumeralTickFormatter,LinearAxis,Grid,Label,Band,Legend,LegendItem
+from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
+                         Range1d,WMTSTileSource,BoxZoomTool,TapTool,Panel,Tabs
+from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
+                         NumeralTickFormatter, LinearAxis,Grid,Label,Band,    \
+                         Legend,LegendItem
 
 verbose=False
 enable_GeoJSON_saving=False
 
 DATA_UPDATE_DATE='14-November-2021'
-FORECASTS_UPDATE_DATE='13-November-2021'
+FORECASTS_UPDATE_DATE='14-November-2021'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
