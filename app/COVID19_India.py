@@ -690,9 +690,10 @@ def model_performancePlot(source,
                                    minor_tick_line_color=None,
                                    major_label_text_font_size='0pt',
                                    major_label_orientation=math.pi,), 'right')
+    perfPlot.right[0].axis_line_color=None
     perfPlot.right[0].formatter.use_scientific=False
     perfPlot.right[0].ticker.num_minor_ticks=0
-    perfPlot.right[1].ticker.num_minor_ticks=0
+    #perfPlot.right[1].ticker.num_minor_ticks=0
     #perfPlot.right[0].visible=False
     perfPlot.yaxis.major_label_orientation=(math.pi*.75)/2
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
