@@ -22,7 +22,7 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='26-November-2021'
+DATA_UPDATE_DATE='27-November-2021'
 FORECASTS_UPDATE_DATE='26-November-2021'
 
 def apply_corrections(input_df):
@@ -102,9 +102,10 @@ covid19_data_copy=covid19_data.copy()
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
 if verbose:
   print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
-  print('\nStates in India with no COVID19 reports:')
-  for noCOVID19_state in noCOVID19_list:
-    print('\n{} ...'.format(noCOVID19_state))
+  if len(noCOVID19_list)>=1:
+    print('\nStates in India with no COVID19 reports:')
+    for noCOVID19_state in noCOVID19_list:
+      print('\n{} ...'.format(noCOVID19_state))
 
 def covid19_json(covid_df, geo_df,verbose=False):
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
