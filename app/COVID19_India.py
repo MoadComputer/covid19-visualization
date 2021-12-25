@@ -23,7 +23,7 @@ verbose=False
 enable_GeoJSON_saving=False
 
 DATA_UPDATE_DATE='25-December-2021'
-FORECASTS_UPDATE_DATE='24-December-2021'
+FORECASTS_UPDATE_DATE='25-December-2021'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
