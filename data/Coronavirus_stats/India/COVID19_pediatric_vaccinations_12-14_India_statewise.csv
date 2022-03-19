@@ -1,38 +1,38 @@
 ID,state,dose_1,dose_2,total_doses
 1,Andaman and Nicobar Islands,487,0,487
-2,Andhra Pradesh,86911,0,86911
-3,Arunachal Pradesh,100,0,100
-4,Assam,7127,0,7127
-5,Bihar,9337,0,9337
+2,Andhra Pradesh,123284,0,123284
+3,Arunachal Pradesh,122,0,122
+4,Assam,7548,0,7548
+5,Bihar,9764,0,9764
 6,Chandigarh,127,0,127
-7,Chhattisgarh,8094,0,8094
+7,Chhattisgarh,8142,0,8142
 8,Dadra and Nagar Haveli and Daman and Diu,1156,0,1156
 9,Delhi,7844,0,7844
-10,Goa,2625,0,2625
-11,Gujarat,347900,0,347900
-12,Haryana,17640,0,17640
-13,Himachal Pradesh,11442,0,11442
-14,Jammu and Kashmir,27715,0,27715
-15,Jharkhand,9875,0,9875
-16,Karnataka,30193,0,30193
-17,Kerala,1907,0,1907
+10,Goa,2681,0,2681
+11,Gujarat,350010,0,350010
+12,Haryana,18012,0,18012
+13,Himachal Pradesh,11444,0,11444
+14,Jammu and Kashmir,43563,0,43563
+15,Jharkhand,10884,0,10884
+16,Karnataka,70634,0,70634
+17,Kerala,9341,0,9341
 18,Ladakh,1553,0,1553
-19,Lakshadweep,536,0,536
+19,Lakshadweep,837,0,837
 20,Madhya Pradesh,0,0,0
-21,Maharashtra,42973,0,42973
-22,Manipur,682,0,682
-23,Meghalaya,39,0,39
+21,Maharashtra,44950,0,44950
+22,Manipur,834,0,834
+23,Meghalaya,69,0,69
 24,Mizoram,62,0,62
 25,Nagaland,27,0,27
-26,Odisha,47584,0,47584
-27,Puducherry,50,0,50
-28,Punjab,12518,0,12518
-29,Rajasthan,80676,0,80676
+26,Odisha,63091,0,63091
+27,Puducherry,117,0,117
+28,Punjab,13193,0,13193
+29,Rajasthan,82693,0,82693
 30,Sikkim,20,0,20
-31,Tamil Nadu,85596,0,85596
-32,Telangana,46191,0,46191
-33,Tripura,2143,0,2143
-34,Uttarakhand,3398,0,3398
-35,Uttar Pradesh,10092,0,10092
+31,Tamil Nadu,220347,0,220347
+32,Telangana,49210,0,49210
+33,Tripura,2203,0,2203
+34,Uttarakhand,3399,0,3399
+35,Uttar Pradesh,10378,0,10378
 36,West Bengal,80,0,80
 37,Miscellaneous,0,0,0
