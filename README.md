@@ -31,16 +31,7 @@ Visualization tool for COVID19 outbreak in India using GeoPandas and Bokeh
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
   [![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Google_Colab_howto.png)](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/COVID19_India.ipynb)
 
-### 2. Web application ([eg. using Heroku](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python))
-
-* Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and login to your Heroku account
-* Git clone this repo: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
-* Edit the Procfile: ```web: bokeh serve --port=$PORT --address=0.0.0.0 --allow-websocket-origin=<YOUR_APP_ADDRESS> --use-xheaders app/COVID19_India.py```
-* Git commit: ```git commit -am 'COVID19 visualization tool'```
-* Deploy to Heroku: ```git push heroku main```
-* (Optional) Restart the Heroku dyno: ```heroku restart -a <YOUR_APP_NAME>```
-
-### 3. Bokeh server app
+### 2. Bokeh server app
 
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
 * Launch the Bokeh server: ```bokeh serve --show ./app/COVID19_India.py```
