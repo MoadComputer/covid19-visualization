@@ -22,7 +22,7 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='21-January-2023'
+DATA_UPDATE_DATE='22-January-2023'
 FORECASTS_UPDATE_DATE='21-January-2023'
 
 def apply_corrections(input_df):
