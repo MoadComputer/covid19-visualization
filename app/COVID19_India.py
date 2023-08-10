@@ -1,4 +1,5 @@
 import os, re, sys, math, json, bokeh, geopandas, numpy as np, pandas as pd
+
 from scipy.interpolate import interp1d 
 from bokeh.io.doc import curdoc
 from bokeh.layouts import layout
@@ -22,7 +23,7 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='09-August-2023'
+DATA_UPDATE_DATE='10-August-2023'
 FORECASTS_UPDATE_DATE='09-August-2023'
 
 def apply_corrections(input_df):
