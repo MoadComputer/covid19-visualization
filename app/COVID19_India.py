@@ -10,10 +10,10 @@ from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
 from bokeh.palettes import brewer,OrRd,YlGn
 from bokeh.models.widgets import Button,Select
-from bokeh.tile_providers import Vendors,get_provider
-from bokeh.io import output_notebook,show,output_file
+from bokeh.tile_providers import Vendors
+from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
-from bokeh.layouts import widgetbox,row,column,gridplot
+from bokeh.layouts import row,column,gridplot
 from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
                          Range1d,WMTSTileSource,BoxZoomTool,TapTool,Panel,Tabs
 from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
@@ -399,7 +399,7 @@ def covid19_plot(covid19_geosource,
              x_range=(xmin, xmax) if map_overlay else None,
              y_range=(ymin, ymax) if map_overlay else None,
              tools='save' if enable_toolbar else '', 
-             plot_height = 530, plot_width = 530,
+             outer_height = 530, outer_width = 530,
              toolbar_location = 'left' if enable_toolbar else None,
              lod_factor=int(1e7),
              lod_threshold=int(2),
