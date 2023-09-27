@@ -60,7 +60,7 @@ Visualization tool for COVID19 outbreak in India using GeoPandas and Bokeh
 * Install app dependencies: ```python3 -m pip install fiona geopandas shapely bokeh --no-deps```
 * Install ```visvalingamwyatt``` for GeoJSON minification: ```python3 -m pip install visvalingamwyatt```
 
-**For Windows users (Using [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2022.10-Windows-x86_64.exe))**
+**For Windows users (Using [Anaconda Python3](https://repo.anaconda.com/archive/Anaconda3-2023.07-2-Windows-x86_64.exe))**
 
 * Create virtual Anaconda3 environment: ```conda create -n GeoPandas -c conda-forge python=3.8 geopandas --yes```
 * Activate virtual Anaconda3 environment: ```conda env activate GeoPandas```
