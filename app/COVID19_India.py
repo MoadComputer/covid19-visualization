@@ -15,10 +15,14 @@ from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
 from bokeh.layouts import row,column,gridplot
 from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
-                         Range1d,WMTSTileSource,BoxZoomTool,TapTool,Panel,Tabs
+                         Range1d,WMTSTileSource,BoxZoomTool,TapTool, Tabs
 from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
                          NumeralTickFormatter, LinearAxis,Grid,Label,Band,    \
                          Legend,LegendItem
+try:
+    from bokeh.models import Panel
+except:
+    from bokeh.models import TabPanel as Panel
 
 verbose=False
 enable_GeoJSON_saving=False
@@ -621,7 +625,7 @@ def model_performancePlot(source,
 
     perfPlot=figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
                     y_axis_location='left',
-                    plot_height=500, plot_width=500,
+                    outer_height=500, outer_width=500,
                     tools='hover', 
                     toolbar_location=None,
                     tooltips=TOOLTIPS)
