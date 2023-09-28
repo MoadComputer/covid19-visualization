@@ -70,5 +70,8 @@ Visualization tool for COVID19 outbreak in India using GeoPandas and Bokeh
 * Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
 * Install nbformat: ```conda install -n GeoPandas -c anaconda nbformat```
 * Update nbformat: ```conda update nbformat```
+* Install jupyter: ```conda install jupyter```
+* Update jupyter: ```conda update jupyter```
 * Install ```visvalingamwyatt``` for GeoJSON minification: ```python -m pip install visvalingamwyatt```
+* Launch jupyter: ```python -m notebook```
 * To remove the application: deactivate the virtual environment ```conda deactivate GeoPandas``` and run ```conda env remove --name GeoPandas```
