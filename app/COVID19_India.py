@@ -27,7 +27,7 @@ except:
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='23-November-2023'
+DATA_UPDATE_DATE='24-November-2023'
 FORECASTS_UPDATE_DATE='23-November-2023'
 
 def apply_corrections(input_df):
