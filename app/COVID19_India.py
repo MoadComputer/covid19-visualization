@@ -51,10 +51,10 @@ def os_style_formatter(input_str):
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
-  India_statewise=geopandas.read_file('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/GeoJSON_assets/India_statewise_minified.geojson')
-  India_stats=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
-  covid19_data=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
-  preds_df=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/experimental/output_preds.csv')
+  India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/main/data/GeoJSON_assets/India_statewise_minified.geojson')
+  India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+  covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
   India_GeoJSON_repoFile=os_style_formatter(
       './GitHub/MoadComputer/covid19-visualization/data/GeoJSON_assets/India_statewise_minified.geojson')  
