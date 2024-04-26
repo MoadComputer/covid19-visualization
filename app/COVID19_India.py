@@ -23,7 +23,8 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
 bokeh_version = bokeh.__version__ 
 print('Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: ', bokeh_version)
 
-if version.parse(bokeh_version) >= version.parse('3.4.1'):
+version_check = version.parse(bokeh_version) >= version.parse('3.4.1')
+if version_check:
     from bokeh.models import TabPanel as Panel
     from bokeh.layouts import column
 else:
@@ -42,6 +43,8 @@ enable_GeoJSON_saving=False
 
 DATA_UPDATE_DATE='25-April-2024'
 FORECASTS_UPDATE_DATE='25-April-2024'
+
+DATA_URL='https://github.com/MoadComputer/covid19-visualization/raw/main/data'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
@@ -64,10 +67,10 @@ def os_style_formatter(input_str):
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
-  India_statewise=geopandas.read_file('https://github.com/MoadComputer/covid19-visualization/raw/main/data/GeoJSON_assets/India_statewise_minified.geojson')
-  India_stats=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
-  covid19_data=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
-  preds_df=pd.read_csv('https://github.com/MoadComputer/covid19-visualization/raw/main/data/Coronavirus_stats/India/experimental/output_preds.csv')
+  India_statewise=geopandas.read_file(f'{DATA_URL}/GeoJSON_assets/India_statewise_minified.geojson')
+  India_stats=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+  covid19_data=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/COVID19_India_statewise.csv')
+  preds_df=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
   India_GeoJSON_repoFile=os_style_formatter(
       './GitHub/MoadComputer/covid19-visualization/data/GeoJSON_assets/India_statewise_minified.geojson')  
@@ -102,6 +105,11 @@ except:
     print('Advanced mode disabled ...')
     advanced_mode=False  
     
+preds_df = preds_df[['state',                                                   \
+                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
+                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
+                    'MAPE', 'MAPE_3', 'MAPE_7']]
+
 India_statewise=apply_corrections(India_statewise)
 if enable_GeoJSON_saving:
   India_statewise.to_file("India_statewise_minified.geojson", driver='GeoJSON')
@@ -309,13 +317,18 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
                                         total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
                                         deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']]))
 
-  plt.circle(x='x', y='y', 
-             size=25, 
-             source=source,
-             line_color='purple',
-             fill_alpha=0.075,
-             nonselection_alpha=0.20,
-             color='blue')
+  if version_check:
+    plot_circle = plt.scatter
+  else:
+    plot_circle = plt.circle
+
+  plot_circle(x='x', y='y', 
+              size=25, 
+              source=source,
+              line_color='purple',
+              fill_alpha=0.075,
+              nonselection_alpha=0.20,
+              color='blue')
   return plt
 
 def CustomTitleFormatter():
@@ -476,7 +489,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title="⌂")
 
 if advanced_mode:
-  preds_df.columns=['id','state',                                                   \
+  preds_df.columns=['state',                                                   \
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
