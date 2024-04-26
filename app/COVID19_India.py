@@ -738,14 +738,14 @@ def date_formatter(x):
 
 def make_dataset(state):
   DATA_SOURCE=f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_'
-  MODEL_PERF_REPO_URL='{}{}.csv'.format(DATA_SOURCE,
+  MODEL_PERF_DATA_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
-  MODEL_PERF_REPO_URL=MODEL_PERF_REPO_URL.replace(" ", "%20")
+  MODEL_PERF_DATA_URL=MODEL_PERF_DATA_URL.replace(" ", "%20")
   DATA_FILE=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
             state))
   try:
-    modelPerformance=pd.read_csv(MODEL_PERF_REPO_URL)
+    modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
     print('Reading model performance for: {} from URL ...'.format(state))
   except:
     if os.path.exists(DATA_FILE):
