@@ -6,6 +6,7 @@ from bokeh.layouts import layout
 from bokeh.plotting import figure
 from bokeh.models.glyphs import Text
 from scipy.interpolate import interp1d
+from datetime import datetime, timedelta
 from bokeh.application import Application
 from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
@@ -45,6 +46,7 @@ DATA_UPDATE_DATE='25-April-2024'
 FORECASTS_UPDATE_DATE='25-April-2024'
 
 DATA_URL='https://github.com/MoadComputer/covid19-visualization/raw/main/data'
+LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
 
 def apply_corrections(input_df):
   for state in list(input_df['state'].values):
@@ -73,13 +75,13 @@ try:
   preds_df=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/output_preds.csv')
 except:
   India_GeoJSON_repoFile=os_style_formatter(
-      './GitHub/MoadComputer/covid19-visualization/data/GeoJSON_assets/India_statewise_minified.geojson')  
+      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson')  
   covid19_statewise_repoFile=os_style_formatter(
-      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/COVID19_India_statewise.csv')
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/COVID19_India_statewise.csv')
   India_statewise_statsFile=os_style_formatter(
-      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/Population_stats_India_statewise.csv')
   saved_predsFile=os_style_formatter(
-      './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/output_preds.csv') 
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/output_preds.csv') 
     
   if os.path.exists(India_GeoJSON_repoFile):
     India_statewise=geopandas.read_file(India_GeoJSON_repoFile)  
@@ -731,25 +733,23 @@ def model_performancePlot(source,
     perfPlot.renderers.append(band7)
     return perfPlot
 
-from datetime import datetime, timedelta
 def date_formatter(x):
   datetimeobject = datetime.strptime(str(x),'%Y%m%d')
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  DATA_SOURCE=f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_'
-  MODEL_PERF_DATA_URL='{}{}.csv'.format(DATA_SOURCE,
-                             state)
+  MODEL_PERF_DATA_SOURCE=f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_'
+  MODEL_PERF_DATA_URL='{}{}.csv'.format(MODEL_PERF_DATA_SOURCE, state)
   MODEL_PERF_DATA_URL=MODEL_PERF_DATA_URL.replace(" ", "%20")
-  DATA_FILE=os_style_formatter(
-        './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
-            state))
+  MODEL_PERF_DATA_FILE=os_style_formatter(
+        '{}/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
+            LOCAL_DATA_DIR, state))
   try:
     modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
     print('Reading model performance for: {} from URL ...'.format(state))
   except:
-    if os.path.exists(DATA_FILE):
-      modelPerformance=pd.read_csv(DATA_FILE)  
+    if os.path.exists(MODEL_PERF_DATA_FILE):
+      modelPerformance=pd.read_csv(MODEL_PERF_DATA_FILE)  
       print('Reading model performance for: {} from saved repo ...'.format(state))
     else:
       sys.exit('No statewise model performance file found ...')      
@@ -796,7 +796,7 @@ if advanced_mode:
     modelPerformance=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv')
   except:
     India_modelPerformance_file=os_style_formatter(
-        './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+        f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv')
     if os.path.exists(India_modelPerformance_file):
       modelPerformance=pd.read_csv(India_modelPerformance_file)
       print('Reading India model performance file from saved repo ...')      
