@@ -32,7 +32,7 @@ else:
         from bokeh.layouts import column
     except ImportError:
         try:
-	    from bokeh.models import TabPanel as Panel
+            from bokeh.models import TabPanel as Panel
             from bokeh.models.layouts import Column as column
         except Exception as e:
             raise ValueError(f'Failed Bokeh imports due to: {e} ...')
