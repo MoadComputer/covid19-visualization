@@ -472,7 +472,7 @@ def covid19_plot(covid19_geosource,
 advanced_mode=True
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
-plot_title=None#'COVID19 outbreak in India'
+plot_title=None
 app_title='COVID19 India'
 
 India_totalCases=covid19_data['total_cases'].sum()
@@ -691,20 +691,6 @@ def model_performancePlot(source,
                        fill_color='blue', 
                        size=8,
                        source=source)
- 
-    #x_ul_interpol,ul_interpol=LineSmoothing(x,upper_lim)
-    #x_ll_interpol,ll_interpol=LineSmoothing(x,lower_lim)
-    #src_interpol=ColumnDataSource({'x_ul_interpol':x_ul_interpol,'ul_interpol':ul_interpol,
-    #                               'x_ll_interpol':x_ll_interpol,'ll_interpol':ll_interpol})
-    
-    #ul=perfPlot.line(x='x_ul_interpol',
-    #                 y='ul_interpol',
-    #                 source=src_interpol,
-    #                 color='pink')
-    #ll=perfPlot.line(x='x_ll_interpol',
-    #                 y='ll_interpol',
-    #                 source=src_interpol,
-    #                 color='pink')
 
     perfPlot.hover.renderers=[r,r1,r3,r7]
     
@@ -715,7 +701,6 @@ def model_performancePlot(source,
     perfPlot.xaxis.axis_label='Date'
     perfPlot.yaxis.axis_label=' '
     perfPlot.yaxis.axis_label_text_align='left'
-    #perfPlot.yaxis.axis_label_text_font='arial'
     perfPlot.xaxis.axis_label_text_font='arial'
     perfPlot.xaxis.major_label_text_font='arial'
     perfPlot.yaxis.major_label_text_font='arial'
@@ -728,10 +713,8 @@ def model_performancePlot(source,
     perfPlot.right[0].axis_line_color=None
     perfPlot.right[0].formatter.use_scientific=False
     perfPlot.right[0].ticker.num_minor_ticks=0
-    #perfPlot.right[0].visible=False
     perfPlot.yaxis.major_label_orientation=(math.pi*.75)/2
     perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
-    #perfPlot.yaxis.formatter.use_scientific=False
 
     band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
               level='underlay',fill_alpha=0.5,line_width=1,
@@ -754,15 +737,15 @@ def date_formatter(x):
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  DATA_SOURCE='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/experimental/model_performance_'
-  DATA_URL='{}{}.csv'.format(DATA_SOURCE,
+  DATA_SOURCE=f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_'
+  MODEL_PERF_REPO_URL='{}{}.csv'.format(DATA_SOURCE,
                              state)
-  DATA_URL=DATA_URL.replace(" ", "%20")
+  MODEL_PERF_REPO_URL=MODEL_PERF_REPO_URL.replace(" ", "%20")
   DATA_FILE=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
             state))
   try:
-    modelPerformance=pd.read_csv(DATA_URL)
+    modelPerformance=pd.read_csv(MODEL_PERF_REPO_URL)
     print('Reading model performance for: {} from URL ...'.format(state))
   except:
     if os.path.exists(DATA_FILE):
@@ -810,7 +793,7 @@ def update_plot(attrname, old, new):
 curdoc().title=app_title
 if advanced_mode:
   try:
-    modelPerformance=pd.read_csv('https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    modelPerformance=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv')
   except:
     India_modelPerformance_file=os_style_formatter(
         './GitHub/MoadComputer/covid19-visualization/data/Coronavirus_stats/India/experimental/model_performance_India.csv')
