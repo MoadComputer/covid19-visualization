@@ -1,10 +1,11 @@
 import os, re, sys, math, json, bokeh, geopandas, numpy as np, pandas as pd
 
-from scipy.interpolate import interp1d 
+from packaging import version
 from bokeh.io.doc import curdoc
 from bokeh.layouts import layout
 from bokeh.plotting import figure
 from bokeh.models.glyphs import Text
+from scipy.interpolate import interp1d
 from bokeh.application import Application
 from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
@@ -13,16 +14,28 @@ from bokeh.models.widgets import Button,Select
 from bokeh.tile_providers import Vendors
 from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
-from bokeh.layouts import row,column,gridplot
 from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
                          Range1d,WMTSTileSource,BoxZoomTool,TapTool, Tabs
 from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
                          NumeralTickFormatter, LinearAxis,Grid,Label,Band,    \
                          Legend,LegendItem
-try:
-    from bokeh.models import Panel
-except:
+
+bokeh_version = bokeh.__version__ 
+print('Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: ', bokeh_version)
+
+if version.parse(bokeh_version) >= version.parse('3.4.1'):
     from bokeh.models import TabPanel as Panel
+    from bokeh.layouts import column
+else:
+    try:
+        from bokeh.models import Panel
+        from bokeh.layouts import column
+    except ImportError:
+        try:
+	    from bokeh.models import TabPanel as Panel
+            from bokeh.models.layouts import Column as column
+        except Exception as e:
+            raise ValueError(f'Failed Bokeh imports due to: {e} ...')
 
 verbose=False
 enable_GeoJSON_saving=False
