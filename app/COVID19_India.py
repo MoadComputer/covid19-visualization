@@ -14,6 +14,7 @@ from bokeh.palettes import brewer,OrRd,YlGn
 from bokeh.models.widgets import Button,Select
 from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
+from bokeh.plotting import save, figure, output_file as out_file
 from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
                          Range1d,WMTSTileSource,BoxZoomTool,TapTool, Tabs
 from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
@@ -816,7 +817,8 @@ if advanced_mode:
     
   source=make_dataset('India')
   state_select.on_change('value',update_plot) 
-  statewise_plot=model_performance_plot(source,use_cds=True)
+  statewise_plot=model_performance_plot(source,use_cds=False#True
+                  )
   
   statewise_layout=column(state_select,statewise_plot) 
   statewisePerf_tab=Panel(child=statewise_layout,title='Forecast performance') 
@@ -830,3 +832,5 @@ if advanced_mode:
 else:
   covid19_layout = column(basic_covid19_plot)
 curdoc().add_root(covid19_layout)
+out_file('India_COVID19.html')
+save(covid19_layout)
