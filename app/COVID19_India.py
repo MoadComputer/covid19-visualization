@@ -12,7 +12,6 @@ from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
 from bokeh.palettes import brewer,OrRd,YlGn
 from bokeh.models.widgets import Button,Select
-from bokeh.tile_providers import Vendors
 from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
 from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
