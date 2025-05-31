@@ -44,7 +44,7 @@ enable_GeoJSON_saving=False
 DATA_UPDATE_DATE='01-July-2024'
 FORECASTS_UPDATE_DATE='01-July-2024'
 
-DATA_URL='https://github.com/MoadComputer/covid19-visualization/raw/main/data'
+DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
 
 def apply_corrections(input_df):
@@ -106,9 +106,9 @@ except:
     print('Advanced mode disabled ...')
     advanced_mode=False  
     
-preds_df = preds_df[['state',                                                   \
+preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
-                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
+                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',     \
                     'MAPE', 'MAPE_3', 'MAPE_7']]
 
 India_statewise=apply_corrections(India_statewise)
@@ -348,7 +348,7 @@ def CustomTitleOverlay(plt,
                        advanced_plotting=False):
   
   overlayText=Label(x=xtext, y=ytext, 
-                    text="COVID19 in India",
+                    text='COVID19 in India',
                     text_font_size='25pt')
     
   plt.add_layout(overlayText) 
@@ -552,7 +552,7 @@ def LineSmoothing(x,y,
   y_=fn(x_)
   return x_,y_
 
-def model_performancePlot(source, 
+def model_performance_plot(source, 
                           use_cds=False,
                           enable_interpolation=False, 
                           custom_perfHoverTool=True):
@@ -785,8 +785,15 @@ def make_dataset(state):
                            'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
                            'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim})
 
+state_list=list(preds_df['state'])
+state_list.append('India')
+
+state_wise_model_perf_dict = dict()
+for s in list(state_list):
+  state_wise_model_perf_dict.update({s: make_dataset(s)})
+
 def update_plot(attrname, old, new):
-  updated_data=make_dataset(state_select.value) 
+  updated_data=state_wise_model_perf_dict[state_select.value]#make_dataset(state_select.value) 
   source.data.update(updated_data.data)
 
 curdoc().title=app_title
@@ -802,16 +809,14 @@ if advanced_mode:
     else:
       print('Failed to read India model performance file ...')        
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
-  model_perfPlot=model_perfPlot=model_performancePlot(modelPerformance)  
+  model_perfPlot=model_perfPlot=model_performance_plot(modelPerformance)  
   modelPerformance_tab=Panel(child=model_perfPlot,title="Forecast performance") 
-    
-  stateList=list(preds_df['state'])  
-  stateList.append('India')
-  state_select=Select(value='India',title='Select region or state: ',options=sorted(stateList))
+  
+  state_select=Select(value='India',title='Select region or state: ',options=sorted(state_list))
     
   source=make_dataset('India')
   state_select.on_change('value',update_plot) 
-  statewise_plot=model_performancePlot(source,use_cds=True)
+  statewise_plot=model_performance_plot(source,use_cds=True)
   
   statewise_layout=column(state_select,statewise_plot) 
   statewisePerf_tab=Panel(child=statewise_layout,title='Forecast performance') 
