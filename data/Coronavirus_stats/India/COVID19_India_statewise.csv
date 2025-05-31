@@ -1,37 +1,27 @@
 ID,state,total_cases,discharged,deaths,active_cases
-1,Andaman and Nicobar Islands,10766,10637,129,0
-2,Andhra Pradesh,2341097,2326364,14733,0
-3,Arunachal Pradesh,67049,66753,296,0
-4,Assam,746244,738206,8037,1
-5,Bihar,855691,843376,12315,0
-6,Chandigarh,100756,99570,1186,0
-7,Chhattisgarh,1188588,1174386,14202,0
-8,Dadra and Nagar Haveli and Daman and Diu,11592,11588,4,0
-9,Delhi,2043236,2016525,26696,15
-10,Goa,263684,259668,4014,2
-11,Gujarat,1292602,1281495,11100,7
-12,Haryana,1079178,1068392,10786,0
-13,Himachal Pradesh,323111,318865,4246,0
-14,Jammu and Kashmir,482190,477397,4793,0
-15,Jharkhand,443861,438524,5337,0
-16,Karnataka,4097120,4056708,40406,6
-17,Kerala,6920353,6848176,72132,45
-18,Ladakh,29683,29452,231,0
-19,Lakshadweep,11415,11363,52,0
-20,Madhya Pradesh,1056778,1045992,10786,0
-21,Maharashtra,8177736,8029028,148602,106
-22,Manipur,140040,137891,2149,0
-23,Meghalaya,96994,95366,1628,0
-24,Mizoram,239576,238835,734,7
-25,Nagaland,36033,35251,782,0
-26,Odisha,1348644,1339429,9215,0
-27,Puducherry,177780,175797,1982,1
-28,Punjab,793948,773351,20593,4
-29,Rajasthan,1327825,1318076,9746,3
-30,Sikkim,44971,44467,501,3
-31,Tamil Nadu,3611992,3573900,38086,6
-32,Telangana,844893,840782,4111,0
-33,Tripura,108584,107641,943,0
-34,Uttarakhand,452748,444969,7778,1
-35,Uttar Pradesh,2146148,2122409,23733,6
-36,West Bengal,2127846,2106254,21558,34
+1,Andhra Pradesh,22,5,0,17
+2,Arunachal Pradesh,3,0,0,3
+3,Assam,2,0,0,2
+4,Chandigarh,1,0,0,1
+5,Chhattisgarh,10,4,0,6
+6,Delhi,644,266,3,375
+7,Goa,9,1,0,8
+8,Gujarat,353,87,1,265
+9,Haryana,38,12,0,26
+10,Jammu and Kashmir,6,0,0,6
+11,Jharkhand,6,0,0,6
+12,Karnataka,367,130,3,234
+13,Kerala,1767,425,6,1336
+14,Madhya Pradesh,20,3,1,16
+15,Maharashtra,681,207,7,467
+16,Mizoram,2,0,0,2
+17,Odisha,7,0,0,7
+18,Puducherry,78,37,0,41
+19,Punjab,9,3,1,5
+20,Rajasthan,69,8,1,60
+21,Sikkim,18,18,0,0
+22,Tamil Nadu,381,195,1,185
+23,Telangana,4,1,0,3
+24,Uttarakhand,11,9,0,2
+25,Uttar Pradesh,131,12,2,117
+26,West Bengal,217,12,0,205
