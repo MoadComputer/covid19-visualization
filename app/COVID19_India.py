@@ -131,7 +131,7 @@ noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_
 if verbose:
   print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
   if len(noCOVID19_list)>=1:
-    print('\nStates in India with no COVID19 reports:')
+    print('\nStates in India with no SARS-CoV2 reports:')
     for noCOVID19_state in noCOVID19_list:
       print('\n{} ...'.format(noCOVID19_state))
 
@@ -349,8 +349,8 @@ def CustomTitleOverlay(plt,
                        advanced_plotting=False):
   
   overlayText=Label(x=xtext, y=ytext, 
-                    text='COVID19 in India',
-                    text_font_size='25pt')
+                    text='SARS-CoV2 in India',
+                    text_font_size='22pt')
     
   plt.add_layout(overlayText) 
 
@@ -475,7 +475,7 @@ advanced_mode=True
 
 covid19_geosource=GeoJSONDataSource(geojson=merged_json)
 plot_title=None
-app_title='COVID19 India'
+app_title= 'India SARS-CoV2 statewise statistics'
 
 India_totalCases=covid19_data['total_cases'].sum()
 India_totalDeaths=covid19_data['deaths'].sum()
