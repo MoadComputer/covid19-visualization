@@ -109,12 +109,12 @@ except:
     
 preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
-                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',     \
-                    'MAPE', 'MAPE_3', 'MAPE_7']]
+                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',     \
+                     'MAPE', 'MAPE_3', 'MAPE_7']]
 
 India_statewise=apply_corrections(India_statewise)
 if enable_GeoJSON_saving:
-  India_statewise.to_file("India_statewise_minified.geojson", driver='GeoJSON')
+  India_statewise.to_file('India_statewise_minified.geojson', driver='GeoJSON')
 India_statewise=India_statewise.to_crs("EPSG:3395")
 
 India_stats=apply_corrections(India_stats)
@@ -817,7 +817,7 @@ if advanced_mode:
     
   source=make_dataset('India')
   state_select.on_change('value',update_plot) 
-  statewise_plot=model_performance_plot(source,use_cds=False#True
+  statewise_plot=model_performance_plot(source,use_cds=True
                   )
   
   statewise_layout=column(state_select,statewise_plot) 
