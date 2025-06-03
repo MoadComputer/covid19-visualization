@@ -791,10 +791,12 @@ state_list.append('India')
 
 state_wise_model_perf_dict = dict()
 for s in list(state_list):
-  state_wise_model_perf_dict.update({s: make_dataset(s)})
+  state_wise_model_perf_dict.update({s: [make_dataset(s)]})
+
+state_wise_model_pref_cds = ColumnDataSource(state_wise_model_perf_dict)
 
 def update_plot(attrname, old, new):
-  updated_data=state_wise_model_perf_dict[state_select.value]#make_dataset(state_select.value) 
+  updated_data=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value) 
   source.data.update(updated_data.data)
 
 curdoc().title=app_title
@@ -811,11 +813,10 @@ if advanced_mode:
       print('Failed to read India model performance file ...')        
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performance_plot(modelPerformance)  
-  modelPerformance_tab=Panel(child=model_perfPlot,title="Forecast performance") 
+  modelPerformance_tab=Panel(child=model_perfPlot,title='Forecast performance') 
   
   state_select=Select(value='India',title='Select region or state: ',options=sorted(state_list))
-    
-  source=make_dataset('India')
+  source=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset('India')
   state_select.on_change('value',update_plot) 
   statewise_plot=model_performance_plot(source,use_cds=True
                   )
