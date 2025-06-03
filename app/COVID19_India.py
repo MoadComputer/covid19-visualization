@@ -109,7 +109,7 @@ except:
     
 preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
-                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',     \
+                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                      'MAPE', 'MAPE_3', 'MAPE_7']]
 
 India_statewise=apply_corrections(India_statewise)
@@ -491,7 +491,7 @@ basic_covid19_plot = covid19_plot(covid19_geosource,
 basicPlot_tab = Panel(child=basic_covid19_plot, title="⌂")
 
 if advanced_mode:
-  preds_df.columns=['state',                                                   \
+  preds_df.columns=['state',                                                        \
                     'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                     'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                     'MAPE', 'MAPE_3', 'MAPE_7']
