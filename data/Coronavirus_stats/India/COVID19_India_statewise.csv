@@ -1,28 +1,28 @@
 ID,state,total_cases,discharged,deaths,active_cases
-1,Andhra Pradesh,38,8,0,30
-2,Arunachal Pradesh,3,0,0,3
-3,Assam,5,0,0,5
-4,Bihar,5,0,0,5
-5,Chandigarh,1,0,0,1
-6,Chhattisgarh,12,5,0,7
-7,Delhi,926,439,4,483
-8,Goa,11,1,0,10
-9,Gujarat,459,120,1,338
-10,Haryana,52,24,0,28
+1,Andhra Pradesh,40,12,0,28
+2,Arunachal Pradesh,3,3,0,0
+3,Assam,6,0,0,6
+4,Bihar,11,0,0,11
+5,Chandigarh,2,0,0,2
+6,Chhattisgarh,16,5,0,11
+7,Delhi,960,563,4,393
+8,Goa,14,6,0,8
+9,Gujarat,554,156,1,397
+10,Haryana,70,26,0,44
 11,Jammu and Kashmir,10,1,0,9
 12,Jharkhand,12,1,0,11
-13,Karnataka,442,185,4,253
-14,Kerala,2160,717,8,1435
-15,Madhya Pradesh,28,4,1,23
-16,Maharashtra,814,300,8,506
+13,Karnataka,529,214,4,311
+14,Kerala,2313,888,9,1416
+15,Madhya Pradesh,29,7,1,21
+16,Maharashtra,873,369,10,494
 17,Mizoram,2,0,0,2
-18,Odisha,12,0,0,12
-19,Puducherry,85,47,0,38
-20,Punjab,10,3,1,6
-21,Rajasthan,98,28,1,69
+18,Odisha,15,0,0,15
+19,Puducherry,85,58,0,27
+20,Punjab,15,5,1,9
+21,Rajasthan,113,37,1,75
 22,Sikkim,22,18,0,4
-23,Tamil Nadu,426,235,2,189
-24,Telangana,5,2,0,3
-25,Uttarakhand,13,10,0,3
-26,Uttar Pradesh,172,13,2,157
-27,West Bengal,358,27,0,331
+23,Tamil Nadu,457,239,3,215
+24,Telangana,6,2,0,4
+25,Uttarakhand,16,13,0,3
+26,Uttar Pradesh,179,39,2,138
+27,West Bengal,411,38,1,372
