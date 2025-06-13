@@ -22,7 +22,8 @@ from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
                          Legend,LegendItem
 
 bokeh_version = bokeh.__version__ 
-print('Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: ', bokeh_version)
+bokeh_version_msg = 'Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: '
+print(bokeh_version_msg, bokeh_version)
 
 version_check = version.parse(bokeh_version) >= version.parse('3.4.1')
 if version_check:
@@ -42,13 +43,13 @@ else:
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='12-June-2025'
+DATA_UPDATE_DATE='13-June-2025'
 FORECASTS_UPDATE_DATE='12-June-2025'
 
 DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
 
-def apply_corrections(input_df):
+def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
   for state in list(input_df['state'].values):
     input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z ]+', '',str(state))
   input_df.loc[input_df['state']=='Karanataka','state']='Karnataka' 
@@ -61,7 +62,7 @@ def apply_corrections(input_df):
   input_df.loc[input_df['state']=='Daman and Diu','state']='Dadra and Nagar Haveli and Daman and Diu'
   return input_df
 
-def os_style_formatter(input_str):
+def os_style_formatter(input_str:str)->str:
   try:
     os_env=os.environ['OS'] 
   except:
@@ -135,7 +136,7 @@ if verbose:
     for noCOVID19_state in noCOVID19_list:
       print('\n{} ...'.format(noCOVID19_state))
 
-def covid19_json(covid_df, geo_df,verbose=False):
+def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
 
     try:
