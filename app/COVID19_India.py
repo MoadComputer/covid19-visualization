@@ -873,11 +873,13 @@ else:
 
 if __name__ == '__main__':
   out_file('India_COVID19.html')
-  save(Tabs(
-          tabs=[basicPlot_tab, 
-                advancedPlot_tab, 
-                performancePlot_tab]
-            )
-        )
+  save(
+    Tabs(
+      tabs=[basicPlot_tab, 
+            advancedPlot_tab, 
+            performancePlot_tab]
+    ),
+    title='India SARS-CoV2 statewise statistics'
+  )
 else:
   curdoc().add_root(covid19_layout)
