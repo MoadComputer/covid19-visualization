@@ -1779,3 +1779,4 @@ date,total_cases,preds_cases,preds_cases_3,preds_cases_7,preds_cases_std,preds_c
 20250611,70,63,53,20,0,0,0
 20250612,75,70,57,24,0,0,0
 20250613,87,75,63,33,0,0,0
+20250614,99,87,70,50,1,0,0

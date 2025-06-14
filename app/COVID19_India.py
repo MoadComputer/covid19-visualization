@@ -776,6 +776,7 @@ def make_dataset(state):
   MODEL_PERF_DATA_FILE=os_style_formatter(
         '{}/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
             LOCAL_DATA_DIR, state))
+
   try:
     modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
     print('Reading model performance for: {} from URL ...'.format(state))
@@ -784,7 +785,8 @@ def make_dataset(state):
       modelPerformance=pd.read_csv(MODEL_PERF_DATA_FILE)  
       print('Reading model performance for: {} from saved repo ...'.format(state))
     else:
-      sys.exit('No statewise model performance file found ...')      
+      sys.exit('No statewise model performance file found ...')
+
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))  
   plotIndex_labels=list(modelPerformance['date'].astype('str'))
   
