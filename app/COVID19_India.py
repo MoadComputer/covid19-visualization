@@ -652,48 +652,79 @@ def model_performance_plot(source,
                if custom_perfHoverTool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
-    perfPlot=figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
-                    y_axis_location='left',
-                    outer_height=500, outer_width=500,
-                    tools='hover', 
-                    toolbar_location=None,
-                    tooltips=TOOLTIPS)
-    perfPlot.line(x='x',y='y_cases',
-                  source=source,
-                  line_width=2.5, 
-                  color='black')
-    r = perfPlot.circle(x='x', y='y_cases', 
-                   color='grey', 
-                   fill_color='black',
-                   size=8, 
-                   source=source)
+    perfPlot = figure(#y_axis_type="log",y_range=(2.5e4,7.5e4), 
+                   y_axis_location='left',
+                   outer_height=500, outer_width=500,
+                   tools='hover', 
+                   toolbar_location=None,
+                   tooltips=TOOLTIPS
+                 )
 
-    perfPlot.line(x='x',y='y_preds',
-                  source=source,
-                  color='darkred')
-    r1 = perfPlot.circle(x='x', y='y_preds', 
-                    color='darkred', 
-                    fill_color='red',
-                    size=8, 
-                    source=source)
+    if version_check:
+      perfplot_circle = getattr(perfPlot, 'scatter')
+    else:
+      perfplot_circle = getattr(perfPlot, 'circle')
 
-    perfPlot.line(x='x',y='y_preds3',
-                  source=source,
-                  color='green')
-    r3 = perfPlot.circle(x='x', y='y_preds3', 
-                    color='lime', 
-                    fill_color='darkgreen', 
-                    size=8,
-                    source=source)
+    perfPlot.line(
+        x='x',
+        y='y_cases',
+        source=source,
+        line_width=2.5, 
+        color='black'
+      )
+    r = perfplot_circle(
+            x='x', 
+            y='y_cases', 
+            color='grey', 
+            fill_color='black',
+            size=8, 
+            source=source
+          )
 
-    perfPlot.line(x='x',y='y_preds7', 
-                  source=source,
-                  color='blue')
-    r7=perfPlot.circle(x='x', y='y_preds7', 
-                       color='purple', 
-                       fill_color='blue', 
-                       size=8,
-                       source=source)
+    perfPlot.line(
+        x='x',
+        y='y_preds',
+        source=source,
+        color='darkred'
+      )
+    r1 = perfplot_circle(
+            x='x', 
+            y='y_preds', 
+            color='darkred', 
+            fill_color='red',
+            size=8, 
+            source=source
+          )
+
+    perfPlot.line(
+        x='x',
+        y='y_preds3',
+        source=source,
+        color='green'
+      )
+    r3 = perfplot_circle(
+            x='x', 
+            y='y_preds3', 
+            color='lime', 
+            fill_color='darkgreen', 
+            size=8,
+            source=source
+          )
+
+    perfPlot.line(
+        x='x',
+        y='y_preds7', 
+        source=source,
+        color='blue'
+      )
+    r7 = perfplot_circle(
+            x='x', 
+            y='y_preds7', 
+            color='purple', 
+            fill_color='blue', 
+            size=8,
+            source=source
+          )
 
     perfPlot.hover.renderers=[r,r1,r3,r7]
     
@@ -780,12 +811,14 @@ def make_dataset(state):
   upper_3_lim=list(np.asarray(y_preds3)+3*np.asarray(y_3std))
   upper_7_lim=list(np.asarray(y_preds7)+3*np.asarray(y_7std))
 
-  return ColumnDataSource({'x':x, 'y_cases':y_cases, 
-                           'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
-                           'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7,
-                           'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std,
-                           'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
-                           'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim})
+  return ColumnDataSource(
+             {'x':x, 'y_cases':y_cases, 
+              'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
+              'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7,
+              'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std,
+              'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
+              'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim}
+           )
 
 state_list=list(preds_df['state'])
 state_list.append('India')
@@ -797,8 +830,10 @@ for s in list(state_list):
 state_wise_model_pref_cds = ColumnDataSource(state_wise_model_perf_dict)
 
 def update_plot(attrname, old, new):
-  updated_data=state_wise_model_perf_dict[state_select.value]#state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value) 
+  updated_data=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value)#state_wise_model_perf_dict[state_select.value]#
   source.data.update(updated_data.data)
+
+curdoc().title = app_title
 
 if advanced_mode:
   try:
@@ -834,9 +869,6 @@ if advanced_mode:
 else:
   covid19_layout = column(basic_covid19_plot)
 
-curdoc().title=app_title
-curdoc().add_root(covid19_layout)
-
 if __name__ == '__main__':
   out_file('India_COVID19.html')
   save(Tabs(
@@ -845,3 +877,5 @@ if __name__ == '__main__':
                 performancePlot_tab]
             )
         )
+else:
+  curdoc().add_root(covid19_layout)
