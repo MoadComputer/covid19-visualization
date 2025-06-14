@@ -116,7 +116,7 @@ preds_df = preds_df[['state',                                                   
 India_statewise=apply_corrections(India_statewise)
 if enable_GeoJSON_saving:
   India_statewise.to_file('India_statewise_minified.geojson', driver='GeoJSON')
-India_statewise=India_statewise.to_crs("EPSG:3395")
+India_statewise=India_statewise.to_crs('EPSG:3395')
 
 India_stats=apply_corrections(India_stats)
 
@@ -554,7 +554,7 @@ def LineSmoothing(x,y,
   y_=fn(x_)
   return x_,y_
 
-def model_performance_plot(source, 
+def model_performance_plot(source,
                           use_cds=False,
                           enable_interpolation=False, 
                           custom_perfHoverTool=True):
@@ -830,7 +830,7 @@ for s in list(state_list):
 state_wise_model_pref_cds = ColumnDataSource(state_wise_model_perf_dict)
 
 def update_plot(attrname, old, new):
-  updated_data=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value)#state_wise_model_perf_dict[state_select.value]#
+  updated_data=state_wise_model_pref_cds.data[state_select.value][0]
   source.data.update(updated_data.data)
 
 curdoc().title = app_title
