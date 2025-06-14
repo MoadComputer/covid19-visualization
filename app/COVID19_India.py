@@ -852,7 +852,7 @@ if advanced_mode:
   modelPerformance_tab=Panel(child=model_perfPlot,title='Forecast performance') 
   
   state_select=Select(value='India',title='Select region or state: ',options=sorted(state_list))
-  source=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset('India')
+  source=state_wise_model_pref_cds.data[state_select.value][0]
   state_select.on_change('value',update_plot) 
   statewise_plot=model_performance_plot(source,use_cds=True
                   )
