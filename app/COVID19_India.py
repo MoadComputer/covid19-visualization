@@ -43,7 +43,7 @@ else:
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='13-June-2025'
+DATA_UPDATE_DATE='14-June-2025'
 FORECASTS_UPDATE_DATE='13-June-2025'
 
 DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
@@ -797,10 +797,9 @@ for s in list(state_list):
 state_wise_model_pref_cds = ColumnDataSource(state_wise_model_perf_dict)
 
 def update_plot(attrname, old, new):
-  updated_data=state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value) 
+  updated_data=state_wise_model_perf_dict[state_select.value]#state_wise_model_pref_cds.data[state_select.value][0]#make_dataset(state_select.value) 
   source.data.update(updated_data.data)
 
-curdoc().title=app_title
 if advanced_mode:
   try:
     modelPerformance=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv')
@@ -811,7 +810,8 @@ if advanced_mode:
       modelPerformance=pd.read_csv(India_modelPerformance_file)
       print('Reading India model performance file from saved repo ...')      
     else:
-      print('Failed to read India model performance file ...')        
+      print('Failed to read India model performance file ...')
+        
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performance_plot(modelPerformance)  
   modelPerformance_tab=Panel(child=model_perfPlot,title='Forecast performance') 
@@ -833,6 +833,15 @@ if advanced_mode:
   covid19_layout = covid19_tabs 
 else:
   covid19_layout = column(basic_covid19_plot)
+
+curdoc().title=app_title
 curdoc().add_root(covid19_layout)
-out_file('India_COVID19.html')
-save(covid19_layout)
+
+if __name__ == '__main__':
+  out_file('India_COVID19.html')
+  save(Tabs(
+          tabs=[basicPlot_tab, 
+                advancedPlot_tab, 
+                performancePlot_tab]
+            )
+        )
