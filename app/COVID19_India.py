@@ -38,6 +38,7 @@ else:
             from bokeh.models import TabPanel as Panel
             from bokeh.models.layouts import Column as column
         except Exception as e:
+            e = getattr(e, 'message', repr(e))
             raise ValueError(f'Failed Bokeh imports due to: {e} ...')
 
 verbose=False
@@ -65,8 +66,10 @@ def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
 def os_style_formatter(input_str:str)->str:
   try:
     os_env=os.environ['OS'] 
-  except:
+  except Exception as e:
     os_env='unknown'
+    e = getattr(e, 'message', repr(e))
+    print(f'Failed to detect the OS environment due to: {e} ...')
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
@@ -74,7 +77,9 @@ try:
   India_stats=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/Population_stats_India_statewise.csv')
   covid19_data=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/COVID19_India_statewise.csv')
   preds_df=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/output_preds.csv')
-except:
+except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Failed reading URL data due to: {e} ...')
   India_GeoJSON_repoFile=os_style_formatter(
       f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson')  
   covid19_statewise_repoFile=os_style_formatter(
@@ -141,7 +146,9 @@ def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose
 
     try:
       merged_df = merged_df.fillna(0)
-    except:
+    except Exception as e:
+      e = getattr(e, 'message', repr(e))
+      print(f'Failed removing NaN values in the merged dataframe due to: {e} ...')
       merged_df.fillna({'total_cases': 0}, inplace=True)
       merged_df.fillna({'deaths': 0}, inplace=True)
       merged_df.fillna({'discharged': 0}, inplace=True)
@@ -506,16 +513,19 @@ if advanced_mode:
   
   try:
     del preds_covid19_df['ID']
-  except:
-    print('Unable to delete dataframe item: ID')
+  except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Unable to delete dataframe item: ID due to: {e} ...')
   try:
     del preds_covid19_df['id']
-  except:
-    print('Unable to delete dataframe item: id')
+  except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Unable to delete dataframe item: id due to: {e} ...')
   try:
     del preds_covid19_df['discharged']
-  except:
-    print('Unable to delete dataframe item: discharged')
+  except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
   merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
   merged_preds_json=merged_preds_data['json_data']
@@ -780,7 +790,9 @@ def make_dataset(state):
   try:
     modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
     print('Reading model performance for: {} from URL ...'.format(state))
-  except:
+  except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Failed to read model performance data from URL due to: {e} ...')
     if os.path.exists(MODEL_PERF_DATA_FILE):
       modelPerformance=pd.read_csv(MODEL_PERF_DATA_FILE)  
       print('Reading model performance for: {} from saved repo ...'.format(state))
@@ -840,7 +852,10 @@ curdoc().title = app_title
 if advanced_mode:
   try:
     modelPerformance=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv')
-  except:
+  except Exception as e:
+    e = getattr(e, 'message', repr(e))
+    print(f'Failed to read model performance data for India from URL due to: {e} ...')
+
     India_modelPerformance_file=os_style_formatter(
         f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv')
     if os.path.exists(India_modelPerformance_file):
