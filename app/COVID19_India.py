@@ -78,8 +78,8 @@ try:
   covid19_data=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/COVID19_India_statewise.csv')
   preds_df=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/output_preds.csv')
 except Exception as e:
-    e = getattr(e, 'message', repr(e))
-    print(f'Failed reading URL data due to: {e} ...')
+  e = getattr(e, 'message', repr(e))
+  print(f'Failed reading URL data due to: {e} ...')
   India_GeoJSON_repoFile=os_style_formatter(
       f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson')  
   covid19_statewise_repoFile=os_style_formatter(
