@@ -81,13 +81,17 @@ except Exception as e:
   e = getattr(e, 'message', repr(e))
   print(f'Failed reading URL data due to: {e} ...')
   India_GeoJSON_repoFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson')  
+      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson'
+  )  
   covid19_statewise_repoFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/COVID19_India_statewise.csv')
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/COVID19_India_statewise.csv'
+  )
   India_statewise_statsFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/Population_stats_India_statewise.csv')
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/Population_stats_India_statewise.csv'
+  )
   saved_predsFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/output_preds.csv') 
+      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/output_preds.csv'
+  ) 
     
   if os.path.exists(India_GeoJSON_repoFile):
     India_statewise=geopandas.read_file(India_GeoJSON_repoFile)  
@@ -444,7 +448,7 @@ def covid19_plot(covid19_geosource,
              lod_factor=int(1e7),
              lod_threshold=int(2),
              # output_backend="webgl"
-            ) 
+      ) 
         
   plt=geographic_overlay(plt, 
                          geosourceJson=covid19_geosource,
@@ -564,10 +568,12 @@ def LineSmoothing(x,y,
   y_=fn(x_)
   return x_,y_
 
-def model_performance_plot(source,
-                          use_cds=False,
-                          enable_interpolation=False, 
-                          custom_perfHoverTool=True):
+def model_performance_plot(
+      source,
+      use_cds=False,
+      enable_interpolation=False, 
+      custom_perfHoverTool=True
+    ):
     if use_cds:
       plotIndex=source.data['plot_index']
       plotIndex_labels=source.data['plot_labels']
@@ -681,7 +687,8 @@ def model_performance_plot(source,
         source=source,
         line_width=2.5, 
         color='black'
-      )
+    )
+
     r = perfplot_circle(
             x='x', 
             y='y_cases', 
@@ -689,14 +696,15 @@ def model_performance_plot(source,
             fill_color='black',
             size=8, 
             source=source
-          )
+        )
 
     perfPlot.line(
         x='x',
         y='y_preds',
         source=source,
         color='darkred'
-      )
+    )
+
     r1 = perfplot_circle(
             x='x', 
             y='y_preds', 
@@ -704,14 +712,15 @@ def model_performance_plot(source,
             fill_color='red',
             size=8, 
             source=source
-          )
+         )
 
     perfPlot.line(
         x='x',
         y='y_preds3',
         source=source,
         color='green'
-      )
+    )
+
     r3 = perfplot_circle(
             x='x', 
             y='y_preds3', 
@@ -719,14 +728,15 @@ def model_performance_plot(source,
             fill_color='darkgreen', 
             size=8,
             source=source
-          )
+         )
 
     perfPlot.line(
         x='x',
         y='y_preds7', 
         source=source,
         color='blue'
-      )
+    )
+
     r7 = perfplot_circle(
             x='x', 
             y='y_preds7', 
@@ -734,7 +744,7 @@ def model_performance_plot(source,
             fill_color='blue', 
             size=8,
             source=source
-          )
+         )
 
     perfPlot.hover.renderers=[r,r1,r3,r7]
     
