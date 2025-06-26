@@ -842,7 +842,7 @@ def make_dataset(state):
               'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std,
               'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
               'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim}
-           )
+         )
 
 state_list=list(preds_df['state'])
 state_list.append('India')
