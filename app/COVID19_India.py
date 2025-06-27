@@ -167,7 +167,7 @@ merged_data = covid19_json(covid19_data, India_statewise,
                            verbose=verbose)
 merged_json = merged_data['json_data']
 
-def CustomPalette(palette_type, enable_colorInverse=True):
+def CustomPalette(palette_type:'Bokeh palette', enable_colorInverse:bool=True)->'Bokeh palette':
   if (palette_type.lower()=='OrRd'.lower()) or (palette_type.lower()=='reds'):
     palette = OrRd[9]
   elif (palette_type.lower()=='YlGn'.lower()) or (palette_type.lower()=='greens'):
@@ -181,7 +181,7 @@ def CustomPalette(palette_type, enable_colorInverse=True):
     palette = palette[::1]
   return palette
 
-def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool, perfstats_hovertool):
+def CustomHoverTool(enable_advanced_hover_tool:bool, enable_custom_hover_tool:bool, enable_performance_hover_tool:bool, enable_performance_stats_hovertool:bool)->'Bokeh hover tool':
   advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                              <hr>
                                              <strong><font face="Arial" size="2">Forecast</font></strong> <br>
@@ -248,13 +248,13 @@ def CustomHoverTool(advanced_hoverTool, custom_hoverTool, performance_hoverTool,
                                          #('Discharged/migrated', '@discharged'),
                                          ('Deaths', '@deaths')])
   
-  if performance_hoverTool:
+  if enable_performance_hover_tool:
     hover  = performanceStats_hover
-  elif advanced_hoverTool:
+  elif enable_advanced_hover_tool:
     hover = advancedStats_hover
-  elif custom_hoverTool:
+  elif enable_custom_hover_tool:
     hover  = simpleStats_hover
-  elif perfstats_hovertool:
+  elif enable_performance_stats_hovertool:
     hover = perfStats_hover
   else:
     hover = standard_hover
@@ -411,7 +411,7 @@ def covid19_plot(covid19_geosource,
                  map_overlay=True,
                  palette_type='OrRd',
                  integer_plot=False,
-                 custom_hovertool=True,
+                 enable_custom_hover_tool=True,
                  enable_LakshadweepStats=True,
                  enable_IndiaStats=False,                 
                  enable_advancedStats=False,
@@ -437,7 +437,7 @@ def covid19_plot(covid19_geosource,
                        major_label_text_font_size='12px',
                        location = (0, 0))
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
-  hover=CustomHoverTool(enable_advancedStats,custom_hovertool,enable_performanceStats,enable_foecastPerf)
+  hover=CustomHoverTool(enable_advancedStats,enable_custom_hover_tool,enable_performanceStats,enable_foecastPerf)
 
   plt=figure(title = plot_title,
              x_range=(xmin, xmax) if map_overlay else None,
