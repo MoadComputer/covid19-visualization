@@ -1800,3 +1800,4 @@ date,total_cases,preds_cases,preds_cases_3,preds_cases_7,preds_cases_std,preds_c
 20250702,82,79,78,63,0,0,0
 20250703,86,82,79,68,0,0,0
 20250704,87,86,79,68,1,0,0
+20250705,89,87,82,68,1,0,0
