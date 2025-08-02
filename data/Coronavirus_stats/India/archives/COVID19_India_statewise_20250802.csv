@@ -1,0 +1,34 @@
+ID,state,total_cases,discharged,deaths,active_cases
+1,Andhra Pradesh,323,323,0,0
+2,Arunachal Pradesh,3,3,0,0
+3,Assam,205,196,0,9
+4,Bihar,145,144,0,1
+5,Chandigarh,18,18,0,0
+6,Chhattisgarh,246,236,5,5
+7,Delhi,4087,4052,22,13
+8,Goa,29,29,0,0
+9,Gujarat,3676,3666,2,8
+10,Haryana,664,654,4,6
+11,Himachal Pradesh,6,6,0,0
+12,Jammu and Kashmir,141,112,1,28
+13,Jharkhand,82,81,1,0
+14,Karnataka,2968,2953,11,4
+15,Kerala,8753,8684,55,14
+16,Ladakh,5,5,0,0
+17,Madhya Pradesh,352,340,11,1
+18,Maharashtra,2737,2661,43,33
+19,Manipur,353,347,0,6
+20,Meghalaya,1,1,0,0
+21,Mizoram,28,13,0,15
+22,Nagaland,3,3,0,0
+23,Odisha,173,171,0,2
+24,Puducherry,126,126,0,0
+25,Punjab,261,245,5,11
+26,Rajasthan,827,814,3,10
+27,Sikkim,285,281,1,3
+28,Tamil Nadu,1197,1173,7,17
+29,Telangana,33,33,0,0
+30,Tripura,31,31,0,0
+31,Uttarakhand,116,113,0,3
+32,Uttar Pradesh,1121,1108,2,11
+33,West Bengal,1167,1125,1,41
