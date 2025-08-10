@@ -81,8 +81,8 @@ try:
 except Exception as e:
   e = getattr(e, 'message', repr(e))
   print(f'Failed reading URL data due to: {e} ...')
-  if os.path.exists(ALT_LOCAL_DATA_DIR):
-    LOCAL_DATA_DIR = ALT_LOCAL_DATA_DIR 
+  if os.path.exists(os_style_formatter(ALT_LOCAL_DATA_DIR)):
+    LOCAL_DATA_DIR = ALT_LOCAL_DATA_DIR
   India_GeoJSON_repoFile=os_style_formatter(
       f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise.geojson'
   ) 
@@ -291,14 +291,17 @@ def geographic_overlay(plt,
   plt.xgrid.grid_line_color = None
   plt.ygrid.grid_line_color = None
   plt.axis.visible = False
-  plt.patches('xs','ys', 
-              source = geosourceJson, 
-              fill_color = {'field' : colorMode, 
-                            'transform' : colorMapper},
-              line_color = 'purple', 
-              line_width = 0.5, 
-              fill_alpha = 0.60 if enableTapTool else 0.65,
-              nonselection_alpha = 0.65)
+  plt.patches(
+    'xs',
+    'ys', 
+    source = geosourceJson, 
+    fill_color = {'field' : colorMode, 
+                  'transform' : colorMapper},
+    line_color = 'purple', 
+    line_width = 0.5, 
+    fill_alpha = 0.60 if enableTapTool else 0.65,
+    nonselection_alpha = 0.65
+  )
   plt.add_layout(colorBar, 'right')
   plt.add_tools(hoverTool)
   if enableTapTool:
@@ -865,21 +868,21 @@ curdoc().title = app_title
 if advanced_mode:
   try:
     modelPerformance=pd.read_csv(
-                       os_style_formatter(
-                         f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv'
-                         )
-                      )
+                       f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv'
+                       )
   except Exception as e:
     e = getattr(e, 'message', repr(e))
     print(f'Failed to read model performance data for India from URL due to: {e} ...')
 
     India_modelPerformance_file=os_style_formatter(
-        f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv')
+                                  f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv'
+                                  )
+    print(India_modelPerformance_file)
     if os.path.exists(India_modelPerformance_file):
       modelPerformance=pd.read_csv(India_modelPerformance_file)
       print(f'Reading India model performance file: {India_modelPerformance_file} from saved repo ...')
     else:
-      print('Failed to read India model performance file ...')
+      print('Failed to read India model performance file: {India_modelPerformance_file} ...')
         
   modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
   model_perfPlot=model_perfPlot=model_performance_plot(modelPerformance)  
