@@ -49,6 +49,7 @@ FORECASTS_UPDATE_DATE='09-August-2025'
 
 DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
+ALT_LOCAL_DATA_DIR = '../data'
 
 def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
   for state in list(input_df['state'].values):
@@ -80,9 +81,11 @@ try:
 except Exception as e:
   e = getattr(e, 'message', repr(e))
   print(f'Failed reading URL data due to: {e} ...')
+  if os.path.exists(ALT_LOCAL_DATA_DIR):
+    LOCAL_DATA_DIR = ALT_LOCAL_DATA_DIR 
   India_GeoJSON_repoFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise_minified.geojson'
-  )  
+      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise.geojson'
+  ) 
   covid19_statewise_repoFile=os_style_formatter(
       f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/COVID19_India_statewise.csv'
   )
@@ -98,7 +101,7 @@ except Exception as e:
     print('Reading India GeoJSON file from saved repo ...')
   else:
     sys.exit('Failed to read GeoJSON file for India ...')
-    
+
   if os.path.exists(covid19_statewise_repoFile):
     covid19_data=pd.read_csv(covid19_statewise_repoFile)  
     print('Reading India COVID19 file from saved repo ...')
@@ -143,7 +146,7 @@ if verbose:
   if len(noCOVID19_list)>=1:
     print('\nStates in India with no SARS-CoV2 reports:')
     for noCOVID19_state in noCOVID19_list:
-      print('\n{} ...'.format(noCOVID19_state))
+      print(f'\n{noCOVID19_state} ...')
 
 def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
@@ -794,18 +797,18 @@ def make_dataset(state):
   MODEL_PERF_DATA_URL='{}{}.csv'.format(MODEL_PERF_DATA_SOURCE, state)
   MODEL_PERF_DATA_URL=MODEL_PERF_DATA_URL.replace(" ", "%20")
   MODEL_PERF_DATA_FILE=os_style_formatter(
-        '{}/Coronavirus_stats/India/experimental/model_performance_{}.csv'.format(
-            LOCAL_DATA_DIR, state))
+                         f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_{state}.csv'
+                       )
 
   try:
     modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
-    print('Reading model performance for: {} from URL ...'.format(state))
+    print(f'Reading model performance for: {state} from URL ...')
   except Exception as e:
     e = getattr(e, 'message', repr(e))
     print(f'Failed to read model performance data from URL due to: {e} ...')
     if os.path.exists(MODEL_PERF_DATA_FILE):
       modelPerformance=pd.read_csv(MODEL_PERF_DATA_FILE)  
-      print('Reading model performance for: {} from saved repo ...'.format(state))
+      print(f'Reading model performance for: {state} from saved repo file: {MODEL_PERF_DATA_FILE} ...')
     else:
       sys.exit('No statewise model performance file found ...')
 
@@ -861,7 +864,11 @@ curdoc().title = app_title
 
 if advanced_mode:
   try:
-    modelPerformance=pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv')
+    modelPerformance=pd.read_csv(
+                       os_style_formatter(
+                         f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv'
+                         )
+                      )
   except Exception as e:
     e = getattr(e, 'message', repr(e))
     print(f'Failed to read model performance data for India from URL due to: {e} ...')
@@ -870,7 +877,7 @@ if advanced_mode:
         f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv')
     if os.path.exists(India_modelPerformance_file):
       modelPerformance=pd.read_csv(India_modelPerformance_file)
-      print('Reading India model performance file from saved repo ...')      
+      print(f'Reading India model performance file: {India_modelPerformance_file} from saved repo ...')
     else:
       print('Failed to read India model performance file ...')
         
