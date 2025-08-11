@@ -206,7 +206,6 @@ def CustomHoverTool(enable_advanced_hover_tool:bool, enable_custom_hover_tool:bo
                                                         DATA_UPDATE_DATE,
                                                         FORECASTS_UPDATE_DATE))
 
-
   performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
                                                 <hr>
                                                 <strong><font face="Arial" size="2">MAPE</font></strong><br>
@@ -349,6 +348,7 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
               fill_alpha=0.075,
               nonselection_alpha=0.20,
               color='blue')
+  
   return plt
 
 def CustomTitleFormatter():
@@ -356,6 +356,7 @@ def CustomTitleFormatter():
   ytext=4425000
   xbox=9400000
   ybox=4575000
+
   return xtext, ytext, xbox, ybox
 
 def CustomTitleOverlay(plt,  
@@ -406,6 +407,7 @@ def CustomTitleOverlay(plt,
            #width_units='screen',
            #height_units='screen',
            fill_alpha=0.25)  
+  
   return plt
 
     
@@ -487,6 +489,7 @@ def covid19_plot(covid19_geosource,
   plt.xaxis[0].ticker.num_minor_ticks=0
   plt.yaxis[0].ticker.num_minor_ticks=0
   plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
+
   return plt
 
 advanced_mode=True
@@ -789,10 +792,12 @@ def model_performance_plot(
     perfPlot.renderers.append(band)
     perfPlot.renderers.append(band3)
     perfPlot.renderers.append(band7)
+
     return perfPlot
 
 def date_formatter(x):
   datetimeobject = datetime.strptime(str(x),'%Y%m%d')
+
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
