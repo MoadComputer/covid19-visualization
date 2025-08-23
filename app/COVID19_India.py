@@ -44,10 +44,10 @@ else:
 verbose=False
 enable_GeoJSON_saving=False
 
-DATA_UPDATE_DATE='23-August-2025'
-FORECASTS_UPDATE_DATE='23-August-2025'
+DATA_UPDATE_DATE = '23-August-2025'
+FORECASTS_UPDATE_DATE = '23-August-2025'
 
-DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
+DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
 ALT_LOCAL_DATA_DIR = '../data'
 
@@ -537,6 +537,7 @@ def create_visualization_tabs(advanced_mode=True):
     except Exception as e:
       e = getattr(e, 'message', repr(e))
       print(f'Unable to delete dataframe item: id due to: {e} ...')
+
     try:
       del preds_covid19_df['discharged']
     except Exception as e:
