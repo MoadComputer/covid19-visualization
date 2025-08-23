@@ -45,7 +45,7 @@ verbose=False
 enable_GeoJSON_saving=False
 
 DATA_UPDATE_DATE='23-August-2025'
-FORECASTS_UPDATE_DATE='22-August-2025'
+FORECASTS_UPDATE_DATE='23-August-2025'
 
 DATA_URL='https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
@@ -369,7 +369,7 @@ def CustomTitleOverlay(plt,
   
   overlayText=Label(x=xtext, y=ytext, 
                     text='SARS-CoV2 in India',
-                    text_font_size='22pt')
+                    text_font_size='20pt')
     
   plt.add_layout(overlayText) 
 
@@ -502,70 +502,76 @@ India_totalCases=covid19_data['total_cases'].sum()
 India_totalDeaths=covid19_data['deaths'].sum()
 print(India_totalCases)
 
-basic_covid19_plot = covid19_plot(covid19_geosource, 
+def create_visualization_tabs(advanced_mode=True):
+  tabs = []
+  basic_covid19_plot = covid19_plot(covid19_geosource, 
                                   input_df=covid19_data,
                                   input_field='total_cases',
                                   color_field='total_cases',
                                   enable_IndiaStats=True,
                                   integer_plot=True,
                                   plot_title=plot_title)
-basicPlot_tab = Panel(child=basic_covid19_plot, title="⌂")
+  basic_plot_tab = Panel(child=basic_covid19_plot, title="⌂")
+  tabs.append(basic_plot_tab)
 
-if advanced_mode:
-  preds_df.columns=['state',                                                        \
-                    'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
-                    'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
-                    'MAPE', 'MAPE_3', 'MAPE_7']
-  print(preds_df.head(10))
-  print(covid19_data_copy.head(10))
-  preds_covid19_df=pd.merge(covid19_data_copy, preds_df, 
-                            on='state', 
-                            how='left')
-  preds_covid19_df=preds_covid19_df.fillna(0)
-  print(preds_covid19_df.head(10))
-  
-  try:
-    del preds_covid19_df['ID']
-  except Exception as e:
-    e = getattr(e, 'message', repr(e))
-    print(f'Unable to delete dataframe item: ID due to: {e} ...')
-  try:
-    del preds_covid19_df['id']
-  except Exception as e:
-    e = getattr(e, 'message', repr(e))
-    print(f'Unable to delete dataframe item: id due to: {e} ...')
-  try:
-    del preds_covid19_df['discharged']
-  except Exception as e:
-    e = getattr(e, 'message', repr(e))
-    print(f'Unable to delete dataframe item: discharged due to: {e} ...')
+  if advanced_mode:
+    preds_df.columns=['state',                                                        \
+                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
+                      'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
+                      'MAPE', 'MAPE_3', 'MAPE_7']
+    print(preds_df.head(10))
+    print(covid19_data_copy.head(10))
+    preds_covid19_df=pd.merge(covid19_data_copy, preds_df, 
+                              on='state', 
+                              how='left')
+    preds_covid19_df=preds_covid19_df.fillna(0)
+    print(preds_covid19_df.head(10))
+    
+    try:
+      del preds_covid19_df['ID']
+    except Exception as e:
+      e = getattr(e, 'message', repr(e))
+      print(f'Unable to delete dataframe item: ID due to: {e} ...')
+    try:
+      del preds_covid19_df['id']
+    except Exception as e:
+      e = getattr(e, 'message', repr(e))
+      print(f'Unable to delete dataframe item: id due to: {e} ...')
+    try:
+      del preds_covid19_df['discharged']
+    except Exception as e:
+      e = getattr(e, 'message', repr(e))
+      print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
-  merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
-  merged_preds_json=merged_preds_data['json_data']
-  preds_covid19_data=merged_preds_data['data_frame']
-  print(preds_covid19_data['state'].equals(covid19_data['state']))
-  print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))  
-  preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
+    merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
+    merged_preds_json=merged_preds_data['json_data']
+    preds_covid19_data=merged_preds_data['data_frame']
+    print(preds_covid19_data['state'].equals(covid19_data['state']))
+    print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))  
+    preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
 
-  advanced_covid19_plot=covid19_plot(preds_covid19_geosource, 
-                                     input_df=preds_covid19_data,
-                                     input_field='preds_cases_7',
-                                     color_field='total_cases',
-                                     enable_IndiaStats=True,
-                                     enable_advancedStats=True,
-                                     integer_plot=True,
-                                     plot_title=None)
-  advancedPlot_tab=Panel(child=advanced_covid19_plot, title="Forecast")
-  
-  performance_covid19_plot=covid19_plot(preds_covid19_geosource, 
-                                        input_df=preds_covid19_data,
-                                        palette_type='Greens',
-                                        input_field='MAPE_7',
-                                        color_field='MAPE_7',
-                                        enable_IndiaStats=True,
-                                        enable_performanceStats=True,
-                                        plot_title=None)
-  performancePlot_tab=Panel(child=performance_covid19_plot,title="Forecast quality")
+    advanced_covid19_plot=covid19_plot(preds_covid19_geosource, 
+                                      input_df=preds_covid19_data,
+                                      input_field='preds_cases_7',
+                                      color_field='total_cases',
+                                      enable_IndiaStats=True,
+                                      enable_advancedStats=True,
+                                      integer_plot=True,
+                                      plot_title=None)
+    advanced_plot_tab=Panel(child=advanced_covid19_plot, title='Forecast')
+    tabs.append(advanced_plot_tab)
+    
+    performance_covid19_plot=covid19_plot(preds_covid19_geosource, 
+                                          input_df=preds_covid19_data,
+                                          palette_type='Greens',
+                                          input_field='MAPE_7',
+                                          color_field='MAPE_7',
+                                          enable_IndiaStats=True,
+                                          enable_performanceStats=True,
+                                          plot_title=None)
+    performance_plot_tab=Panel(child=performance_covid19_plot,title='Forecast quality')
+    tabs.append(performance_plot_tab)
+  return tabs
 
 def LineSmoothing(x,y, 
                   interpolationType='cubic',
@@ -855,71 +861,117 @@ def make_dataset(state):
               'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim}
          )
 
-state_list=list(preds_df['state'])
-state_list.append('India')
 
-state_wise_model_perf_dict = dict()
-for s in list(state_list):
-  state_wise_model_perf_dict.update({s: [make_dataset(s)]})
+class SARS_COV2_Layout():
+  def __init__(self, advanced_mode=False):
+    self.enable_source_creation = True
+    self.default_region_selection = 'India'
+    self.advanced_mode = advanced_mode
+    self.model_performance = None
+    self.state_list = list(preds_df['state'])
+    self.state_select = Select(
+                          value=self.default_region_selection,
+                          title='Select region or state: ', 
+                          options=sorted(self.state_list)
+                        )
+    self.place_holder = '  '
+    self.state_wise_model_perf_dict = dict()
+    self.state_wise_model_perf_data = []
 
-state_wise_model_pref_cds = ColumnDataSource(state_wise_model_perf_dict)
+  def build_dataset(self):
+    self.state_list.append(self.place_holder)
+    for s_idx, s in enumerate(list(self.state_list)):
+      self.state_wise_model_perf_dict.update({s : s_idx})
+      if s == self.place_holder:
+        self.state_wise_model_perf_data.append([make_dataset(self.default_region_selection)])
+      else:
+        self.state_wise_model_perf_data.append([make_dataset(s)])
 
-def update_plot(attrname, old, new):
-  updated_data=state_wise_model_pref_cds.data[state_select.value][0]
-  source.data.update(updated_data.data)
+  def read_model_performance_data(self):
+    if self.default_region_selection == self.place_holder:
+      s = 'India'
+    else:
+      s = self.default_region_selection
+    try:
+      self.model_performance = pd.read_csv(
+                            f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_{s}.csv'
+                          )
+    except Exception as e:
+      e = getattr(e, 'message', repr(e))
+      print(f'Failed to read model performance data for India from URL due to: {e} ...')
+
+      India_model_performance_file = os_style_formatter(
+                                        f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_{s}.csv'
+                                      )
+      print(India_model_performance_file)
+      if os.path.exists(India_model_performance_file):
+        self.model_performance = pd.read_csv(India_model_performance_file)
+        print(f'Reading India model performance file: {India_model_performance_file} from saved repo ...')
+      else:
+        print('Failed to read India model performance file: {India_model_performance_file} ...')
+
+  def get_source(self):
+    try:
+      state_selection = self.state_select.value
+    except NameError:
+      state_selection = self.default_region_selection
+    if state_selection is None:
+      state_selection = self.default_region_selection
+    if self.state_select.value == self.default_region_selection:
+      state_idx = self.state_wise_model_perf_dict[self.place_holder]
+    else:
+      state_idx = self.state_wise_model_perf_dict[state_selection]
+    if self.enable_source_creation:
+      self.enable_source_creation = False
+      global source
+      source = self.state_wise_model_perf_data[state_idx][0]
+    else:
+      source.data.update(self.state_wise_model_perf_data[state_idx][0].data)
+    return source
+
+  def update_plot(self, attrname, old, new):
+    new_source = self.get_source()
+    source.data.update(new_source.data)
+
+  def create_countrywide_model_performance_tab(self):
+    self.read_model_performance_data()
+    self.model_performance['date'] = self.model_performance['date'].apply(lambda x: date_formatter(x))
+    model_perf_plot = model_performance_plot(self.model_performance)  
+    model_performance_tab = Panel(child=model_perf_plot, title='Countrywide forecast performance')
+    return model_performance_tab
+
+  def create_statewise_model_performance_tab(self):
+    statewise_plot = model_performance_plot(self.get_source(), use_cds=True)
+    statewise_layout = column(self.state_select, statewise_plot) 
+    statewise_perf_tab = Panel(child=statewise_layout, title='Statewise forecast performance')
+    return statewise_perf_tab
+
+  def create_sars_cov2_layout(self, default_region_selection='India'):
+    if self.advanced_mode:
+      self.default_region_selection = default_region_selection
+      self.state_select.on_change('value', self.update_plot)
+      self.build_dataset()
+      statewise_perf_tab = self.create_statewise_model_performance_tab()
+      countrywide_perf_tab = self.create_countrywide_model_performance_tab()
+      viz_tabs = create_visualization_tabs(advanced_mode=advanced_mode)
+      viz_tabs.append(countrywide_perf_tab)
+      viz_tabs.append(statewise_perf_tab)
+      sars_cov2_layout_tabs = Tabs(tabs=viz_tabs)
+      sars_cov2_layout = sars_cov2_layout_tabs
+      return sars_cov2_layout, self.state_select
+    else:
+      sars_cov2_layout = column(basic_covid19_plot)
+      return sars_cov2_layout, None
 
 curdoc().title = app_title
 
-if advanced_mode:
-  try:
-    modelPerformance=pd.read_csv(
-                       f'{DATA_URL}/Coronavirus_stats/India/experimental/model_performance_India.csv'
-                       )
-  except Exception as e:
-    e = getattr(e, 'message', repr(e))
-    print(f'Failed to read model performance data for India from URL due to: {e} ...')
-
-    India_modelPerformance_file=os_style_formatter(
-                                  f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/model_performance_India.csv'
-                                  )
-    print(India_modelPerformance_file)
-    if os.path.exists(India_modelPerformance_file):
-      modelPerformance=pd.read_csv(India_modelPerformance_file)
-      print(f'Reading India model performance file: {India_modelPerformance_file} from saved repo ...')
-    else:
-      print('Failed to read India model performance file: {India_modelPerformance_file} ...')
-        
-  modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))
-  model_perfPlot=model_perfPlot=model_performance_plot(modelPerformance)  
-  modelPerformance_tab=Panel(child=model_perfPlot,title='Forecast performance') 
-  
-  state_select=Select(value='India',title='Select region or state: ',options=sorted(state_list))
-  source=state_wise_model_pref_cds.data[state_select.value][0]
-  state_select.on_change('value',update_plot) 
-  statewise_plot=model_performance_plot(source,use_cds=True
-                  )
-  
-  statewise_layout=column(state_select,statewise_plot) 
-  statewisePerf_tab=Panel(child=statewise_layout,title='Forecast performance') 
-
-  covid19_tabs = Tabs(tabs=[basicPlot_tab, 
-                            advancedPlot_tab, 
-                            performancePlot_tab, 
-                            #modelPerformance_tab, 
-                            statewisePerf_tab])
-  covid19_layout = covid19_tabs 
-else:
-  covid19_layout = column(basic_covid19_plot)
-
 if __name__ == '__main__':
   out_file('India_COVID19.html')
-  save(
-    Tabs(
-      tabs=[basicPlot_tab, 
-            advancedPlot_tab, 
-            performancePlot_tab]
-    ),
-    title='India SARS-CoV2 statewise statistics'
-  )
+  viz_tabs = create_visualization_tabs(advanced_mode=advanced_mode)
+  perf_tab = SARS_COV2_Layout(advanced_mode=advanced_mode).create_countrywide_model_performance_tab()
+  viz_tabs.append(perf_tab)
+
+  save(Tabs(tabs=viz_tabs), title='India SARS-CoV2 statewise statistics')
 else:
-  curdoc().add_root(covid19_layout)
+  sars_cov2_layout, state_select = SARS_COV2_Layout(advanced_mode=advanced_mode).create_sars_cov2_layout()
+  curdoc().add_root(sars_cov2_layout)
