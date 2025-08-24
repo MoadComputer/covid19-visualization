@@ -44,7 +44,7 @@ else:
 verbose = False
 enable_GeoJSON_saving = False
 
-DATA_UPDATE_DATE = '23-August-2025'
+DATA_UPDATE_DATE = '24-August-2025'
 FORECASTS_UPDATE_DATE = '23-August-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
@@ -272,10 +272,10 @@ def CustomHoverTool(
 
 def MapOverlayFormatter(map_overlay):
   if map_overlay:
-    xmin = 7570000
+    xmin = 7557500
     xmax = 10950000
-    ymin = 950000
-    ymax = 4850000
+    ymin = 875000
+    ymax = 4825000
     
     return xmin, xmax, ymin, ymax
 
@@ -470,7 +470,7 @@ def covid19_plot(
              x_range=(xmin, xmax) if map_overlay else None,
              y_range=(ymin, ymax) if map_overlay else None,
              tools='save' if enable_toolbar else '', 
-             outer_height = 530, outer_width = 530,
+             outer_height = 512, outer_width = 512,
              toolbar_location = 'left' if enable_toolbar else None,
              lod_factor=int(1e7),
              lod_threshold=int(2),
