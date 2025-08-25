@@ -283,7 +283,7 @@ def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=11):
              <hr>
          """
 
-def CustomHoverTool(
+def create_custom_hover_tool(
       enable_advanced_hover_tool:bool, 
       enable_simple_hover_tool:bool, 
       enable_performance_hover_tool:bool
@@ -506,7 +506,7 @@ def covid19_plot(
                        major_label_text_font_size='12px',
                        location = (0, 0))
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
-  hover = CustomHoverTool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats, enable_foecast_perf)
+  hover = create_custom_hover_tool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats)
 
   plt=figure(title = plot_title,
              x_range=(xmin, xmax) if map_overlay else None,
