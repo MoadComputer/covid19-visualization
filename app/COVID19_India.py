@@ -53,6 +53,8 @@ ALT_LOCAL_DATA_DIR = '../data'
 
 PERF_FILENAME_POINTER_STR = '/Coronavirus_stats/India/experimental/model_performance_'
 
+PLOT_FONT = 'times' # 'arial' #
+
 def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
   for state in list(input_df['state'].values):
     input_df.loc[input_df['state']==state,'state']=re.sub('[^A-Za-z ]+', '',str(state))
@@ -380,7 +382,9 @@ def CustomTitleOverlay(
   
   overlayText=Label(x=xtext, y=ytext, 
                     text='SARS-CoV2 in India',
-                    text_font_size='20pt')
+                    text_font=PLOT_FONT,
+                    text_font_size='21pt',
+                    text_font_style='bold',)
     
   plt.add_layout(overlayText) 
 
@@ -801,11 +805,11 @@ def model_performance_plot(
     perfPlot.xaxis.axis_label='Date'
     perfPlot.yaxis.axis_label=' '
     perfPlot.yaxis.axis_label_text_align='left'
-    perfPlot.xaxis.axis_label_text_font='arial'
-    perfPlot.xaxis.major_label_text_font='arial'
-    perfPlot.yaxis.major_label_text_font='arial'
-    perfPlot.add_layout(LinearAxis(axis_label='COVID19 cases',
-                                   axis_label_text_font='arial',
+    perfPlot.xaxis.axis_label_text_font=PLOT_FONT
+    perfPlot.xaxis.major_label_text_font=PLOT_FONT
+    perfPlot.yaxis.major_label_text_font=PLOT_FONT
+    perfPlot.add_layout(LinearAxis(axis_label='SARS-CoV2 cases',
+                                   axis_label_text_font=PLOT_FONT,
                                    major_tick_line_color=None,
                                    minor_tick_line_color=None,
                                    major_label_text_font_size='0pt',
