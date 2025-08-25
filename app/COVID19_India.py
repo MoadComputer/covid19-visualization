@@ -286,32 +286,13 @@ def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=11):
 def CustomHoverTool(
       enable_advanced_hover_tool:bool, 
       enable_simple_hover_tool:bool, 
-      enable_performance_hover_tool:bool, 
-      enable_regionwise_forecasts_hovertool:bool
+      enable_performance_hover_tool:bool
     )->'Bokeh hover tool':
   advanced_stats_hover = HoverTool(tooltips=advanced_stats_tool_tip_formatter(font_pixel_size=12))
 
   performance_stats_hover = HoverTool(tooltips=performance_stats_hover_tool_formatter(font_pixel_size=12))
 
   simple_stats_hover=HoverTool(tooltips = simple_stats_hover_tool_formatter(font_pixel_size=12))
-
-  regionwise_forecasts_hover = HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
-                                                      <font face={} size="3">Cases: @total_cases{}</font><br>
-                                                      <font face={} size="3">Deaths: @deaths{} </font>
-                                                      <hr>  
-                                                      <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
-                                                      <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br>
-                                                      <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
-                                                   """.format(HTML_FONT,
-                                                              HTML_FONT,
-                                                              HTML_INT_FORMATTER_STR, 
-                                                              HTML_FONT,
-                                                              HTML_INT_FORMATTER_STR,
-                                                              HTML_FONT,
-                                                              DATA_UPDATE_DATE,
-                                                              HTML_FONT,
-                                                              FORECASTS_UPDATE_DATE,
-                                                              HTML_FONT))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
@@ -324,8 +305,6 @@ def CustomHoverTool(
     hover = advanced_stats_hover
   elif enable_simple_hover_tool:
     hover  = simple_stats_hover
-  elif enable_regionwise_forecasts_hovertool:
-    hover = regionwise_forecasts_hover
   else:
     hover = standard_hover
   
