@@ -29,16 +29,16 @@ print(bokeh_version_msg, bokeh_version)
 
 version_check = version.parse(bokeh_version) >= version.parse('3.4.1')
 if version_check:
-    from bokeh.models import TabPanel as Panel
-    from bokeh.layouts import column
+    from bokeh.models import TabPanel as Tab_Panel
+    from bokeh.layouts import column as Column
 else:
     try:
-        from bokeh.models import Panel
-        from bokeh.layouts import column
+        from bokeh.models import Panel as Tab_Panel
+        from bokeh.layouts import column as Column
     except ImportError:
         try:
-            from bokeh.models import TabPanel as Panel
-            from bokeh.models.layouts import Column as column
+            from bokeh.models import TabPanel as Tab_Panel
+            from bokeh.models.layouts import Column
         except Exception as e:
             e = getattr(e, 'message', repr(e))
             raise ValueError(f'Failed Bokeh imports due to: {e} ...')
@@ -210,7 +210,6 @@ def css_formatter(font_pixel_size=15, line_height=110, in_css=None):
   return f"{css}"
 
 def advanced_stats_tool_tip_formatter(font_pixel_size=12):
-
   return f"""
              <div style='{css_formatter(font_pixel_size-1)}'>
              <strong>@state</strong><br>
@@ -292,12 +291,12 @@ def create_custom_hover_tool(
 
   performance_stats_hover = HoverTool(tooltips=performance_stats_hover_tool_formatter(font_pixel_size=12))
 
-  simple_stats_hover=HoverTool(tooltips = simple_stats_hover_tool_formatter(font_pixel_size=12))
+  simple_stats_hover = HoverTool(tooltips=simple_stats_hover_tool_formatter(font_pixel_size=12))
 
-  standard_hover = HoverTool(tooltips = [('State','@state'),
-                                         ('Cases', '@total_cases'),
-                                         #('Discharged/migrated', '@discharged'),
-                                         ('Deaths', '@deaths')])
+  standard_hover = HoverTool(tooltips=[('State','@state'),
+                                       ('Cases', '@total_cases'),
+                                       #('Discharged/migrated', '@discharged'),
+                                       ('Deaths', '@deaths')])
   
   if enable_performance_hover_tool:
     hover  = performance_stats_hover
@@ -580,7 +579,7 @@ def create_visualization_tabs(advanced_mode=True):
                          integer_plot=True,
                          plot_title=plot_title
                        )
-  basic_plot_tab = Panel(child=basic_covid19_plot, title="⌂")
+  basic_plot_tab = Tab_Panel(child=basic_covid19_plot, title="⌂")
   tabs.append(basic_plot_tab)
 
   if advanced_mode:
@@ -630,7 +629,7 @@ def create_visualization_tabs(advanced_mode=True):
                               integer_plot=True,
                               plot_title=None
                             )
-    advanced_plot_tab = Panel(child=advanced_covid19_plot, title='Forecast')
+    advanced_plot_tab = Tab_Panel(child=advanced_covid19_plot, title='Forecast')
     tabs.append(advanced_plot_tab)
     
     performance_covid19_plot = covid19_plot(
@@ -643,7 +642,7 @@ def create_visualization_tabs(advanced_mode=True):
                                  enable_performance_stats=True,
                                  plot_title=None
                                )
-    performance_plot_tab = Panel(child=performance_covid19_plot, title='Forecast quality')
+    performance_plot_tab = Tab_Panel(child=performance_covid19_plot, title='Forecast quality')
     tabs.append(performance_plot_tab)
 
   return tabs
@@ -743,7 +742,6 @@ def model_performance_plot(
                      y='y_preds7',
                      source=source)
 
-    
     TOOLTIPS = regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=12)      \
                if regionwise_forecast_perf_hover_tool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
@@ -927,7 +925,6 @@ def make_dataset(state):
             'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim}
          )
 
-
 class SARS_COV2_Layout():
   def __init__(self, default_region_selection='India', advanced_mode=False):
     self.enable_source_creation=True
@@ -1015,13 +1012,13 @@ class SARS_COV2_Layout():
     self.read_model_performance_data()
     self.model_performance['date'] = self.model_performance['date'].apply(lambda x: date_formatter(x))
     model_perf_plot = model_performance_plot(self.model_performance)  
-    model_performance_tab = Panel(child=model_perf_plot, title='Countrywide forecast performance')
+    model_performance_tab = Tab_Panel(child=model_perf_plot, title='Countrywide forecast performance')
     return model_performance_tab
 
   def create_statewise_model_performance_tab(self):
     statewise_plot = model_performance_plot(self.get_source(), use_cds=True)
-    statewise_layout = column(self.state_select, statewise_plot) 
-    statewise_perf_tab = Panel(child=statewise_layout, title='Regionwise forecast performance')
+    statewise_layout = Column(self.state_select, statewise_plot) 
+    statewise_perf_tab = Tab_Panel(child=statewise_layout, title='Regionwise forecast performance')
     return statewise_perf_tab
 
   def create_sars_cov2_layout(self, default_region_selection='India'):
@@ -1037,7 +1034,7 @@ class SARS_COV2_Layout():
       sars_cov2_layout = sars_cov2_layout_tabs
       return sars_cov2_layout, self.state_select
     else:
-      sars_cov2_layout = column(basic_covid19_plot)
+      sars_cov2_layout = Column(basic_covid19_plot)
       return sars_cov2_layout, None
 
 curdoc().title = app_title
