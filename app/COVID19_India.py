@@ -66,7 +66,7 @@ PERF_FILENAME_POINTER_STR = '/Coronavirus_stats/India/experimental/model_perform
 
 PLOT_FONT = 'times' # 'arial' #
 
-HTML_FONT = 'Times' # 'Serif' # 
+HTML_FONT = 'Times New Roman' # 'Serif' # 
 HTML_INT_FORMATTER_STR = '{(0,0)}'
 HTML_FLOAT_FORMATTER_STR = '{(0.000)}'
 
@@ -203,100 +203,115 @@ def CustomPalette(palette_type:'Bokeh palette', enable_colorInverse:bool=True)->
     palette = palette[::1]
   return palette
 
+def css_formatter(font_pixel_size=15, line_height=110, in_css=None):
+  css = f'font-size: {font_pixel_size}px; font-weight: "bold"; font-family: "{HTML_FONT}"; line-height: {line_height}%; '
+  if in_css:
+    return in_css + css
+  return f"{css}"
+
+def advanced_stats_tool_tip_formatter(font_pixel_size=12):
+
+  return f"""
+             <div style='{css_formatter(font_pixel_size-1)}'>
+             <strong>@state</strong><br>
+             </div>
+             <div style='{css_formatter(font_pixel_size)}'>
+             Reported cases: <strong>@total_cases{HTML_INT_FORMATTER_STR}</strong><br>
+             <hr>
+             <strong>Forecasts: </strong><br>
+             <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+1 day: <strong>@preds_cases{HTML_INT_FORMATTER_STR} (±@preds_cases_std{HTML_INT_FORMATTER_STR})</strong></p>
+             <p style="color:green; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+3 days: <strong>@preds_cases_3{HTML_INT_FORMATTER_STR} (±@preds_cases_3_std{HTML_INT_FORMATTER_STR})</strong></p>
+             <p style="color:blue; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+7 days: <strong>@preds_cases_7{HTML_INT_FORMATTER_STR} (±@preds_cases_7_std{HTML_INT_FORMATTER_STR})</strong></p>
+             </div>
+             <hr>
+             <div style='{css_formatter(font_pixel_size-1)}'>
+             Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
+             Forecasts updated on: <strong>{FORECASTS_UPDATE_DATE}</strong><br>
+             Forecasts by: <a href="https://moad.computer"><strong>MOAD.Computer</strong></a> <br>
+             </div>
+          """
+
+def performance_stats_hover_tool_formatter(font_pixel_size=11):
+  return f"""<div style='{css_formatter(font_pixel_size-1)}'>
+          <strong>@state</strong> <br>
+          </div>
+          <hr>
+          <div style='{css_formatter(font_pixel_size)}'>
+          Mean Absolute Percentage Error <strong>(MAPE)</strong>
+          <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+1 day: <strong>@MAPE{HTML_FLOAT_FORMATTER_STR}</strong></p>
+          <p style="color:green; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+3 days: <strong>@MAPE_3{HTML_FLOAT_FORMATTER_STR}</strong></p>
+          <p style="color:blue; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+7 days: <strong>@MAPE_7{HTML_FLOAT_FORMATTER_STR}</strong></p>
+          </div>
+          <hr>  
+          <div style='{css_formatter(font_pixel_size-1)}'>
+          Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
+          Forecasts updated on: <strong>{FORECASTS_UPDATE_DATE}</strong><br>
+          Forecasts by: <a href="https://moad.computer"><strong>MOAD.Computer</strong></a> <br>
+          </div>
+      """
+
+def simple_stats_hover_tool_formatter(font_pixel_size=11):   
+  return f"""<div style='{css_formatter(font_pixel_size+1)}'>
+             <strong>@state</strong> <br>
+             </div>
+             <div style='{css_formatter(font_pixel_size)}'>
+             Cases: <strong>@total_cases{HTML_INT_FORMATTER_STR}</strong><br>
+             Deaths: <strong>@deaths{HTML_INT_FORMATTER_STR}</strong>
+             </div>
+             <hr>  
+             <div style='{css_formatter(font_pixel_size-1)}'>
+             Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
+             Data source: <a href="https://mohfw.gov.in"><strong>MoHFW.gov.in</strong></a> <br>
+             </div>                                              
+          """
+
+def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=11):
+  return f"""<div style='{css_formatter(font_pixel_size+1)}'>
+             Forecast performance for<strong>@plot_index</strong> <br>
+             <div>
+             <p style="color:black; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Reported cases: <strong>@y_cases{HTML_INT_FORMATTER_STR}</strong></p>
+             <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Forecast a day ago: <strong>@y_preds{HTML_INT_FORMATTER_STR} (±@y_std{HTML_INT_FORMATTER_STR})</strong></p> 
+             <p style="color:green; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Forecast 3 days ago: <strong>@y_preds3{HTML_INT_FORMATTER_STR} (±@y_3std{HTML_INT_FORMATTER_STR})</strong></p>
+             <p style="color:blue; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Forecast 7 days ago: <strong>@y_preds7{HTML_INT_FORMATTER_STR} (±@y_7std{HTML_INT_FORMATTER_STR})</strong></p>
+             </div>
+             <hr>
+             <div style='{css_formatter(font_pixel_size-1)}'>
+             Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
+             Forecasts updated on: <strong>{FORECASTS_UPDATE_DATE}</strong><br>
+             Forecasts by: <a href="https://moad.computer"><strong>MOAD.Computer</strong></a> <br>
+             </div>
+             <hr>
+         """
+
 def CustomHoverTool(
       enable_advanced_hover_tool:bool, 
-      enable_custom_hover_tool:bool, 
+      enable_simple_hover_tool:bool, 
       enable_performance_hover_tool:bool, 
-      enable_performance_stats_hovertool:bool
+      enable_regionwise_forecasts_hovertool:bool
     )->'Bokeh hover tool':
-  advancedStats_hover=HoverTool(tooltips ="""<strong><font face={} size="2">@state</font></strong> <br>
-                                             <hr>
-                                             <strong><font face={} size="2">Forecast</font></strong> <br>
-                                             <font face={} size="2">Reported cases: <strong>@total_cases{}</strong></font>
-                                             <font face={} size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases{} (±@preds_cases_std{})</strong></p></font>
-                                             <font face={} size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3{} (±@preds_cases_3_std{})</strong></p></font>
-                                             <font face={} size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7{} (±@preds_cases_7_std{})</strong></p></font>
-                                             <hr>  
-                                             <strong><font face={} size="1">Data updated on: {}</font></strong> <br>
-                                             <strong><font face={} size="1">Forecasts updated on: {}</font></strong> <br>
-                                             <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong> <br>
-                                             """.format(HTML_FONT,
-                                                        HTML_FONT,
-                                                        HTML_FONT,
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_FONT,
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_FONT,
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_FONT,
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_INT_FORMATTER_STR, 
-                                                        HTML_FONT,
-                                                        DATA_UPDATE_DATE,
-                                                        HTML_FONT,
-                                                        FORECASTS_UPDATE_DATE,
-                                                        HTML_FONT))
+  advanced_stats_hover = HoverTool(tooltips=advanced_stats_tool_tip_formatter(font_pixel_size=12))
 
-  performanceStats_hover=HoverTool(tooltips ="""<strong><font face={} size="2">@state</font></strong> <br>
-                                                <hr>
-                                                <strong><font face={} size="2">MAPE</font></strong><br>
-                                                <strong><font face={} size="1">(Mean Absolute Percentage Error)</font></strong>
-                                                <font face={} size="2"><p style="color:red; margin:0">+1 day: <strong>@MAPE{}</strong></p></font>
-                                                <font face={} size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
-                                                <font face={} size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
-                                                <hr>  
-                                                <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
-                                                <strong><font face={} size="1">Forecasts updated on: {}</font></strong> <br>
-                                                <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong>                                                    
-                                              """.format(HTML_FONT,
-                                                         HTML_FONT,
-                                                         HTML_FONT,
-                                                         HTML_FONT,
-                                                         HTML_FLOAT_FORMATTER_STR, 
-                                                         HTML_FONT,
-                                                         HTML_FLOAT_FORMATTER_STR, 
-                                                         HTML_FONT,
-                                                         HTML_FLOAT_FORMATTER_STR,
-                                                         HTML_FONT,
-                                                         DATA_UPDATE_DATE,
-                                                         HTML_FONT,
-                                                         FORECASTS_UPDATE_DATE,
-                                                         HTML_FONT))
+  performance_stats_hover = HoverTool(tooltips=performance_stats_hover_tool_formatter(font_pixel_size=12))
 
-  simpleStats_hover=HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
-                                           <font face={} size="3">Cases: @total_cases{}</font><br>
-                                           <font face={} size="3">Deaths: @deaths{} </font>
-                                           <hr>  
-                                           <strong><font face={} size="1">Updated on: {}</font></strong><br> 
-                                           <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
-                                        """.format(HTML_FONT,
-                                                   HTML_FONT,
-                                                   HTML_INT_FORMATTER_STR,
-                                                   HTML_FONT,
-                                                   HTML_INT_FORMATTER_STR,
-                                                   HTML_FONT,
-                                                   DATA_UPDATE_DATE,
-                                                   HTML_FONT))
+  simple_stats_hover=HoverTool(tooltips = simple_stats_hover_tool_formatter(font_pixel_size=12))
 
-  perfStats_hover=HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
-                                           <font face={} size="3">Cases: @total_cases{}</font><br>
-                                           <font face={} size="3">Deaths: @deaths{} </font>
-                                           <hr>  
-                                           <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
-                                           <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br>
-                                           <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
-                                        """.format(HTML_FONT,
-                                                   HTML_FONT,
-                                                   HTML_INT_FORMATTER_STR, 
-                                                   HTML_FONT,
-                                                   HTML_INT_FORMATTER_STR,
-                                                   HTML_FONT,
-                                                   DATA_UPDATE_DATE,
-                                                   HTML_FONT,
-                                                   FORECASTS_UPDATE_DATE,
-                                                   HTML_FONT))
+  regionwise_forecasts_hover = HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
+                                                      <font face={} size="3">Cases: @total_cases{}</font><br>
+                                                      <font face={} size="3">Deaths: @deaths{} </font>
+                                                      <hr>  
+                                                      <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
+                                                      <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br>
+                                                      <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
+                                                   """.format(HTML_FONT,
+                                                              HTML_FONT,
+                                                              HTML_INT_FORMATTER_STR, 
+                                                              HTML_FONT,
+                                                              HTML_INT_FORMATTER_STR,
+                                                              HTML_FONT,
+                                                              DATA_UPDATE_DATE,
+                                                              HTML_FONT,
+                                                              FORECASTS_UPDATE_DATE,
+                                                              HTML_FONT))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
@@ -304,13 +319,13 @@ def CustomHoverTool(
                                          ('Deaths', '@deaths')])
   
   if enable_performance_hover_tool:
-    hover  = performanceStats_hover
+    hover  = performance_stats_hover
   elif enable_advanced_hover_tool:
-    hover = advancedStats_hover
-  elif enable_custom_hover_tool:
-    hover  = simpleStats_hover
-  elif enable_performance_stats_hovertool:
-    hover = perfStats_hover
+    hover = advanced_stats_hover
+  elif enable_simple_hover_tool:
+    hover  = simple_stats_hover
+  elif enable_regionwise_forecasts_hovertool:
+    hover = regionwise_forecasts_hover
   else:
     hover = standard_hover
   
@@ -485,25 +500,25 @@ def covid19_plot(
       map_overlay=True,
       palette_type='OrRd',
       integer_plot=False,
-      enable_custom_hover_tool=True,
-      enable_LakshadweepStats=True,
-      enable_IndiaStats=False,                 
-      enable_advancedStats=False,
-      enable_performanceStats=False,
-      enable_foecastPerf=False,
+      enable_simple_hover_tool=True,
+      enable_lakshadweep_stats=True,
+      enable_India_stats=False,                 
+      enable_advanced_stats=False,
+      enable_performance_stats=False,
+      enable_foecast_perf=False,
       enable_toolbar=False
     ):
   
-  palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performanceStats else True)
+  palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performance_stats else True)
   color_mapper = LinearColorMapper(palette=palette, 
                                    low=0, 
                                    high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
-                                        if not enable_performanceStats else np.round((np.max(input_df[color_field].values)),3)
+                                        if not enable_performance_stats else np.round((np.max(input_df[color_field].values)),3)
                                    ) 
   if integer_plot:
     format_tick=NumeralTickFormatter(format='0,0')
   else:
-    format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performanceStats else\
+    format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performance_stats else\
                                      str(np.round((input_df[input_field].values.astype('float')),1)))
   color_bar = ColorBar(color_mapper=color_mapper, 
                        label_standoff=14, 
@@ -512,7 +527,7 @@ def covid19_plot(
                        major_label_text_font_size='12px',
                        location = (0, 0))
   xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
-  hover=CustomHoverTool(enable_advancedStats,enable_custom_hover_tool,enable_performanceStats,enable_foecastPerf)
+  hover = CustomHoverTool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats, enable_foecast_perf)
 
   plt=figure(title = plot_title,
              x_range=(xmin, xmax) if map_overlay else None,
@@ -533,22 +548,22 @@ def covid19_plot(
                          hoverTool=hover,
                          mapOverlay=map_overlay,
                          enableToolbar=enable_toolbar,
-                         enableTapTool=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+                         enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
   
-  if enable_LakshadweepStats:
+  if enable_lakshadweep_stats:
     plt=lakshadweep_correction(plt, 
                                input_df=input_df, 
-                               advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+                               advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
 
-  if enable_IndiaStats:
+  if enable_India_stats:
     xtext,ytext,xbox,ybox=CustomTitleFormatter()
     plt=CustomTitleOverlay(plt, 
                            xtext=xtext,
                            ytext=ytext,
                            xbox=xbox, 
                            ybox=ybox,
-                           input_df=input_df, 
-                           advanced_plotting=True if ((enable_advancedStats) or (enable_performanceStats)) else False)
+                           input_df=input_df,
+                           advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
   plt.xaxis.major_tick_line_color=None  
   plt.yaxis.major_tick_line_color=None
   plt.xaxis.minor_tick_line_color=None 
@@ -556,6 +571,12 @@ def covid19_plot(
   plt.xaxis[0].ticker.num_minor_ticks=0
   plt.yaxis[0].ticker.num_minor_ticks=0
   plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
+
+  plt.stylesheets.append(
+  """:host {
+    --base-font: 'Times New Roman', Times, serif;
+  """
+  )
 
   return plt
 
@@ -576,7 +597,7 @@ def create_visualization_tabs(advanced_mode=True):
                          input_df=covid19_data,
                          input_field='total_cases',
                          color_field='total_cases',
-                         enable_IndiaStats=True,
+                         enable_India_stats=True,
                          integer_plot=True,
                          plot_title=plot_title
                        )
@@ -625,12 +646,12 @@ def create_visualization_tabs(advanced_mode=True):
                               input_df=preds_covid19_data,
                               input_field='preds_cases_7',
                               color_field='total_cases',
-                              enable_IndiaStats=True,
-                              enable_advancedStats=True,
+                              enable_India_stats=True,
+                              enable_advanced_stats=True,
                               integer_plot=True,
                               plot_title=None
                             )
-    advanced_plot_tab=Panel(child=advanced_covid19_plot, title='Forecast')
+    advanced_plot_tab = Panel(child=advanced_covid19_plot, title='Forecast')
     tabs.append(advanced_plot_tab)
     
     performance_covid19_plot = covid19_plot(
@@ -639,11 +660,11 @@ def create_visualization_tabs(advanced_mode=True):
                                  palette_type='Greens',
                                  input_field='MAPE_7',
                                  color_field='MAPE_7',
-                                 enable_IndiaStats=True,
-                                 enable_performanceStats=True,
+                                 enable_India_stats=True,
+                                 enable_performance_stats=True,
                                  plot_title=None
                                )
-    performance_plot_tab = Panel(child=performance_covid19_plot,title='Forecast quality')
+    performance_plot_tab = Panel(child=performance_covid19_plot, title='Forecast quality')
     tabs.append(performance_plot_tab)
 
   return tabs
@@ -667,7 +688,7 @@ def model_performance_plot(
       source,
       use_cds=False,
       enable_interpolation=False, 
-      custom_perfHoverTool=True
+      regionwise_forecast_perf_hover_tool=True
     ):
     if use_cds:
       plotIndex=source.data['plot_index']
@@ -744,32 +765,8 @@ def model_performance_plot(
                      source=source)
 
     
-    TOOLTIPS = """<strong><font face={} size="2">Forecast performance for @plot_index</font></strong> <br>
-                  <font face={} size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
-                  <font face={} size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std{})</strong></p></font> 
-                  <font face={} size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std{})</strong></p></font>
-                  <font face={} size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std{})</strong></p></font>
-                  <hr>
-                  <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
-                  <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br> 
-                  <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong>""".format(HTML_FONT,
-                                                                                                               HTML_FONT,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_FONT,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_FONT,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_FONT,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_INT_FORMATTER_STR,
-                                                                                                               HTML_FONT,
-                                                                                                               DATA_UPDATE_DATE,
-                                                                                                               HTML_FONT,
-                                                                                                               FORECASTS_UPDATE_DATE,
-                                                                                                               HTML_FONT)      \
-               if custom_perfHoverTool else [('Date: ','@plot_index'),
+    TOOLTIPS = regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=12)      \
+               if regionwise_forecast_perf_hover_tool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
     perfPlot = figure(
@@ -1072,11 +1069,10 @@ curdoc().theme = Theme(json={
             'background_fill_alpha' : 0.3,
             'border_fill_color': 'white',
             'border_fill_alpha': 0.3,
-            'outline_line_color': '#444444', # None,
+            'outline_line_color': '#444444',
             'outline_line_alpha': 0.3,
             'toolbar_location': None,
-            'min_border': 20,
-            'text_font':'Times'
+            'min_border': 20
         },
         'Axis': {
             'axis_line_color': None,
