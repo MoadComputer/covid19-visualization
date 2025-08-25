@@ -1,6 +1,8 @@
 import os, re, sys, math, json, bokeh, geopandas, numpy as np, pandas as pd
 
+from jinja2 import Template
 from packaging import version
+from bokeh.themes import Theme
 from bokeh.io.doc import curdoc
 from bokeh.layouts import layout
 from bokeh.plotting import figure
@@ -15,10 +17,10 @@ from bokeh.models.widgets import Button,Select
 from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
 from bokeh.plotting import save, figure, output_file as out_file
-from bokeh.models import ColumnDataSource,Slider,HoverTool,Select,Div,        \
-                         Range1d,WMTSTileSource,BoxZoomTool,TapTool, Tabs
-from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,        \
-                         NumeralTickFormatter, LinearAxis,Grid,Label,Band,    \
+from bokeh.models import ColumnDataSource,Slider,HoverTool,InlineStyleSheet,        \
+                         Select,Div,Range1d,WMTSTileSource,BoxZoomTool,TapTool,Tabs
+from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,              \
+                         NumeralTickFormatter, LinearAxis,Grid,Label,Band,          \
                          Legend,LegendItem
 
 bokeh_version = bokeh.__version__ 
@@ -45,15 +47,28 @@ verbose = False
 enable_GeoJSON_saving = False
 
 DATA_UPDATE_DATE = '25-August-2025'
-FORECASTS_UPDATE_DATE = '24-August-2025'
+FORECASTS_UPDATE_DATE = '25-August-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
 ALT_LOCAL_DATA_DIR = '../data'
 
+GEOJSON_FILENAME = 'India_statewise.geojson'
+POPUL_STATS_CSV_FILENAME = 'Population_stats_India_statewise.csv'
+SARSCOV2_STATS_CSV_FILENAME = 'COVID19_India_statewise.csv'
+SARSCOV2_FORECASTS_FILENAME = 'output_preds.csv'
+
+GEOJSON_FILENAME_POINTER_STR = f'/GeoJSON_assets/{GEOJSON_FILENAME}'
+POPUL_STATS_CSV_FILENAME_POINTER_STR = f'/Coronavirus_stats/India/{POPUL_STATS_CSV_FILENAME}'
+SARSCOV2_STATS_CSV_FILENAME_POINTER_STR = f'/Coronavirus_stats/India/{SARSCOV2_STATS_CSV_FILENAME}'
+SARSCOV2_FORECASTS_FILENAME_POINTER_STR = f'/Coronavirus_stats/India/experimental/{SARSCOV2_FORECASTS_FILENAME}'
 PERF_FILENAME_POINTER_STR = '/Coronavirus_stats/India/experimental/model_performance_'
 
 PLOT_FONT = 'times' # 'arial' #
+
+HTML_FONT = 'Times' # 'Serif' # 
+HTML_INT_FORMATTER_STR = '{(0,0)}'
+HTML_FLOAT_FORMATTER_STR = '{(0.000)}'
 
 def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
   for state in list(input_df['state'].values):
@@ -78,26 +93,26 @@ def os_style_formatter(input_str:str)->str:
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
 
 try:
-  India_statewise = geopandas.read_file(f'{DATA_URL}/GeoJSON_assets/India_statewise_minified.geojson')
-  India_stats = pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/Population_stats_India_statewise.csv')
-  covid19_data = pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/COVID19_India_statewise.csv')
-  preds_df = pd.read_csv(f'{DATA_URL}/Coronavirus_stats/India/experimental/output_preds.csv')
+  India_statewise = geopandas.read_file(f'{DATA_URL}{GEOJSON_FILENAME_POINTER_STR}')
+  India_stats = pd.read_csv(f'{DATA_URL}{POPUL_STATS_CSV_FILENAME_POINTER_STR}')
+  covid19_data = pd.read_csv(f'{DATA_URL}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}')
+  preds_df = pd.read_csv(f'{DATA_URL}{SARSCOV2_FORECASTS_FILENAME_POINTER_STR}')
 except Exception as e:
   e = getattr(e, 'message', repr(e))
   print(f'Failed reading URL data due to: {e} ...')
   if os.path.exists(os_style_formatter(ALT_LOCAL_DATA_DIR)):
     LOCAL_DATA_DIR = ALT_LOCAL_DATA_DIR
   India_GeoJSON_repoFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/GeoJSON_assets/India_statewise.geojson'
+      f'{LOCAL_DATA_DIR}{GEOJSON_FILENAME_POINTER_STR}'
   ) 
   covid19_statewise_repoFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/COVID19_India_statewise.csv'
+      f'{LOCAL_DATA_DIR}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}'
   )
   India_statewise_statsFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/Population_stats_India_statewise.csv'
+      f'{LOCAL_DATA_DIR}{POPUL_STATS_CSV_FILENAME_POINTER_STR}'
   )
   saved_predsFile=os_style_formatter(
-      f'{LOCAL_DATA_DIR}/Coronavirus_stats/India/experimental/output_preds.csv'
+      f'{LOCAL_DATA_DIR}{SARSCOV2_FORECASTS_FILENAME_POINTER_STR}'
   ) 
     
   if os.path.exists(India_GeoJSON_repoFile):
@@ -194,65 +209,94 @@ def CustomHoverTool(
       enable_performance_hover_tool:bool, 
       enable_performance_stats_hovertool:bool
     )->'Bokeh hover tool':
-  advancedStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
+  advancedStats_hover=HoverTool(tooltips ="""<strong><font face={} size="2">@state</font></strong> <br>
                                              <hr>
-                                             <strong><font face="Arial" size="2">Forecast</font></strong> <br>
-                                             <font face="Arial" size="2">Reported cases: <strong>@total_cases{}</strong></font>
-                                             <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases{} (±@preds_cases_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3{} (±@preds_cases_3_std{})</strong></p></font>
-                                             <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7{} (±@preds_cases_7_std{})</strong></p></font>
+                                             <strong><font face={} size="2">Forecast</font></strong> <br>
+                                             <font face={} size="2">Reported cases: <strong>@total_cases{}</strong></font>
+                                             <font face={} size="2"><p style="color:red; margin:0">+1 day: <strong>@preds_cases{} (±@preds_cases_std{})</strong></p></font>
+                                             <font face={} size="2"><p style="color:green; margin:0">+3 days: <strong>@preds_cases_3{} (±@preds_cases_3_std{})</strong></p></font>
+                                             <font face={} size="2"><p style="color:blue; margin:0">+7 days: <strong>@preds_cases_7{} (±@preds_cases_7_std{})</strong></p></font>
                                              <hr>  
-                                             <strong><font face="Arial" size="1">Data updated on: {}</font></strong> <br>
-                                             <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
-                                             <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong> <br>
-                                             """.format('{(0,0)}', 
-                                                        '{(0,0)}', 
-                                                        '{(0,0)}', 
-                                                        '{(0,0)}', 
-                                                        '{(0,0)}', 
-                                                        '{(0,0)}', 
-                                                        '{(0,0)}', 
+                                             <strong><font face={} size="1">Data updated on: {}</font></strong> <br>
+                                             <strong><font face={} size="1">Forecasts updated on: {}</font></strong> <br>
+                                             <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong> <br>
+                                             """.format(HTML_FONT,
+                                                        HTML_FONT,
+                                                        HTML_FONT,
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_FONT,
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_FONT,
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_FONT,
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_INT_FORMATTER_STR, 
+                                                        HTML_FONT,
                                                         DATA_UPDATE_DATE,
-                                                        FORECASTS_UPDATE_DATE))
+                                                        HTML_FONT,
+                                                        FORECASTS_UPDATE_DATE,
+                                                        HTML_FONT))
 
-  performanceStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="2">@state</font></strong> <br>
+  performanceStats_hover=HoverTool(tooltips ="""<strong><font face={} size="2">@state</font></strong> <br>
                                                 <hr>
-                                                <strong><font face="Arial" size="2">MAPE</font></strong><br>
-                                                <strong><font face="Arial" size="1">(Mean Absolute Percentage Error)</font></strong>
-                                                <font face="Arial" size="2"><p style="color:red; margin:0">+1 day: <strong>@MAPE{}</strong></p></font>
-                                                <font face="Arial" size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
-                                                <font face="Arial" size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
+                                                <strong><font face={} size="2">MAPE</font></strong><br>
+                                                <strong><font face={} size="1">(Mean Absolute Percentage Error)</font></strong>
+                                                <font face={} size="2"><p style="color:red; margin:0">+1 day: <strong>@MAPE{}</strong></p></font>
+                                                <font face={} size="2"><p style="color:green; margin:0">+3 days: <strong>@MAPE_3{}</strong></p></font>
+                                                <font face={} size="2"><p style="color:blue; margin:0">+7 days: <strong>@MAPE_7{}</strong></p></font>
                                                 <hr>  
-                                                <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
-                                                <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong> <br>
-                                                <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong>                                                    
-                                              """.format('{(0.000)}', 
-                                                         '{(0.000)}', 
-                                                         '{(0.000)}',
+                                                <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
+                                                <strong><font face={} size="1">Forecasts updated on: {}</font></strong> <br>
+                                                <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong>                                                    
+                                              """.format(HTML_FONT,
+                                                         HTML_FONT,
+                                                         HTML_FONT,
+                                                         HTML_FONT,
+                                                         HTML_FLOAT_FORMATTER_STR, 
+                                                         HTML_FONT,
+                                                         HTML_FLOAT_FORMATTER_STR, 
+                                                         HTML_FONT,
+                                                         HTML_FLOAT_FORMATTER_STR,
+                                                         HTML_FONT,
                                                          DATA_UPDATE_DATE,
-                                                         FORECASTS_UPDATE_DATE))
+                                                         HTML_FONT,
+                                                         FORECASTS_UPDATE_DATE,
+                                                         HTML_FONT))
 
-  simpleStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                           <font face="Arial" size="3">Cases: @total_cases{}</font><br>
-                                           <font face="Arial" size="3">Deaths: @deaths{} </font>
+  simpleStats_hover=HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
+                                           <font face={} size="3">Cases: @total_cases{}</font><br>
+                                           <font face={} size="3">Deaths: @deaths{} </font>
                                            <hr>  
-                                           <strong><font face="Arial" size="1">Updated on: {}</font></strong><br> 
-                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
-                                        """.format('{(0,0)}', 
-                                                   '{(0,0)}',
-                                                   DATA_UPDATE_DATE))
-
-  perfStats_hover=HoverTool(tooltips ="""<strong><font face="Arial" size="3">@state</font></strong> <br>
-                                           <font face="Arial" size="3">Cases: @total_cases{}</font><br>
-                                           <font face="Arial" size="3">Deaths: @deaths{} </font>
-                                           <hr>  
-                                           <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
-                                           <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong><br>
-                                           <strong><font face="Arial" size="1">Data from: https://mohfw.gov.in </font></strong>                                               
-                                        """.format('{(0,0)}', 
-                                                   '{(0,0)}',
+                                           <strong><font face={} size="1">Updated on: {}</font></strong><br> 
+                                           <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
+                                        """.format(HTML_FONT,
+                                                   HTML_FONT,
+                                                   HTML_INT_FORMATTER_STR,
+                                                   HTML_FONT,
+                                                   HTML_INT_FORMATTER_STR,
+                                                   HTML_FONT,
                                                    DATA_UPDATE_DATE,
-                                                   FORECASTS_UPDATE_DATE))
+                                                   HTML_FONT))
+
+  perfStats_hover=HoverTool(tooltips ="""<strong><font face={} size="3">@state</font></strong> <br>
+                                           <font face={} size="3">Cases: @total_cases{}</font><br>
+                                           <font face={} size="3">Deaths: @deaths{} </font>
+                                           <hr>  
+                                           <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
+                                           <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br>
+                                           <strong><font face={} size="1">Data from: https://mohfw.gov.in </font></strong>                                               
+                                        """.format(HTML_FONT,
+                                                   HTML_FONT,
+                                                   HTML_INT_FORMATTER_STR, 
+                                                   HTML_FONT,
+                                                   HTML_INT_FORMATTER_STR,
+                                                   HTML_FONT,
+                                                   DATA_UPDATE_DATE,
+                                                   HTML_FONT,
+                                                   FORECASTS_UPDATE_DATE,
+                                                   HTML_FONT))
 
   standard_hover = HoverTool(tooltips = [('State','@state'),
                                          ('Cases', '@total_cases'),
@@ -478,7 +522,7 @@ def covid19_plot(
              toolbar_location = 'left' if enable_toolbar else None,
              lod_factor=int(1e7),
              lod_threshold=int(2),
-             # output_backend="webgl"
+             #output_backend="webgl"
       ) 
         
   plt=geographic_overlay(plt, 
@@ -589,14 +633,16 @@ def create_visualization_tabs(advanced_mode=True):
     advanced_plot_tab=Panel(child=advanced_covid19_plot, title='Forecast')
     tabs.append(advanced_plot_tab)
     
-    performance_covid19_plot = covid19_plot(preds_covid19_geosource, 
-                                          input_df=preds_covid19_data,
-                                          palette_type='Greens',
-                                          input_field='MAPE_7',
-                                          color_field='MAPE_7',
-                                          enable_IndiaStats=True,
-                                          enable_performanceStats=True,
-                                          plot_title=None)
+    performance_covid19_plot = covid19_plot(
+                                 preds_covid19_geosource, 
+                                 input_df=preds_covid19_data,
+                                 palette_type='Greens',
+                                 input_field='MAPE_7',
+                                 color_field='MAPE_7',
+                                 enable_IndiaStats=True,
+                                 enable_performanceStats=True,
+                                 plot_title=None
+                               )
     performance_plot_tab = Panel(child=performance_covid19_plot,title='Forecast quality')
     tabs.append(performance_plot_tab)
 
@@ -697,23 +743,32 @@ def model_performance_plot(
                      y='y_preds7',
                      source=source)
 
-    TOOLTIPS = """<strong><font face="Arial" size="2">Forecast performance for @plot_index</font></strong> <br>
-                  <font face="Arial" size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std{})</strong></p></font> 
-                  <font face="Arial" size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std{})</strong></p></font>
-                  <font face="Arial" size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std{})</strong></p></font>
+    
+    TOOLTIPS = """<strong><font face={} size="2">Forecast performance for @plot_index</font></strong> <br>
+                  <font face={} size="2"><p style="color:black; margin:0">Reported cases: <strong>@y_cases{}</strong></p></font>
+                  <font face={} size="2"><p style="color:red; margin:0">Forecast a day ago: <strong>@y_preds{} (±@y_std{})</strong></p></font> 
+                  <font face={} size="2"><p style="color:green; margin:0">Forecast 3 days ago: <strong>@y_preds3{} (±@y_3std{})</strong></p></font>
+                  <font face={} size="2"><p style="color:blue; margin:0">Forecast 7 days ago: <strong>@y_preds7{} (±@y_7std{})</strong></p></font>
                   <hr>
-                  <strong><font face="Arial" size="1">Data updated on: {}</font></strong><br> 
-                  <strong><font face="Arial" size="1">Forecasts updated on: {}</font></strong><br> 
-                  <strong><font face="Arial" size="1">Forecasts by: https://moad.computer</font></strong>""".format('{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                   '{(0,0)}',
-                                                                                                                    DATA_UPDATE_DATE,
-                                                                                                                    FORECASTS_UPDATE_DATE)      \
+                  <strong><font face={} size="1">Data updated on: {}</font></strong><br> 
+                  <strong><font face={} size="1">Forecasts updated on: {}</font></strong><br> 
+                  <strong><font face={} size="1">Forecasts by: https://moad.computer</font></strong>""".format(HTML_FONT,
+                                                                                                               HTML_FONT,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_FONT,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_FONT,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_FONT,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_INT_FORMATTER_STR,
+                                                                                                               HTML_FONT,
+                                                                                                               DATA_UPDATE_DATE,
+                                                                                                               HTML_FONT,
+                                                                                                               FORECASTS_UPDATE_DATE,
+                                                                                                               HTML_FONT)      \
                if custom_perfHoverTool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
@@ -1010,6 +1065,32 @@ class SARS_COV2_Layout():
       return sars_cov2_layout, None
 
 curdoc().title = app_title
+curdoc().theme = Theme(json={
+    'attrs' : {
+        'Plot': {
+            'background_fill_color': 'white',
+            'background_fill_alpha' : 0.3,
+            'border_fill_color': 'white',
+            'border_fill_alpha': 0.3,
+            'outline_line_color': '#444444', # None,
+            'outline_line_alpha': 0.3,
+            'toolbar_location': None,
+            'min_border': 20,
+            'text_font':'Times'
+        },
+        'Axis': {
+            'axis_line_color': None,
+        },
+        'Grid': {
+            'grid_line_dash': [6, 4],
+            'grid_line_alpha': 0.3,
+        },
+        'Title': {
+            'text_color': '#444444',
+            'text_font': HTML_FONT
+        }
+    }
+})
 
 if __name__ == '__main__':
   out_file('India_COVID19.html')
