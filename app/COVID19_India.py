@@ -267,7 +267,7 @@ def simple_stats_hover_tool_formatter(font_pixel_size=11):
 
 def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=11):
   return f"""<div style='{css_formatter(font_pixel_size+1)}'>
-             Forecast performance for<strong>@plot_index</strong> <br>
+             Forecast performance for: <strong>@plot_index</strong> <br>
              <div>
              <p style="color:black; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Reported cases: <strong>@y_cases{HTML_INT_FORMATTER_STR}</strong></p>
              <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">Forecast a day ago: <strong>@y_preds{HTML_INT_FORMATTER_STR} (±@y_std{HTML_INT_FORMATTER_STR})</strong></p> 
