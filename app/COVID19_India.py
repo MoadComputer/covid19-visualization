@@ -1088,9 +1088,12 @@ curdoc().title = app_title
 if __name__ == '__main__':
   out_file('India_COVID19.html')
   viz_tabs = create_visualization_tabs(advanced_mode=advanced_mode)
-  perf_tab = SARS_COV2_Layout(advanced_mode=advanced_mode).create_countrywide_model_performance_tab()
+  plot_layout = SARS_COV2_Layout(advanced_mode=advanced_mode)
+  perf_tab = plot_layout.create_countrywide_model_performance_tab()
   viz_tabs.append(perf_tab)
-  save(Tabs(tabs=viz_tabs), title='India SARS-CoV2 statewise statistics')
+  plot_tab = Tabs(tabs=viz_tabs)
+  plot_tab.stylesheets.append(plot_layout.tab_switching_style_formatter())
+  save(plot_tab, title='India SARS-CoV2 statewise statistics')
 else:
   sars_cov2_layout, state_select = SARS_COV2_Layout(default_region_selection='India', advanced_mode=advanced_mode).create_sars_cov2_layout()
   curdoc().add_root(sars_cov2_layout)
