@@ -185,8 +185,11 @@ def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose
     json_data = json.dumps(merged_json)
     return {'json_data': json_data, 'data_frame': merged_df}
 
-merged_data = covid19_json(covid19_data, India_statewise, 
-                           verbose=verbose)
+merged_data = covid19_json(
+                covid19_data, 
+                India_statewise, 
+                verbose=verbose
+              )
 merged_json = merged_data['json_data']
 
 def CustomPalette(palette_type:'Bokeh palette', enable_colorInverse:bool=True)->'Bokeh palette':
@@ -232,22 +235,22 @@ def advanced_stats_tool_tip_formatter(font_pixel_size=12):
 
 def performance_stats_hover_tool_formatter(font_pixel_size=11):
   return f"""<div style='{css_formatter(font_pixel_size-1)}'>
-          <strong>@state</strong> <br>
-          </div>
-          <hr>
-          <div style='{css_formatter(font_pixel_size)}'>
-          Mean Absolute Percentage Error <strong>(MAPE)</strong>
-          <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+1 day: <strong>@MAPE{HTML_FLOAT_FORMATTER_STR}</strong></p>
-          <p style="color:green; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+3 days: <strong>@MAPE_3{HTML_FLOAT_FORMATTER_STR}</strong></p>
-          <p style="color:blue; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+7 days: <strong>@MAPE_7{HTML_FLOAT_FORMATTER_STR}</strong></p>
-          </div>
-          <hr>  
-          <div style='{css_formatter(font_pixel_size-1)}'>
-          Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
-          Forecasts updated on: <strong>{FORECASTS_UPDATE_DATE}</strong><br>
-          Forecasts by: <a href="https://moad.computer"><strong>MOAD.Computer</strong></a> <br>
-          </div>
-      """
+             <strong>@state</strong> <br>
+             </div>
+             <hr>
+             <div style='{css_formatter(font_pixel_size)}'>
+             Mean Absolute Percentage Error <strong>(MAPE)</strong>
+             <p style="color:red; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+1 day: <strong>@MAPE{HTML_FLOAT_FORMATTER_STR}</strong></p>
+             <p style="color:green; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+3 days: <strong>@MAPE_3{HTML_FLOAT_FORMATTER_STR}</strong></p>
+             <p style="color:blue; margin:0px 0; margin-bottom: 0.15em; margin-top: 0.15em">+7 days: <strong>@MAPE_7{HTML_FLOAT_FORMATTER_STR}</strong></p>
+             </div>
+             <hr>  
+             <div style='{css_formatter(font_pixel_size-1)}'>
+             Data updated on: <strong>{DATA_UPDATE_DATE}</strong><br>
+             Forecasts updated on: <strong>{FORECASTS_UPDATE_DATE}</strong><br>
+             Forecasts by: <a href="https://moad.computer"><strong>MOAD.Computer</strong></a> <br>
+             </div>
+         """
 
 def simple_stats_hover_tool_formatter(font_pixel_size=11):   
   return f"""<div style='{css_formatter(font_pixel_size+1)}'>
@@ -505,6 +508,7 @@ def covid19_plot(
                 location = (0, 0),
                 major_label_text_font=PLOT_FONT
               )
+
   xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
   hover = create_custom_hover_tool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats)
 
@@ -616,7 +620,7 @@ def create_visualization_tabs(advanced_mode=True):
       e = getattr(e, 'message', repr(e))
       print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
-    merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
+    merged_preds_data  = covid19_json(preds_covid19_df,India_statewise)
     merged_preds_json  = merged_preds_data['json_data']
     preds_covid19_data = merged_preds_data['data_frame']
 
@@ -680,7 +684,7 @@ def model_performance_plot(
       dateLabels = {i: date for i, date in enumerate(plotIndex_labels)}
       x=source.data['x']
     else:
-      plotIndex_labels=list(source['date'].astype('str'))  
+      plotIndex_labels  = list(source['date'].astype('str'))  
       model_performance = source.dropna()  
       x = [i for i in range(len(list(source['date'].astype('str'))))]
 
@@ -702,7 +706,7 @@ def model_performance_plot(
       upper_7_lim = list(np.asarray(y_preds7)+3*np.asarray(y_7_stdev))
 
       plotIndex   = list(source['date'].astype('str'))
-      dateLabels = {i: date for i, date in enumerate(plotIndex)}
+      dateLabels  = {i: date for i, date in enumerate(plotIndex)}
 
       source=ColumnDataSource({'x':x,'plot_index':plotIndex,'plot_labels':plotIndex_labels, 
                                'y_cases':y_cases,'y_preds':y_preds,'y_preds3':y_preds3,'y_preds7':y_preds7,
@@ -832,7 +836,7 @@ def model_performance_plot(
            source=source
          )
 
-    perf_plot.hover.renderers = [r,r1,r3,r7]
+    perf_plot.hover.renderers = [r, r1, r3, r7]
     
     perf_plot.yaxis.formatter.use_scientific = False
     perf_plot.yaxis.formatter = NumeralTickFormatter(format='0,0')
@@ -841,30 +845,33 @@ def model_performance_plot(
     perf_plot.xaxis.axis_label = 'Date'
     perf_plot.yaxis.axis_label = ' '
     perf_plot.yaxis.axis_label_text_align = 'left'
-    perf_plot.xaxis.axis_label_text_font = PLOT_FONT
+
+    perf_plot.xaxis.axis_label_text_font  = PLOT_FONT
     perf_plot.xaxis.major_label_text_font = PLOT_FONT
     perf_plot.yaxis.major_label_text_font = PLOT_FONT
+
     perf_plot.add_layout(LinearAxis(axis_label='SARS-CoV2 cases',
                                    axis_label_text_font=PLOT_FONT,
                                    major_tick_line_color=None,
                                    minor_tick_line_color=None,
                                    major_label_text_font_size='0pt',
                                    major_label_orientation=math.pi,), 'right')
+
     perf_plot.right[0].axis_line_color = None
     perf_plot.right[0].formatter.use_scientific = False
     perf_plot.right[0].ticker.num_minor_ticks = 0
     perf_plot.yaxis.major_label_orientation = (math.pi*.75)/2
     perf_plot.xaxis.major_label_orientation = (math.pi*.75)/2
 
-    band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-              level='underlay',fill_alpha=0.5,line_width=1,
-              fill_color='indianred',line_color='indianred')
-    band3=Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
-               level='underlay',fill_alpha=0.4,line_width=1,
-               fill_color='lime',line_color='lime')
-    band7=Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
-               level='underlay',fill_alpha=0.25,line_width=1,
-               fill_color='indigo',line_color='indigo')
+    band = Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
+                level='underlay',fill_alpha=0.5,line_width=1,
+                fill_color='indianred',line_color='indianred')
+    band3 = Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
+                 level='underlay',fill_alpha=0.4,line_width=1,
+                 fill_color='lime',line_color='lime')
+    band7 = Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
+                 level='underlay',fill_alpha=0.25,line_width=1,
+                 fill_color='indigo',line_color='indigo')
 
     perf_plot.renderers.append(band)
     perf_plot.renderers.append(band3)
@@ -878,12 +885,12 @@ def date_formatter(x):
   return datetimeobject.strftime('%d-%B-%Y')
 
 def make_dataset(state):
-  MODEL_PERF_DATA_SOURCE=f'{DATA_URL}{PERF_FILENAME_POINTER_STR}'
-  MODEL_PERF_DATA_URL='{}{}.csv'.format(MODEL_PERF_DATA_SOURCE, state)
-  MODEL_PERF_DATA_URL=MODEL_PERF_DATA_URL.replace(" ", "%20")
-  MODEL_PERF_DATA_FILE=os_style_formatter(
-                         f'{LOCAL_DATA_DIR}{PERF_FILENAME_POINTER_STR}{state}.csv'
-                       )
+  MODEL_PERF_DATA_SOURCE = f'{DATA_URL}{PERF_FILENAME_POINTER_STR}'
+  MODEL_PERF_DATA_URL = '{}{}.csv'.format(MODEL_PERF_DATA_SOURCE, state)
+  MODEL_PERF_DATA_URL = MODEL_PERF_DATA_URL.replace(" ", "%20")
+  MODEL_PERF_DATA_FILE = os_style_formatter(
+                           f'{LOCAL_DATA_DIR}{PERF_FILENAME_POINTER_STR}{state}.csv'
+                         )
 
   try:
     model_performance = pd.read_csv(MODEL_PERF_DATA_URL)
@@ -1055,8 +1062,8 @@ class SARS_COV2_Layout():
                     '\n' + column_css)
 
     return f"""<html><head><style, class='Tab Switching'> \
-                {str(css_style)} \
-              </style></head></html> \
+                {str(css_style)}                          \
+              </style></head></html>                      \
            """
 
   def update_plot(self, attrname, old, new):
@@ -1105,5 +1112,8 @@ if __name__ == '__main__':
   plot_tab.stylesheets.append(plot_layout.tab_switching_style_formatter())
   save(plot_tab, title='India SARS-CoV2 statewise statistics')
 else:
-  sars_cov2_layout, state_select = SARS_COV2_Layout(default_region_selection='India', advanced_mode=advanced_mode).create_sars_cov2_layout()
+  sars_cov2_layout, state_select = SARS_COV2_Layout(
+                                     default_region_selection='India', 
+                                     advanced_mode=advanced_mode
+                                   ).create_sars_cov2_layout()
   curdoc().add_root(sars_cov2_layout)
