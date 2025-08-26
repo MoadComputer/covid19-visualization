@@ -46,7 +46,7 @@ else:
 verbose = False
 enable_GeoJSON_saving = False
 
-DATA_UPDATE_DATE = '25-August-2025'
+DATA_UPDATE_DATE = '26-August-2025'
 FORECASTS_UPDATE_DATE = '25-August-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
@@ -550,17 +550,11 @@ def covid19_plot(
   plt.yaxis[0].ticker.num_minor_ticks=0
   plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
 
-  plt.stylesheets.append(
-  """:host {
-    --base-font: 'Times New Roman', Times, serif;
-  """
-  )
-
   return plt
 
 advanced_mode = True
 
-covid19_geosource=GeoJSONDataSource(geojson=merged_json)
+covid19_geosource = GeoJSONDataSource(geojson=merged_json)
 plot_title = None
 app_title = 'India SARS-CoV2 statewise statistics'
 
@@ -600,6 +594,7 @@ def create_visualization_tabs(advanced_mode=True):
     except Exception as e:
       e = getattr(e, 'message', repr(e))
       print(f'Unable to delete dataframe item: ID due to: {e} ...')
+
     try:
       del preds_covid19_df['id']
     except Exception as e:
@@ -615,8 +610,10 @@ def create_visualization_tabs(advanced_mode=True):
     merged_preds_data=covid19_json(preds_covid19_df,India_statewise)
     merged_preds_json  = merged_preds_data['json_data']
     preds_covid19_data = merged_preds_data['data_frame']
+
     print(preds_covid19_data['state'].equals(covid19_data['state']))
-    print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))  
+    print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))
+
     preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
 
     advanced_covid19_plot = covid19_plot(
@@ -1004,6 +1001,54 @@ class SARS_COV2_Layout():
 
     return source
 
+  def tab_switching_style_formatter(self, r=50, g=100, b=196):
+    font_family = f"font-family: '{HTML_FONT}'"
+    hover_color = f'background-color: rgba({r}, {g}, {b}, 0.35)' 
+    bg_color = f'background-color: rgba({r}, {g}, {b}, 0.10)'  
+    select_bg_color = f'background-color: rgba({r}, {g}, {b}, 0.01)'  
+    bg_tab_color = f'background-color: rgba({r}, {g}, {b}, 0.20)'   
+    active_tab_color = f'background-color: rgba({r}, {g}, {b}, 0.32)'
+    header_css  = '.bk-header {' + f'{bg_color};'  +                         \
+                        'font-style: normal;                                 \
+                        font-weight: normal;'  + font_family + '}'  
+    tab_css  = '.bk-tab {' + f'{bg_tab_color};'  +                           \
+                        'font-style: normal;                                 \
+                         border-radius: 2px;                                 \
+                         font-weight: normal;'  + font_family + '}'
+    active_tab_css = ' .bk-active.bk-tab {' + f'{active_tab_color};'  +      \
+                        'font-style: normal;                                 \
+                        font-weight: bold;'  + font_family + '}'
+    hover_tab_css = ' .bk-tab:hover{' + hover_color + '}'
+    column_css  = '.bk-Column {' + f'{select_bg_color};'  +                  \
+                        'font-style: normal;                                 \
+                        font-weight: normal;'  + font_family + '}'
+    select_css  = '.bk-Select {' + f'{select_bg_color};'  +                  \
+                        'font-style: normal;                                 \
+                        font-weight: normal;'  + font_family + '}'
+    input_group_css  = '.bk-input-group {' + f'{select_bg_color};'  +        \
+                        'font-style: normal;                                 \
+                        font-weight: normal;'  + font_family + '}'
+    input_css  = '.bk-input {' + f'{select_bg_color};'  +                    \
+                        'font-style: normal;                                 \
+                        font-weight: normal;'  + font_family + '}'
+    active_input_css  = '.bk-input:active {' + f'{select_bg_color};'  +                    \
+                        'font-style: normal;                                 \
+                        font-weight: bold;'  + font_family + '}'                     
+    css_style = str('\n' + header_css +       \
+                    '\n' + tab_css +          \
+                    '\n' + active_tab_css+    \
+                    '\n' + hover_tab_css +    \
+                    '\n' + select_css +       \
+                    '\n' + input_group_css +  \
+                    '\n' + input_css +        \
+                    '\n' + active_input_css + \
+                    '\n' + column_css)
+
+    return f"""<html><head><style, class='Tab Switching'> \
+                {str(css_style)} \
+              </style></head></html> \
+          """
+
   def update_plot(self, attrname, old, new):
     new_source = self.get_source()
     source.data.update(new_source.data)
@@ -1031,6 +1076,7 @@ class SARS_COV2_Layout():
       viz_tabs = create_visualization_tabs(advanced_mode=advanced_mode)
       viz_tabs.extend([countrywide_perf_tab, statewise_perf_tab])
       sars_cov2_layout_tabs = Tabs(tabs=viz_tabs)
+      sars_cov2_layout_tabs.stylesheets.append(self.tab_switching_style_formatter())
       sars_cov2_layout = sars_cov2_layout_tabs
       return sars_cov2_layout, self.state_select
     else:
@@ -1038,31 +1084,6 @@ class SARS_COV2_Layout():
       return sars_cov2_layout, None
 
 curdoc().title = app_title
-curdoc().theme = Theme(json={
-    'attrs' : {
-        'Plot': {
-            'background_fill_color': 'white',
-            'background_fill_alpha' : 0.3,
-            'border_fill_color': 'white',
-            'border_fill_alpha': 0.3,
-            'outline_line_color': '#444444',
-            'outline_line_alpha': 0.3,
-            'toolbar_location': None,
-            'min_border': 20
-        },
-        'Axis': {
-            'axis_line_color': None,
-        },
-        'Grid': {
-            'grid_line_dash': [6, 4],
-            'grid_line_alpha': 0.3,
-        },
-        'Title': {
-            'text_color': '#444444',
-            'text_font': HTML_FONT
-        }
-    }
-})
 
 if __name__ == '__main__':
   out_file('India_COVID19.html')
