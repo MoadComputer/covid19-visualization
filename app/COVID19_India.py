@@ -1031,7 +1031,7 @@ class SARS_COV2_Layout():
     input_css  = '.bk-input {' + f'{select_bg_color};'  +                    \
                         'font-style: normal;                                 \
                         font-weight: normal;'  + font_family + '}'
-    active_input_css  = '.bk-input:active {' + f'{select_bg_color};'  +                    \
+    active_input_css  = '.bk-input:active {' + f'{select_bg_color};'  +      \
                         'font-style: normal;                                 \
                         font-weight: bold;'  + font_family + '}'                     
     css_style = str('\n' + header_css +       \
