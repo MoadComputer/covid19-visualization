@@ -47,7 +47,7 @@ verbose = False
 enable_GeoJSON_saving = False
 
 DATA_UPDATE_DATE = '26-August-2025'
-FORECASTS_UPDATE_DATE = '25-August-2025'
+FORECASTS_UPDATE_DATE = '26-August-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
@@ -157,7 +157,7 @@ if len(covid19_data.columns) ==6:
 covid19_data = apply_corrections(covid19_data)
 
 covid19_data = pd.merge(covid19_data, India_stats, on='state', how='left')
-covid19_data_copy=covid19_data.copy()
+covid19_data_copy = covid19_data.copy()
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
 if verbose:
@@ -523,33 +523,38 @@ def covid19_plot(
                #output_backend="webgl"
         ) 
         
-  plt = geographic_overlay(plt, 
-                           geosourceJson=covid19_geosource,
-                           colorBar=color_bar,
-                           colorMapper=color_mapper,
-                           colorMode=input_field,
-                           hoverTool=hover,
-                           mapOverlay=map_overlay,
-                           enableToolbar=enable_toolbar,
-                           enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+  plt = geographic_overlay(
+          plt, 
+          geosourceJson=covid19_geosource,
+          colorBar=color_bar,
+          colorMapper=color_mapper,
+          colorMode=input_field,
+          hoverTool=hover,
+          mapOverlay=map_overlay,
+          enableToolbar=enable_toolbar,
+          enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
         )
   
   if enable_lakshadweep_stats:
-    plt = lakshadweep_correction(plt, 
-                                 input_df=input_df, 
-                                 advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
+    plt = lakshadweep_correction(
+            plt, 
+            input_df=input_df, 
+            advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+          )
 
   if enable_India_stats:
     xtext, ytext, xbox, ybox = CustomTitleFormatter()
-    plt = CustomTitleOverlay(plt, 
-                             xtext=xtext,
-                             ytext=ytext,
-                             xbox=xbox, 
-                             ybox=ybox,
-                             input_df=input_df,
-                             advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
+    plt = CustomTitleOverlay(
+            plt, 
+            xtext=xtext,
+            ytext=ytext,
+            xbox=xbox, 
+            ybox=ybox,
+            input_df=input_df,
+            advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+          )
 
-  plt.xaxis.axis_label_text_font = PLOT_FONT
+  plt.xaxis.axis_label_text_font  = PLOT_FONT
   plt.xaxis.major_label_text_font = PLOT_FONT
   plt.yaxis.major_label_text_font = PLOT_FONT
 
@@ -571,9 +576,12 @@ covid19_geosource = GeoJSONDataSource(geojson=merged_json)
 plot_title = None
 app_title = 'India SARS-CoV2 statewise statistics'
 
-India_totalCases = covid19_data['total_cases'].sum()
-India_totalDeaths = covid19_data['deaths'].sum()
-print(India_totalCases)
+india_total_cases = covid19_data['total_cases'].sum()
+india_total_deaths = covid19_data['deaths'].sum()
+
+if verbose:
+  print(f'Total reported cases for {DATA_UPDATE_DATE}: {india_total_cases} ...')
+  print(f'Total reported deaths for {DATA_UPDATE_DATE}: {india_total_deaths} ...')
 
 def create_visualization_tabs(advanced_mode=True):
   tabs = []
@@ -594,38 +602,44 @@ def create_visualization_tabs(advanced_mode=True):
                         'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                         'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                         'MAPE', 'MAPE_3', 'MAPE_7']
-    print(preds_df.head(10))
-    print(covid19_data_copy.head(10))
+    if verbose:
+      print(preds_df.head(10))
+      print(covid19_data_copy.head(10))
     preds_covid19_df = pd.merge(covid19_data_copy, preds_df, 
                                 on='state', 
                                 how='left')
     preds_covid19_df = preds_covid19_df.fillna(0)
-    print(preds_covid19_df.head(10))
+    if verbose:
+      print(preds_covid19_df.head(10))
     
     try:
       del preds_covid19_df['ID']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
-      print(f'Unable to delete dataframe item: ID due to: {e} ...')
+      if verbose:
+        print(f'Unable to delete dataframe item: ID due to: {e} ...')
 
     try:
       del preds_covid19_df['id']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
-      print(f'Unable to delete dataframe item: id due to: {e} ...')
+      if verbose:
+        print(f'Unable to delete dataframe item: id due to: {e} ...')
 
     try:
       del preds_covid19_df['discharged']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
-      print(f'Unable to delete dataframe item: discharged due to: {e} ...')
+      if verbose:
+        print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
     merged_preds_data  = covid19_json(preds_covid19_df,India_statewise)
     merged_preds_json  = merged_preds_data['json_data']
     preds_covid19_data = merged_preds_data['data_frame']
 
-    print(preds_covid19_data['state'].equals(covid19_data['state']))
-    print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))
+    if verbose:
+      print(preds_covid19_data['state'].equals(covid19_data['state']))
+      print(set(list(preds_covid19_data['state'])) - set(list(covid19_data['state'])))
 
     preds_covid19_geosource = GeoJSONDataSource(geojson=merged_preds_json)
 
@@ -708,11 +722,26 @@ def model_performance_plot(
       plotIndex   = list(source['date'].astype('str'))
       dateLabels  = {i: date for i, date in enumerate(plotIndex)}
 
-      source=ColumnDataSource({'x':x,'plot_index':plotIndex,'plot_labels':plotIndex_labels, 
-                               'y_cases':y_cases,'y_preds':y_preds,'y_preds3':y_preds3,'y_preds7':y_preds7,
-                               'y_std':y_stdev,'y_3std':y_3_stdev,'y_7std':y_7_stdev,
-                               'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
-                               'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim})
+      source = ColumnDataSource(
+                 {
+                  'x':x,
+                  'plot_index':plotIndex,
+                  'plot_labels':plotIndex_labels, 
+                  'y_cases':y_cases,
+                  'y_preds':y_preds,
+                  'y_preds3':y_preds3,
+                  'y_preds7':y_preds7,
+                  'y_std':y_stdev,
+                  'y_3std':y_3_stdev,
+                  'y_7std':y_7_stdev,
+                  'upper_lim':upper_lim,
+                  'upper_3_lim':upper_3_lim,
+                  'upper_7_lim':upper_7_lim,
+                  'lower_lim':lower_lim,
+                  'lower_3_lim':lower_3_lim,
+                  'lower_7_lim':lower_7_lim
+                  }
+               )
     
     if enable_interpolation:
       x_cases_interpol,y_cases_interpol   = LineSmoothing(x,y_cases)
@@ -755,12 +784,13 @@ def model_performance_plot(
 
     TOOLTIPS = regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=12)      \
                if regionwise_forecast_perf_hover_tool else [('Date: ','@plot_index'),
-                                             ('Cases: ','@y_cases')]
+                                                            ('Cases: ','@y_cases')]
 
     perf_plot = figure(
                  #y_axis_type="log",y_range=(2.5e4,7.5e4), 
                  y_axis_location='left',
-                 outer_height=500, outer_width=500,
+                 outer_height=500, 
+                 outer_width=500,
                  tools='hover', 
                  toolbar_location=None,
                  tooltips=TOOLTIPS
@@ -850,28 +880,60 @@ def model_performance_plot(
     perf_plot.xaxis.major_label_text_font = PLOT_FONT
     perf_plot.yaxis.major_label_text_font = PLOT_FONT
 
-    perf_plot.add_layout(LinearAxis(axis_label='SARS-CoV2 cases',
-                                   axis_label_text_font=PLOT_FONT,
-                                   major_tick_line_color=None,
-                                   minor_tick_line_color=None,
-                                   major_label_text_font_size='0pt',
-                                   major_label_orientation=math.pi,), 'right')
+    perf_plot.add_layout(
+      LinearAxis(
+        axis_label='SARS-CoV2 cases',
+        axis_label_text_font=PLOT_FONT,
+        major_tick_line_color=None,
+        minor_tick_line_color=None,
+        major_label_text_font_size='0pt',
+        major_label_orientation=math.pi,
+      ), 
+      'right'
+    )
 
     perf_plot.right[0].axis_line_color = None
     perf_plot.right[0].formatter.use_scientific = False
-    perf_plot.right[0].ticker.num_minor_ticks = 0
-    perf_plot.yaxis.major_label_orientation = (math.pi*.75)/2
-    perf_plot.xaxis.major_label_orientation = (math.pi*.75)/2
 
-    band = Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
-                level='underlay',fill_alpha=0.5,line_width=1,
-                fill_color='indianred',line_color='indianred')
-    band3 = Band(base='x',lower='lower_3_lim',upper='upper_3_lim',source=source, 
-                 level='underlay',fill_alpha=0.4,line_width=1,
-                 fill_color='lime',line_color='lime')
-    band7 = Band(base='x',lower='lower_7_lim',upper='upper_7_lim',source=source, 
-                 level='underlay',fill_alpha=0.25,line_width=1,
-                 fill_color='indigo',line_color='indigo')
+    perf_plot.right[0].ticker.num_minor_ticks = 0
+    perf_plot.yaxis.major_label_orientation   = (math.pi*.75)/2
+    perf_plot.xaxis.major_label_orientation   = (math.pi*.75)/2
+
+    band = Band(
+             base='x',
+             lower='lower_lim',
+             upper='upper_lim',
+             source=source, 
+             level='underlay',
+             fill_alpha=0.5,
+             line_width=1,
+             fill_color='indianred',
+             line_color='indianred'
+           )
+  
+    band3 = Band(
+              base='x',
+              lower='lower_3_lim',
+              upper='upper_3_lim',
+              source=source, 
+              level='underlay',
+              fill_alpha=0.4,
+              line_width=1,
+              fill_color='lime',
+              line_color='lime'
+            )
+  
+    band7 = Band(
+              base='x',
+              lower='lower_7_lim',
+              upper='upper_7_lim',
+              source=source, 
+              level='underlay',
+              fill_alpha=0.25,
+              line_width=1,
+              fill_color='indigo',
+              line_color='indigo'
+            )
 
     perf_plot.renderers.append(band)
     perf_plot.renderers.append(band3)
@@ -931,12 +993,24 @@ def make_dataset(state):
   upper_7_lim = list(np.asarray(y_preds7)+3*np.asarray(y_7std))
 
   return ColumnDataSource(
-           {'x':x, 'y_cases':y_cases, 
-            'plot_index': plotIndex, 'plot_labels':plotIndex_labels, 
-            'y_preds':y_preds, 'y_preds3':y_preds3, 'y_preds7':y_preds7,
-            'y_std':y_std, 'y_3std':y_3std,'y_7std':y_7std,
-            'upper_lim':upper_lim,'upper_3_lim':upper_3_lim,'upper_7_lim':upper_7_lim,
-            'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim}
+           {
+            'x':x, 
+            'y_cases':y_cases, 
+            'plot_index': plotIndex, 
+            'plot_labels':plotIndex_labels, 
+            'y_preds':y_preds, 
+            'y_preds3':y_preds3, 
+            'y_preds7':y_preds7,
+            'y_std':y_std, 
+            'y_3std':y_3std,
+            'y_7std':y_7std,
+            'upper_lim':upper_lim,
+            'upper_3_lim':upper_3_lim,
+            'upper_7_lim':upper_7_lim,
+            'lower_lim':lower_lim,
+            'lower_3_lim':lower_3_lim,
+            'lower_7_lim':lower_7_lim
+            }
          )
 
 class SARS_COV2_Layout():
@@ -1019,38 +1093,48 @@ class SARS_COV2_Layout():
     return source
 
   def tab_switching_style_formatter(self, r=50, g=100, b=196):
-    font_family = f"font-family: '{HTML_FONT}'"
-    hover_color = f'background-color: rgba({r}, {g}, {b}, 0.35)' 
-    bg_color = f'background-color: rgba({r}, {g}, {b}, 0.10)'  
-    select_bg_color = f'background-color: rgba({r}, {g}, {b}, 0.01)'  
-    bg_tab_color = f'background-color: rgba({r}, {g}, {b}, 0.20)'   
+    font_family      = f"font-family: '{HTML_FONT}'"
+    hover_color      = f'background-color: rgba({r}, {g}, {b}, 0.35)' 
+    bg_color         = f'background-color: rgba({r}, {g}, {b}, 0.10)'  
+    select_bg_color  = f'background-color: rgba({r}, {g}, {b}, 0.01)'  
+    bg_tab_color     = f'background-color: rgba({r}, {g}, {b}, 0.20)'   
     active_tab_color = f'background-color: rgba({r}, {g}, {b}, 0.32)'
+
     header_css  = '.bk-header {' + f'{bg_color};'  +                         \
                         'font-style: normal;                                 \
-                         font-weight: normal;'  + font_family + '}'  
+                         font-weight: normal;'  + font_family + '}'
+
     tab_css  = '.bk-tab {' + f'{bg_tab_color};'  +                           \
                         'font-style: normal;                                 \
                          border-radius: 2px;                                 \
                          font-weight: normal;'  + font_family + '}'
+
     active_tab_css = ' .bk-active.bk-tab {' + f'{active_tab_color};'  +      \
                         'font-style: normal;                                 \
                          font-weight: bold;'  + font_family + '}'
+
     hover_tab_css = ' .bk-tab:hover{' + hover_color + '}'
+
     column_css  = '.bk-Column {' + f'{select_bg_color};'  +                  \
                         'font-style: normal;                                 \
                          font-weight: normal;'  + font_family + '}'
+
     select_css  = '.bk-Select {' + f'{select_bg_color};'  +                  \
                         'font-style: normal;                                 \
                          font-weight: normal;'  + font_family + '}'
+
     input_group_css  = '.bk-input-group {' + f'{select_bg_color};'  +        \
                         'font-style: normal;                                 \
                          font-weight: normal;'  + font_family + '}'
+
     input_css  = '.bk-input {' + f'{select_bg_color};'  +                    \
                         'font-style: normal;                                 \
                          font-weight: normal;'  + font_family + '}'
+
     active_input_css  = '.bk-input:active {' + f'{select_bg_color};'  +      \
                         'font-style: normal;                                 \
-                         font-weight: bold;'  + font_family + '}'                     
+                         font-weight: bold;'  + font_family + '}' 
+                    
     css_style = str('\n' + header_css +       \
                     '\n' + tab_css +          \
                     '\n' + active_tab_css+    \
@@ -1112,8 +1196,8 @@ if __name__ == '__main__':
   plot_tab.stylesheets.append(plot_layout.tab_switching_style_formatter())
   save(plot_tab, title='India SARS-CoV2 statewise statistics')
 else:
-  sars_cov2_layout, state_select = SARS_COV2_Layout(
-                                     default_region_selection='India', 
-                                     advanced_mode=advanced_mode
-                                   ).create_sars_cov2_layout()
+  sars_cov2_layout, _ = SARS_COV2_Layout(
+                          default_region_selection='India', 
+                          advanced_mode=advanced_mode
+                        ).create_sars_cov2_layout()
   curdoc().add_root(sars_cov2_layout)
