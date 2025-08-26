@@ -12,16 +12,16 @@ from datetime import datetime, timedelta
 from bokeh.application import Application
 from bokeh.models.callbacks import CustomJS
 from bokeh.plotting import show as plt_show
-from bokeh.palettes import brewer,OrRd,YlGn
-from bokeh.models.widgets import Button,Select
+from bokeh.palettes import brewer, OrRd, YlGn
+from bokeh.models.widgets import Button, Select
 from bokeh.io import output_notebook, show, output_file
 from bokeh.application.handlers import FunctionHandler
 from bokeh.plotting import save, figure, output_file as out_file
-from bokeh.models import ColumnDataSource,Slider,HoverTool,InlineStyleSheet,        \
-                         Select,Div,Range1d,WMTSTileSource,BoxZoomTool,TapTool,Tabs
-from bokeh.models import GeoJSONDataSource,LinearColorMapper,ColorBar,              \
-                         NumeralTickFormatter, LinearAxis,Grid,Label,Band,          \
-                         Legend,LegendItem
+from bokeh.models import ColumnDataSource, Slider, HoverTool, InlineStyleSheet,              \
+                         Select, Div, Range1d, WMTSTileSource, BoxZoomTool, TapTool, Tabs
+from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar,                     \
+                         NumeralTickFormatter, LinearAxis, Grid, Label, Band,                \
+                         Legend, LegendItem
 
 bokeh_version = bokeh.__version__ 
 bokeh_version_msg = 'Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: '
@@ -85,9 +85,9 @@ def apply_corrections(input_df:'Pandas dataframe')->'Pandas dataframe':
 
 def os_style_formatter(input_str:str)->str:
   try:
-    os_env=os.environ['OS'] 
+    os_env = os.environ['OS'] 
   except Exception as e:
-    os_env='unknown'
+    os_env = 'unknown'
     e = getattr(e, 'message', repr(e))
     print(f'Failed to detect the OS environment due to: {e} ...')
   return str(input_str).replace('/', "\\") if os_env=='Windows_NT' else str(input_str)  
@@ -102,39 +102,39 @@ except Exception as e:
   print(f'Failed reading URL data due to: {e} ...')
   if os.path.exists(os_style_formatter(ALT_LOCAL_DATA_DIR)):
     LOCAL_DATA_DIR = ALT_LOCAL_DATA_DIR
-  India_GeoJSON_repoFile=os_style_formatter(
+  India_GeoJSON_repoFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{GEOJSON_FILENAME_POINTER_STR}'
   ) 
-  covid19_statewise_repoFile=os_style_formatter(
+  covid19_statewise_repoFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}'
   )
-  India_statewise_statsFile=os_style_formatter(
+  India_statewise_statsFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{POPUL_STATS_CSV_FILENAME_POINTER_STR}'
   )
-  saved_predsFile=os_style_formatter(
+  saved_predsFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{SARSCOV2_FORECASTS_FILENAME_POINTER_STR}'
   ) 
     
   if os.path.exists(India_GeoJSON_repoFile):
-    India_statewise=geopandas.read_file(India_GeoJSON_repoFile)  
+    India_statewise = geopandas.read_file(India_GeoJSON_repoFile)  
     print('Reading India GeoJSON file from saved repo ...')
   else:
     sys.exit('Failed to read GeoJSON file for India ...')
 
   if os.path.exists(covid19_statewise_repoFile):
-    covid19_data=pd.read_csv(covid19_statewise_repoFile)  
+    covid19_data = pd.read_csv(covid19_statewise_repoFile)  
     print('Reading India COVID19 file from saved repo ...')
   else:
     sys.exit('Failed to read India COVID19 file ...')
     
   if os.path.exists(India_statewise_statsFile):
-    India_stats=pd.read_csv(India_statewise_statsFile)  
+    India_stats = pd.read_csv(India_statewise_statsFile)  
     print('Reading India stats file from saved repo ...')
   else:
     sys.exit('Failed to read India stats file ...')
     
   if os.path.exists(saved_predsFile):
-    preds_df=pd.read_csv(saved_predsFile)
+    preds_df = pd.read_csv(saved_predsFile)
   else:
     print('Advanced mode disabled ...')
     advanced_mode=False  
@@ -144,19 +144,19 @@ preds_df = preds_df[['state',                                                   
                      'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                      'MAPE', 'MAPE_3', 'MAPE_7']]
 
-India_statewise=apply_corrections(India_statewise)
+India_statewise = apply_corrections(India_statewise)
 if enable_GeoJSON_saving:
   India_statewise.to_file('India_statewise_minified.geojson', driver='GeoJSON')
-India_statewise=India_statewise.to_crs('EPSG:3395')
+India_statewise = India_statewise.to_crs('EPSG:3395')
 
-India_stats=apply_corrections(India_stats)
+India_stats = apply_corrections(India_stats)
 
 if len(covid19_data.columns) ==6:
   del covid19_data['active_cases']
 
-covid19_data=apply_corrections(covid19_data)
+covid19_data = apply_corrections(covid19_data)
 
-covid19_data=pd.merge(covid19_data, India_stats, on='state', how='left')
+covid19_data = pd.merge(covid19_data, India_stats, on='state', how='left')
 covid19_data_copy=covid19_data.copy()
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
@@ -287,12 +287,10 @@ def create_custom_hover_tool(
       enable_simple_hover_tool:bool, 
       enable_performance_hover_tool:bool
     )->'Bokeh hover tool':
+
   advanced_stats_hover = HoverTool(tooltips=advanced_stats_tool_tip_formatter(font_pixel_size=12))
-
   performance_stats_hover = HoverTool(tooltips=performance_stats_hover_tool_formatter(font_pixel_size=12))
-
   simple_stats_hover = HoverTool(tooltips=simple_stats_hover_tool_formatter(font_pixel_size=12))
-
   standard_hover = HoverTool(tooltips=[('State','@state'),
                                        ('Cases', '@total_cases'),
                                        #('Discharged/migrated', '@discharged'),
@@ -494,61 +492,72 @@ def covid19_plot(
                                         if not enable_performance_stats else np.round((np.max(input_df[color_field].values)),3)
                                    ) 
   if integer_plot:
-    format_tick=NumeralTickFormatter(format='0,0')
+    format_tick = NumeralTickFormatter(format='0,0')
   else:
-    format_tick=NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performance_stats else\
-                                     str(np.round((input_df[input_field].values.astype('float')),1)))
-  color_bar = ColorBar(color_mapper=color_mapper, 
-                       label_standoff=14, 
-                       formatter=format_tick,
-                       border_line_color=None, 
-                       major_label_text_font_size='12px',
-                       location = (0, 0))
-  xmin,xmax,ymin,ymax=MapOverlayFormatter(map_overlay)
+    format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performance_stats else\
+                                       str(np.round((input_df[input_field].values.astype('float')),1)))
+  color_bar = ColorBar(
+                color_mapper=color_mapper, 
+                label_standoff=14, 
+                formatter=format_tick,
+                border_line_color=None, 
+                major_label_text_font_size='12px',
+                location = (0, 0),
+                major_label_text_font=PLOT_FONT
+              )
+  xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
   hover = create_custom_hover_tool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats)
 
-  plt=figure(title = plot_title,
-             x_range=(xmin, xmax) if map_overlay else None,
-             y_range=(ymin, ymax) if map_overlay else None,
-             tools='save' if enable_toolbar else '', 
-             outer_height = 512, outer_width = 512,
-             toolbar_location = 'left' if enable_toolbar else None,
-             lod_factor=int(1e7),
-             lod_threshold=int(2),
-             #output_backend="webgl"
-      ) 
+  plt = figure(title = plot_title,
+               x_range=(xmin, xmax) if map_overlay else None,
+               y_range=(ymin, ymax) if map_overlay else None,
+               tools='save' if enable_toolbar else '', 
+               outer_height = 512, outer_width = 512,
+               toolbar_location = 'left' if enable_toolbar else None,
+               lod_factor=int(1e7),
+               lod_threshold=int(2),
+               #output_backend="webgl"
+        ) 
         
-  plt=geographic_overlay(plt, 
-                         geosourceJson=covid19_geosource,
-                         colorBar=color_bar,
-                         colorMapper=color_mapper,
-                         colorMode=input_field,
-                         hoverTool=hover,
-                         mapOverlay=map_overlay,
-                         enableToolbar=enable_toolbar,
-                         enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
+  plt = geographic_overlay(plt, 
+                           geosourceJson=covid19_geosource,
+                           colorBar=color_bar,
+                           colorMapper=color_mapper,
+                           colorMode=input_field,
+                           hoverTool=hover,
+                           mapOverlay=map_overlay,
+                           enableToolbar=enable_toolbar,
+                           enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+        )
   
   if enable_lakshadweep_stats:
-    plt=lakshadweep_correction(plt, 
-                               input_df=input_df, 
-                               advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
+    plt = lakshadweep_correction(plt, 
+                                 input_df=input_df, 
+                                 advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
 
   if enable_India_stats:
-    xtext,ytext,xbox,ybox=CustomTitleFormatter()
-    plt=CustomTitleOverlay(plt, 
-                           xtext=xtext,
-                           ytext=ytext,
-                           xbox=xbox, 
-                           ybox=ybox,
-                           input_df=input_df,
-                           advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
-  plt.xaxis.major_tick_line_color=None  
-  plt.yaxis.major_tick_line_color=None
-  plt.xaxis.minor_tick_line_color=None 
-  plt.yaxis.minor_tick_line_color=None 
-  plt.xaxis[0].ticker.num_minor_ticks=0
-  plt.yaxis[0].ticker.num_minor_ticks=0
-  plt.yaxis.formatter=NumeralTickFormatter(format='0,0')
+    xtext, ytext, xbox, ybox = CustomTitleFormatter()
+    plt = CustomTitleOverlay(plt, 
+                             xtext=xtext,
+                             ytext=ytext,
+                             xbox=xbox, 
+                             ybox=ybox,
+                             input_df=input_df,
+                             advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False)
+
+  plt.xaxis.axis_label_text_font = PLOT_FONT
+  plt.xaxis.major_label_text_font = PLOT_FONT
+  plt.yaxis.major_label_text_font = PLOT_FONT
+
+  plt.xaxis.major_tick_line_color = None  
+  plt.yaxis.major_tick_line_color = None
+  plt.xaxis.minor_tick_line_color = None 
+  plt.yaxis.minor_tick_line_color = None
+
+  plt.xaxis[0].ticker.num_minor_ticks = 0
+  plt.yaxis[0].ticker.num_minor_ticks = 0
+
+  plt.yaxis.formatter = NumeralTickFormatter(format='0,0')
 
   return plt
 
@@ -577,16 +586,16 @@ def create_visualization_tabs(advanced_mode=True):
   tabs.append(basic_plot_tab)
 
   if advanced_mode:
-    preds_df.columns=['state',                                                        \
-                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
-                      'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
-                      'MAPE', 'MAPE_3', 'MAPE_7']
+    preds_df.columns = ['state',                                                        \
+                        'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
+                        'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
+                        'MAPE', 'MAPE_3', 'MAPE_7']
     print(preds_df.head(10))
     print(covid19_data_copy.head(10))
-    preds_covid19_df=pd.merge(covid19_data_copy, preds_df, 
-                              on='state', 
-                              how='left')
-    preds_covid19_df=preds_covid19_df.fillna(0)
+    preds_covid19_df = pd.merge(covid19_data_copy, preds_df, 
+                                on='state', 
+                                how='left')
+    preds_covid19_df = preds_covid19_df.fillna(0)
     print(preds_covid19_df.head(10))
     
     try:
@@ -614,7 +623,7 @@ def create_visualization_tabs(advanced_mode=True):
     print(preds_covid19_data['state'].equals(covid19_data['state']))
     print(set(list(preds_covid19_data['state']))-set(list(covid19_data['state'])))
 
-    preds_covid19_geosource=GeoJSONDataSource(geojson=merged_preds_json)
+    preds_covid19_geosource = GeoJSONDataSource(geojson=merged_preds_json)
 
     advanced_covid19_plot = covid19_plot(
                               preds_covid19_geosource, 
@@ -666,34 +675,35 @@ def model_performance_plot(
       regionwise_forecast_perf_hover_tool=True
     ):
     if use_cds:
-      plotIndex=source.data['plot_index']
-      plotIndex_labels=source.data['plot_labels']
-      dateLabels={i: date for i, date in enumerate(plotIndex_labels)}
+      plotIndex = source.data['plot_index']
+      plotIndex_labels = source.data['plot_labels']
+      dateLabels = {i: date for i, date in enumerate(plotIndex_labels)}
       x=source.data['x']
     else:
       plotIndex_labels=list(source['date'].astype('str'))  
-      modelPerformance=source.dropna()  
-      x=[i for i in range(len(list(source['date'].astype('str'))))]
+      model_performance = source.dropna()  
+      x = [i for i in range(len(list(source['date'].astype('str'))))]
 
-      y_cases=list(source['total_cases'].astype('int'))
-      y_preds=list(source['preds_cases'].astype('int'))
-      y_preds3=list(source['preds_cases_3'].astype('int'))
-      y_preds7=list(source['preds_cases_7'].astype('int'))
+      y_cases  = list(source['total_cases'].astype('int'))
+      y_preds  = list(source['preds_cases'].astype('int'))
+      y_preds3 = list(source['preds_cases_3'].astype('int'))
+      y_preds7 = list(source['preds_cases_7'].astype('int'))
 
-      y_stdev=list(source['preds_cases_std'].astype('int'))
-      y_3_stdev=list(source['preds_cases_3_std'].astype('int'))
-      y_7_stdev=list(source['preds_cases_7_std'].astype('int'))
+      y_stdev   = list(source['preds_cases_std'].astype('int'))
+      y_3_stdev = list(source['preds_cases_3_std'].astype('int'))
+      y_7_stdev = list(source['preds_cases_7_std'].astype('int'))
 
-      lower_lim=list(np.asarray(y_preds)-3*np.asarray(y_stdev))
-      lower_3_lim=list(np.asarray(y_preds3)-3*np.asarray(y_3_stdev))
-      lower_7_lim=list(np.asarray(y_preds7)-3*np.asarray(y_7_stdev))
+      lower_lim   = list(np.asarray(y_preds)-3*np.asarray(y_stdev))
+      lower_3_lim = list(np.asarray(y_preds3)-3*np.asarray(y_3_stdev))
+      lower_7_lim = list(np.asarray(y_preds7)-3*np.asarray(y_7_stdev))
 
-      upper_lim=list(np.asarray(y_preds)+3*np.asarray(y_stdev))
-      upper_3_lim=list(np.asarray(y_preds3)+3*np.asarray(y_3_stdev))
-      upper_7_lim=list(np.asarray(y_preds7)+3*np.asarray(y_7_stdev))
+      upper_lim   = list(np.asarray(y_preds)+3*np.asarray(y_stdev))
+      upper_3_lim = list(np.asarray(y_preds3)+3*np.asarray(y_3_stdev))
+      upper_7_lim = list(np.asarray(y_preds7)+3*np.asarray(y_7_stdev))
 
-      plotIndex=list(source['date'].astype('str'))
-      dateLabels={i: date for i, date in enumerate(plotIndex)}
+      plotIndex   = list(source['date'].astype('str'))
+      dateLabels = {i: date for i, date in enumerate(plotIndex)}
+
       source=ColumnDataSource({'x':x,'plot_index':plotIndex,'plot_labels':plotIndex_labels, 
                                'y_cases':y_cases,'y_preds':y_preds,'y_preds3':y_preds3,'y_preds7':y_preds7,
                                'y_std':y_stdev,'y_3std':y_3_stdev,'y_7std':y_7_stdev,
@@ -701,49 +711,49 @@ def model_performance_plot(
                                'lower_lim':lower_lim,'lower_3_lim':lower_3_lim,'lower_7_lim':lower_7_lim})
     
     if enable_interpolation:
-      x_cases_interpol,y_cases_interpol=LineSmoothing(x,y_cases)
-      x_preds_interpol,y_preds_interpol=LineSmoothing(x,y_preds)
-      x_preds3_interpol,y_preds3_interpol=LineSmoothing(x,y_preds3) 
-      x_preds7_interpol,y_preds7_interpol=LineSmoothing(x,y_preds7)
+      x_cases_interpol,y_cases_interpol   = LineSmoothing(x,y_cases)
+      x_preds_interpol,y_preds_interpol   = LineSmoothing(x,y_preds)
+      x_preds3_interpol,y_preds3_interpol = LineSmoothing(x,y_preds3) 
+      x_preds7_interpol,y_preds7_interpol = LineSmoothing(x,y_preds7)
 
     if len(plotIndex)%2==0 or len(plotIndex)%5==0 or np.round((len(plotIndex)/10)/(len(plotIndex)//10))==1:
       for i in range(
                   len(plotIndex)//2
                     ):
-        dateLabelObject=datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
-        dateLabel_extra=dateLabelObject+timedelta(days=(i+1))
-        dateLabels.update({len(plotIndex)+i:str(dateLabel_extra.strftime('%d-%B-%Y')) })
+        dateLabelObject = datetime.strptime(str(dateLabels[len(plotIndex)-1]),'%d-%B-%Y')
+        dateLabel_extra = dateLabelObject + timedelta(days=(i + 1))
+        dateLabels.update({len(plotIndex) + i:str(dateLabel_extra.strftime('%d-%B-%Y')) })
 
-    data_cases=dict(title=['report' \
-                           for i in range(len(x))],
-                    plotIndex=plotIndex,
-                    x='x',
-                    y='y_cases',
-                    source=source)
-    data_preds=dict(title=['forecast a day before'\
-                           for i in range(len(x))],
-                    plotIndex='plot_index',
-                    x='x',
-                    y='y_preds',
-                    source=source)
-    data_preds3=dict(title=['forecast 3 days before'\
+    data_cases = dict(title=['report' \
                             for i in range(len(x))],
+                     plotIndex=plotIndex,
+                     x='x',
+                     y='y_cases',
+                     source=source)
+    data_preds = dict(title=['forecast a day before'\
+                           for i in range(len(x))],
                      plotIndex='plot_index',
                      x='x',
-                     y='y_preds3',
+                     y='y_preds',
                      source=source)
-    data_preds7=dict(title=['forecast 7 days before'\
+    data_preds3 = dict(title=['forecast 3 days before'\
                             for i in range(len(x))],
-                     plotIndex='plot_index',
-                     x='x',
-                     y='y_preds7',
-                     source=source)
+                      plotIndex='plot_index',
+                      x='x',
+                      y='y_preds3',
+                      source=source)
+    data_preds7 = dict(title=['forecast 7 days before'\
+                             for i in range(len(x))],
+                      plotIndex='plot_index',
+                      x='x',
+                      y='y_preds7',
+                      source=source)
 
     TOOLTIPS = regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=12)      \
                if regionwise_forecast_perf_hover_tool else [('Date: ','@plot_index'),
                                              ('Cases: ','@y_cases')]
 
-    perfPlot = figure(
+    perf_plot = figure(
                  #y_axis_type="log",y_range=(2.5e4,7.5e4), 
                  y_axis_location='left',
                  outer_height=500, outer_width=500,
@@ -753,11 +763,11 @@ def model_performance_plot(
                )
 
     if version_check:
-      perfplot_circle = getattr(perfPlot, 'scatter')
+      perf_plot_circle = getattr(perf_plot, 'scatter')
     else:
-      perfplot_circle = getattr(perfPlot, 'circle')
+      perf_plot_circle = getattr(perf_plot, 'circle')
 
-    perfPlot.line(
+    perf_plot.line(
       x='x',
       y='y_cases',
       source=source,
@@ -765,7 +775,7 @@ def model_performance_plot(
       color='black'
     )
 
-    r = perfplot_circle(
+    r = perf_plot_circle(
           x='x', 
           y='y_cases', 
           color='grey', 
@@ -774,14 +784,14 @@ def model_performance_plot(
           source=source
         )
 
-    perfPlot.line(
+    perf_plot.line(
       x='x',
       y='y_preds',
       source=source,
       color='darkred'
     )
 
-    r1 = perfplot_circle(
+    r1 = perf_plot_circle(
            x='x', 
            y='y_preds', 
            color='darkred', 
@@ -790,14 +800,14 @@ def model_performance_plot(
            source=source
          )
 
-    perfPlot.line(
+    perf_plot.line(
       x='x',
       y='y_preds3',
       source=source,
       color='green'
     )
 
-    r3 = perfplot_circle(
+    r3 = perf_plot_circle(
            x='x', 
            y='y_preds3', 
            color='lime', 
@@ -806,14 +816,14 @@ def model_performance_plot(
            source=source
          )
 
-    perfPlot.line(
+    perf_plot.line(
       x='x',
       y='y_preds7', 
       source=source,
       color='blue'
     )
 
-    r7 = perfplot_circle(
+    r7 = perf_plot_circle(
            x='x', 
            y='y_preds7', 
            color='purple', 
@@ -822,29 +832,29 @@ def model_performance_plot(
            source=source
          )
 
-    perfPlot.hover.renderers=[r,r1,r3,r7]
+    perf_plot.hover.renderers = [r,r1,r3,r7]
     
-    perfPlot.yaxis.formatter.use_scientific=False
-    perfPlot.yaxis.formatter=NumeralTickFormatter(format='0,0')
+    perf_plot.yaxis.formatter.use_scientific = False
+    perf_plot.yaxis.formatter = NumeralTickFormatter(format='0,0')
     
-    perfPlot.xaxis.major_label_overrides=dateLabels
-    perfPlot.xaxis.axis_label='Date'
-    perfPlot.yaxis.axis_label=' '
-    perfPlot.yaxis.axis_label_text_align='left'
-    perfPlot.xaxis.axis_label_text_font=PLOT_FONT
-    perfPlot.xaxis.major_label_text_font=PLOT_FONT
-    perfPlot.yaxis.major_label_text_font=PLOT_FONT
-    perfPlot.add_layout(LinearAxis(axis_label='SARS-CoV2 cases',
+    perf_plot.xaxis.major_label_overrides = dateLabels
+    perf_plot.xaxis.axis_label = 'Date'
+    perf_plot.yaxis.axis_label = ' '
+    perf_plot.yaxis.axis_label_text_align = 'left'
+    perf_plot.xaxis.axis_label_text_font = PLOT_FONT
+    perf_plot.xaxis.major_label_text_font = PLOT_FONT
+    perf_plot.yaxis.major_label_text_font = PLOT_FONT
+    perf_plot.add_layout(LinearAxis(axis_label='SARS-CoV2 cases',
                                    axis_label_text_font=PLOT_FONT,
                                    major_tick_line_color=None,
                                    minor_tick_line_color=None,
                                    major_label_text_font_size='0pt',
                                    major_label_orientation=math.pi,), 'right')
-    perfPlot.right[0].axis_line_color=None
-    perfPlot.right[0].formatter.use_scientific=False
-    perfPlot.right[0].ticker.num_minor_ticks=0
-    perfPlot.yaxis.major_label_orientation=(math.pi*.75)/2
-    perfPlot.xaxis.major_label_orientation=(math.pi*.75)/2
+    perf_plot.right[0].axis_line_color = None
+    perf_plot.right[0].formatter.use_scientific = False
+    perf_plot.right[0].ticker.num_minor_ticks = 0
+    perf_plot.yaxis.major_label_orientation = (math.pi*.75)/2
+    perf_plot.xaxis.major_label_orientation = (math.pi*.75)/2
 
     band=Band(base='x',lower='lower_lim',upper='upper_lim',source=source, 
               level='underlay',fill_alpha=0.5,line_width=1,
@@ -856,11 +866,11 @@ def model_performance_plot(
                level='underlay',fill_alpha=0.25,line_width=1,
                fill_color='indigo',line_color='indigo')
 
-    perfPlot.renderers.append(band)
-    perfPlot.renderers.append(band3)
-    perfPlot.renderers.append(band7)
+    perf_plot.renderers.append(band)
+    perf_plot.renderers.append(band3)
+    perf_plot.renderers.append(band7)
 
-    return perfPlot
+    return perf_plot
 
 def date_formatter(x):
   datetimeobject = datetime.strptime(str(x),'%Y%m%d')
@@ -876,42 +886,42 @@ def make_dataset(state):
                        )
 
   try:
-    modelPerformance=pd.read_csv(MODEL_PERF_DATA_URL)
+    model_performance = pd.read_csv(MODEL_PERF_DATA_URL)
     print(f'Reading model performance for: {state} from URL ...')
   except Exception as e:
     e = getattr(e, 'message', repr(e))
     print(f'Failed to read model performance data from URL due to: {e} ...')
     if os.path.exists(MODEL_PERF_DATA_FILE):
-      modelPerformance=pd.read_csv(MODEL_PERF_DATA_FILE)  
+      model_performance = pd.read_csv(MODEL_PERF_DATA_FILE)  
       print(f'Reading model performance for: {state} from saved repo file: {MODEL_PERF_DATA_FILE} ...')
     else:
       sys.exit('No statewise model performance file found ...')
 
-  modelPerformance['date']=modelPerformance['date'].apply(lambda x: date_formatter(x))  
-  plotIndex_labels=list(modelPerformance['date'].astype('str'))
+  model_performance['date'] = model_performance['date'].apply(lambda x: date_formatter(x))  
+  plotIndex_labels = list(model_performance['date'].astype('str'))
   
-  modelPerformance=modelPerformance.dropna()
-  plotIndex=list(modelPerformance['date'].astype('str'))   
+  model_performance = model_performance.dropna()
+  plotIndex = list(model_performance['date'].astype('str'))   
     
-  x=[i for i in range(len(list(modelPerformance['date'].astype('str'))))]
+  x=[i for i in range(len(list(model_performance['date'].astype('str'))))]
 
-  y_cases=list(modelPerformance['total_cases'].astype('int'))
+  y_cases = list(model_performance['total_cases'].astype('int'))
 
-  y_preds=list(modelPerformance['preds_cases'].astype('int'))
-  y_preds3=list(modelPerformance['preds_cases_3'].astype('int'))
-  y_preds7=list(modelPerformance['preds_cases_7'].astype('int'))
+  y_preds  = list(model_performance['preds_cases'].astype('int'))
+  y_preds3 = list(model_performance['preds_cases_3'].astype('int'))
+  y_preds7 = list(model_performance['preds_cases_7'].astype('int'))
 
-  y_std=list(modelPerformance['preds_cases_std'].astype('int'))
-  y_3std=list(modelPerformance['preds_cases_3_std'].astype('int'))
-  y_7std=list(modelPerformance['preds_cases_7_std'].astype('int'))
+  y_std  = list(model_performance['preds_cases_std'].astype('int'))
+  y_3std = list(model_performance['preds_cases_3_std'].astype('int'))
+  y_7std = list(model_performance['preds_cases_7_std'].astype('int'))
       
-  lower_lim=list(np.asarray(y_preds)-3*np.asarray(y_std))
-  lower_3_lim=list(np.asarray(y_preds3)-3*np.asarray(y_3std))
-  lower_7_lim=list(np.asarray(y_preds7)-3*np.asarray(y_7std))
+  lower_lim   = list(np.asarray(y_preds)-3*np.asarray(y_std))
+  lower_3_lim = list(np.asarray(y_preds3)-3*np.asarray(y_3std))
+  lower_7_lim = list(np.asarray(y_preds7)-3*np.asarray(y_7std))
 
-  upper_lim=list(np.asarray(y_preds)+3*np.asarray(y_std))
-  upper_3_lim=list(np.asarray(y_preds3)+3*np.asarray(y_3std))
-  upper_7_lim=list(np.asarray(y_preds7)+3*np.asarray(y_7std))
+  upper_lim   = list(np.asarray(y_preds)+3*np.asarray(y_std))
+  upper_3_lim = list(np.asarray(y_preds3)+3*np.asarray(y_3std))
+  upper_7_lim = list(np.asarray(y_preds7)+3*np.asarray(y_7std))
 
   return ColumnDataSource(
            {'x':x, 'y_cases':y_cases, 
@@ -1010,30 +1020,30 @@ class SARS_COV2_Layout():
     active_tab_color = f'background-color: rgba({r}, {g}, {b}, 0.32)'
     header_css  = '.bk-header {' + f'{bg_color};'  +                         \
                         'font-style: normal;                                 \
-                        font-weight: normal;'  + font_family + '}'  
+                         font-weight: normal;'  + font_family + '}'  
     tab_css  = '.bk-tab {' + f'{bg_tab_color};'  +                           \
                         'font-style: normal;                                 \
                          border-radius: 2px;                                 \
                          font-weight: normal;'  + font_family + '}'
     active_tab_css = ' .bk-active.bk-tab {' + f'{active_tab_color};'  +      \
                         'font-style: normal;                                 \
-                        font-weight: bold;'  + font_family + '}'
+                         font-weight: bold;'  + font_family + '}'
     hover_tab_css = ' .bk-tab:hover{' + hover_color + '}'
     column_css  = '.bk-Column {' + f'{select_bg_color};'  +                  \
                         'font-style: normal;                                 \
-                        font-weight: normal;'  + font_family + '}'
+                         font-weight: normal;'  + font_family + '}'
     select_css  = '.bk-Select {' + f'{select_bg_color};'  +                  \
                         'font-style: normal;                                 \
-                        font-weight: normal;'  + font_family + '}'
+                         font-weight: normal;'  + font_family + '}'
     input_group_css  = '.bk-input-group {' + f'{select_bg_color};'  +        \
                         'font-style: normal;                                 \
-                        font-weight: normal;'  + font_family + '}'
+                         font-weight: normal;'  + font_family + '}'
     input_css  = '.bk-input {' + f'{select_bg_color};'  +                    \
                         'font-style: normal;                                 \
-                        font-weight: normal;'  + font_family + '}'
+                         font-weight: normal;'  + font_family + '}'
     active_input_css  = '.bk-input:active {' + f'{select_bg_color};'  +      \
                         'font-style: normal;                                 \
-                        font-weight: bold;'  + font_family + '}'                     
+                         font-weight: bold;'  + font_family + '}'                     
     css_style = str('\n' + header_css +       \
                     '\n' + tab_css +          \
                     '\n' + active_tab_css+    \
@@ -1047,7 +1057,7 @@ class SARS_COV2_Layout():
     return f"""<html><head><style, class='Tab Switching'> \
                 {str(css_style)} \
               </style></head></html> \
-          """
+           """
 
   def update_plot(self, attrname, old, new):
     new_source = self.get_source()
