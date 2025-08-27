@@ -289,15 +289,17 @@ def create_custom_hover_tool(
       enable_advanced_hover_tool:bool, 
       enable_simple_hover_tool:bool, 
       enable_performance_hover_tool:bool
-    )->'Bokeh hover tool':
+)->'Bokeh hover tool':
 
   advanced_stats_hover = HoverTool(tooltips=advanced_stats_tool_tip_formatter(font_pixel_size=12))
   performance_stats_hover = HoverTool(tooltips=performance_stats_hover_tool_formatter(font_pixel_size=12))
   simple_stats_hover = HoverTool(tooltips=simple_stats_hover_tool_formatter(font_pixel_size=12))
-  standard_hover = HoverTool(tooltips=[('State','@state'),
-                                       ('Cases', '@total_cases'),
-                                       #('Discharged/migrated', '@discharged'),
-                                       ('Deaths', '@deaths')])
+  standard_hover = HoverTool(
+                     tooltips=[('State','@state'),
+                               ('Cases', '@total_cases'),
+                               #('Discharged/migrated', '@discharged'),
+                               ('Deaths', '@deaths')]
+                   )
   
   if enable_performance_hover_tool:
     hover  = performance_stats_hover
@@ -329,7 +331,7 @@ def geographic_overlay(
       mapOverlay=True,
       enableTapTool=False,
       enableToolbar=True
-    ):
+):
   if mapOverlay:
     wmts = WMTSTileSource(url="https://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png")
     plt.add_tile(wmts)
@@ -363,27 +365,34 @@ def geographic_overlay(
 
 def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
   if advanced_plotting:
-    source = ColumnDataSource(data=dict(x=[8075000],
-                                        y=[1250000],
-                                        state=['Lakshadweep'],
-                                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
-                                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']],
-                                        preds_cases=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases']],
-                                        preds_cases_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_std']],
-                                        MAPE=[input_df.loc[input_df['state']=='Lakshadweep','MAPE']],
-                                        preds_cases_3=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3']],
-                                        preds_cases_3_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3_std']],
-                                        MAPE_3=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_3']],
-                                        preds_cases_7=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7']],
-                                        preds_cases_7_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7_std']],
-                                        MAPE_7=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_7']]
-                                      ))
+    source = ColumnDataSource(
+               data = dict(
+                        x=[8075000],
+                        y=[1250000],
+                        state=['Lakshadweep'],
+                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
+                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']],
+                        preds_cases=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases']],
+                        preds_cases_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_std']],
+                        MAPE=[input_df.loc[input_df['state']=='Lakshadweep','MAPE']],
+                        preds_cases_3=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3']],
+                        preds_cases_3_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3_std']],
+                        MAPE_3=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_3']],
+                        preds_cases_7=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7']],
+                        preds_cases_7_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7_std']],
+                        MAPE_7=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_7']]
+                      )
+             )
   else:
-    source = ColumnDataSource(data=dict(x=[8075000],
-                                        y=[1250000],
-                                        state=['Lakshadweep'],
-                                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
-                                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']]))
+    source = ColumnDataSource(
+               data = dict(
+                        x=[8075000],
+                        y=[1250000],
+                        state=['Lakshadweep'],
+                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
+                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']]
+                      )
+             )
 
   if version_check:
     plot_circle = plt.scatter
@@ -419,7 +428,7 @@ def CustomTitleOverlay(
       ybox=0,
       input_df=None, 
       advanced_plotting=False
-    ):
+):
   
   overlay_text = Label(
                    x=xtext, 
@@ -496,7 +505,7 @@ def covid19_plot(
       enable_performance_stats=False,
       enable_foecast_perf=False,
       enable_toolbar=False
-    ):
+):
   
   palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performance_stats else True)
   color_mapper = LinearColorMapper(
@@ -509,8 +518,10 @@ def covid19_plot(
   if integer_plot:
     format_tick = NumeralTickFormatter(format='0,0')
   else:
-    format_tick = NumeralTickFormatter(format=str(input_df[input_field].values.astype('int')) if not enable_performance_stats else\
-                                       str(np.round((input_df[input_field].values.astype('float')),1)))
+    format_tick = NumeralTickFormatter(
+                    format=str(input_df[input_field].values.astype('int')) if not enable_performance_stats else\
+                           str(np.round((input_df[input_field].values.astype('float')),1))
+                  )
   color_bar = ColorBar(
                 color_mapper=color_mapper, 
                 label_standoff=14, 
@@ -524,15 +535,16 @@ def covid19_plot(
   xmin, xmax, ymin, ymax = MapOverlayFormatter(map_overlay)
   hover = create_custom_hover_tool(enable_advanced_stats, enable_simple_hover_tool, enable_performance_stats)
 
-  plt = figure(title = plot_title,
-               x_range=(xmin, xmax) if map_overlay else None,
-               y_range=(ymin, ymax) if map_overlay else None,
-               tools='save' if enable_toolbar else '', 
-               outer_height = 512, outer_width = 512,
-               toolbar_location = 'left' if enable_toolbar else None,
-               lod_factor=int(1e7),
-               lod_threshold=int(2),
-               #output_backend="webgl"
+  plt = figure(
+          title=plot_title,
+          x_range=(xmin, xmax) if map_overlay else None,
+          y_range=(ymin, ymax) if map_overlay else None,
+          tools='save' if enable_toolbar else '', 
+          outer_height = 512, outer_width = 512,
+          toolbar_location = 'left' if enable_toolbar else None,
+          lod_factor=int(1e7),
+          lod_threshold=int(2),
+          #output_backend="webgl"
         ) 
         
   plt = geographic_overlay(
@@ -685,7 +697,7 @@ def create_visualization_tabs(advanced_mode=True):
 
 def LineSmoothing(
       x, y, interpolationType='cubic', interpolationPoints=1000
-    ):
+):
   fn = interp1d(
          x, y, kind=interpolationType
        )
@@ -703,7 +715,7 @@ def model_performance_plot(
       use_cds=False,
       enable_interpolation=False, 
       regionwise_forecast_perf_hover_tool=True
-    ):
+):
     if use_cds:
       plotIndex = source.data['plot_index']
       plotIndex_labels = source.data['plot_labels']
@@ -769,44 +781,48 @@ def model_performance_plot(
         dateLabel_extra = dateLabelObject + timedelta(days=(i + 1))
         dateLabels.update({len(plotIndex) + i:str(dateLabel_extra.strftime('%d-%B-%Y')) })
 
-    data_cases = dict(title=['report' \
-                            for i in range(len(x))],
-                     plotIndex=plotIndex,
-                     x='x',
-                     y='y_cases',
-                     source=source)
-    data_preds = dict(title=['forecast a day before'\
-                           for i in range(len(x))],
-                     plotIndex='plot_index',
-                     x='x',
-                     y='y_preds',
-                     source=source)
-    data_preds3 = dict(title=['forecast 3 days before'\
-                            for i in range(len(x))],
-                      plotIndex='plot_index',
-                      x='x',
-                      y='y_preds3',
-                      source=source)
-    data_preds7 = dict(title=['forecast 7 days before'\
-                             for i in range(len(x))],
-                      plotIndex='plot_index',
-                      x='x',
-                      y='y_preds7',
-                      source=source)
+    data_cases = dict(
+                   title=['report' for i in range(len(x))],
+                   plotIndex=plotIndex,
+                   x='x',
+                   y='y_cases',
+                   source=source
+                 )
+    data_preds = dict(
+                   title=['forecast a day before' for i in range(len(x))],
+                   plotIndex='plot_index',
+                   x='x',
+                   y='y_preds',
+                   source=source
+                 )
+    data_preds3 = dict(
+                    title=['forecast 3 days before' for i in range(len(x))],
+                    plotIndex='plot_index',
+                    x='x',
+                    y='y_preds3',
+                    source=source
+                  )
+    data_preds7 = dict(
+                    title=['forecast 7 days before' for i in range(len(x))],
+                    plotIndex='plot_index',
+                    x='x',
+                    y='y_preds7',
+                    source=source
+                  )
 
     TOOLTIPS = regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=12)      \
                if regionwise_forecast_perf_hover_tool else [('Date: ','@plot_index'),
                                                             ('Cases: ','@y_cases')]
 
     perf_plot = figure(
-                 #y_axis_type="log",y_range=(2.5e4,7.5e4), 
-                 y_axis_location='left',
-                 outer_height=500, 
-                 outer_width=500,
-                 tools='hover', 
-                 toolbar_location=None,
-                 tooltips=TOOLTIPS
-               )
+                  #y_axis_type="log",y_range=(2.5e4,7.5e4), 
+                  y_axis_location='left',
+                  outer_height=500, 
+                  outer_width=500,
+                  tools='hover', 
+                  toolbar_location=None,
+                  tooltips=TOOLTIPS
+                )
 
     if version_check:
       perf_plot_circle = getattr(perf_plot, 'scatter')
