@@ -390,13 +390,16 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
   else:
     plot_circle = plt.circle
 
-  plot_circle(x='x', y='y', 
-              size=25, 
-              source=source,
-              line_color='purple',
-              fill_alpha=0.075,
-              nonselection_alpha=0.20,
-              color='blue')
+  plot_circle(
+    x='x', 
+    y='y', 
+    size=25, 
+    source=source,
+    line_color='purple',
+    fill_alpha=0.075,
+    nonselection_alpha=0.20,
+    color='blue'
+  )
   
   return plt
 
@@ -489,11 +492,13 @@ def covid19_plot(
     ):
   
   palette = CustomPalette(palette_type, enable_colorInverse=False if enable_performance_stats else True)
-  color_mapper = LinearColorMapper(palette=palette, 
-                                   low=0, 
-                                   high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
-                                        if not enable_performance_stats else np.round((np.max(input_df[color_field].values)),3)
-                                   ) 
+  color_mapper = LinearColorMapper(
+                   palette=palette, 
+                   low=0, 
+                   high=int(10*(np.ceil(np.max(input_df[color_field].values)/10)))\
+                        if not enable_performance_stats else np.round((np.max(input_df[color_field].values)),3)
+                 )
+
   if integer_plot:
     format_tick = NumeralTickFormatter(format='0,0')
   else:
