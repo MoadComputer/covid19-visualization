@@ -30,15 +30,15 @@ print(bokeh_version_msg, bokeh_version)
 version_check = version.parse(bokeh_version) >= version.parse('3.4.1')
 if version_check:
     from bokeh.models import TabPanel as Tab_Panel
-    from bokeh.layouts import column as Column
+    from bokeh.layouts import column as Column_Layout
 else:
     try:
         from bokeh.models import Panel as Tab_Panel
-        from bokeh.layouts import column as Column
+        from bokeh.layouts import column as Column_Layout
     except ImportError:
         try:
             from bokeh.models import TabPanel as Tab_Panel
-            from bokeh.models.layouts import Column
+            from bokeh.models.layouts import Column_Layout
         except Exception as e:
             e = getattr(e, 'message', repr(e))
             raise ValueError(f'Failed Bokeh imports due to: {e} ...')
@@ -1168,7 +1168,7 @@ class SARS_COV2_Layout():
 
   def create_statewise_model_performance_tab(self):
     statewise_plot = model_performance_plot(self.get_source(), use_cds=True)
-    statewise_layout = Column(self.state_select, statewise_plot) 
+    statewise_layout = Column_Layout(self.state_select, statewise_plot) 
     statewise_perf_tab = Tab_Panel(child=statewise_layout, title='Regionwise forecast performance')
     return statewise_perf_tab
 
@@ -1186,7 +1186,7 @@ class SARS_COV2_Layout():
       sars_cov2_layout = sars_cov2_layout_tabs
       return sars_cov2_layout, self.state_select
     else:
-      sars_cov2_layout = Column(basic_covid19_plot)
+      sars_cov2_layout = Column_Layout(basic_covid19_plot)
       return sars_cov2_layout, None
 
 curdoc().title = app_title
