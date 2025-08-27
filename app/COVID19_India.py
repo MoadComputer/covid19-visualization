@@ -421,13 +421,16 @@ def CustomTitleOverlay(
       advanced_plotting=False
     ):
   
-  overlayText=Label(x=xtext, y=ytext, 
-                    text='SARS-CoV2 in India',
-                    text_font=PLOT_FONT,
-                    text_font_size='21pt',
-                    text_font_style='bold',)
+  overlay_text = Label(
+                   x=xtext, 
+                   y=ytext, 
+                   text='SARS-CoV2 in India',
+                   text_font=PLOT_FONT,
+                   text_font_size='21pt',
+                   text_font_style='bold'
+                 )
     
-  plt.add_layout(overlayText) 
+  plt.add_layout(overlay_text) 
 
   if advanced_plotting:
     print(covid19_data['total_cases'].sum())  
@@ -451,11 +454,15 @@ def CustomTitleOverlay(
                       )
              )
   else:
-    source = ColumnDataSource(data=dict(x=[xbox],
-                                        y=[ybox],
-                                        state=['India'],
-                                        total_cases=[input_df['total_cases'].sum()],
-                                        deaths=[input_df['deaths'].sum()]))
+    source = ColumnDataSource(
+               data = dict(
+                        x=[xbox],
+                        y=[ybox],
+                        state=['India'],
+                        total_cases=[input_df['total_cases'].sum()],
+                        deaths=[input_df['deaths'].sum()]
+                      )
+             )
 
   plt.rect(
     x='x', 
