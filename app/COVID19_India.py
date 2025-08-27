@@ -212,7 +212,7 @@ def css_formatter(font_pixel_size=15, line_height=110, in_css=None):
     return in_css + css
   return f"{css}"
 
-def advanced_stats_tool_tip_formatter(font_pixel_size=12):
+def advanced_stats_tool_tip_formatter(font_pixel_size:int=12)->'HTML string':
   return f"""
              <div style='{css_formatter(font_pixel_size-1)}'>
              <strong>@state</strong><br>
@@ -233,7 +233,7 @@ def advanced_stats_tool_tip_formatter(font_pixel_size=12):
              </div>
           """
 
-def performance_stats_hover_tool_formatter(font_pixel_size=11):
+def performance_stats_hover_tool_formatter(font_pixel_size:int=12)->'HTML string':
   return f"""<div style='{css_formatter(font_pixel_size-1)}'>
              <strong>@state</strong> <br>
              </div>
@@ -252,7 +252,7 @@ def performance_stats_hover_tool_formatter(font_pixel_size=11):
              </div>
          """
 
-def simple_stats_hover_tool_formatter(font_pixel_size=11):   
+def simple_stats_hover_tool_formatter(font_pixel_size:int=12)->'HTML string':   
   return f"""<div style='{css_formatter(font_pixel_size+1)}'>
              <strong>@state</strong> <br>
              </div>
@@ -267,7 +267,7 @@ def simple_stats_hover_tool_formatter(font_pixel_size=11):
              </div>                                              
           """
 
-def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size=11):
+def regionwise_forecast_performance_hover_tool_formatter(font_pixel_size:int=12)->'HTML string':
   return f"""<div style='{css_formatter(font_pixel_size+1)}'>
              Forecast performance for: <strong>@plot_index</strong> <br>
              <div>
