@@ -25,9 +25,11 @@ from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar,        
 
 bokeh_version = bokeh.__version__ 
 bokeh_version_msg = 'Generating SARS-CoV2 state-wise statistics overlay for India using Bokeh visualization library version: '
+
 print(bokeh_version_msg, bokeh_version)
 
 version_check = version.parse(bokeh_version) >= version.parse('3.4.1')
+
 if version_check:
     from bokeh.models import TabPanel as Tab_Panel
     from bokeh.layouts import column as Column_Layout
