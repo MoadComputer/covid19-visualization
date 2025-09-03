@@ -1044,7 +1044,11 @@ def make_dataset(state):
          )
 
 class SARS_COV2_Layout():
-  def __init__(self, default_region_selection='India', advanced_mode=False):
+  def __init__(
+      self, 
+      default_region_selection='India', 
+      advanced_mode=False
+    ):
     self.enable_source_creation=True
     self.default_region_selection=default_region_selection
     self.advanced_mode=advanced_mode
