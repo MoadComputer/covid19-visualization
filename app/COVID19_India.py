@@ -49,7 +49,7 @@ verbose = False
 enable_GeoJSON_saving = False
 
 DATA_UPDATE_DATE = '23-September-2025'
-FORECASTS_UPDATE_DATE = '22-September-2025'
+FORECASTS_UPDATE_DATE = '23-September-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
@@ -140,7 +140,7 @@ except Exception as e:
   else:
     print('Advanced mode disabled ...')
     advanced_mode=False  
-    
+
 preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                      'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
@@ -182,7 +182,7 @@ def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose
       merged_df.fillna({'discharged': 0}, inplace=True)
       if verbose:
         print('Consider updating GeoPandas library ...')
-    
+  
     merged_json = json.loads(merged_df.to_json())
     json_data = json.dumps(merged_json)
     return {'json_data': json_data, 'data_frame': merged_df}
@@ -681,7 +681,7 @@ def create_visualization_tabs(advanced_mode=True):
                             )
     advanced_plot_tab = Tab_Panel(child=advanced_covid19_plot, title='Forecast')
     tabs.append(advanced_plot_tab)
-    
+
     performance_covid19_plot = covid19_plot(
                                  preds_covid19_geosource, 
                                  input_df=preds_covid19_data,
