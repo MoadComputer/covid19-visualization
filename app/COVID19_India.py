@@ -1,4 +1,5 @@
-import os, re, sys, math, json, bokeh, geopandas, numpy as np, pandas as pd
+import os, re, sys, math, json, bokeh, geopandas, \
+       numpy as np, pandas as pd
 
 from jinja2 import Template
 from packaging import version
@@ -48,7 +49,7 @@ else:
 verbose = False
 enable_GeoJSON_saving = False
 
-DATA_UPDATE_DATE = '17-November-2025'
+DATA_UPDATE_DATE = '18-November-2025'
 FORECASTS_UPDATE_DATE = '17-November-2025'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
