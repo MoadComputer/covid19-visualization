@@ -351,9 +351,10 @@ def geographic_overlay(
     fill_color = {'field' : colorMode, 
                   'transform' : colorMapper},
     line_color = 'purple', 
-    line_width = 0.5, 
-    fill_alpha = 0.60 if enableTapTool else 0.65,
-    nonselection_alpha = 0.65
+    line_width = 0.05, 
+    fill_alpha = 0.05 if enableTapTool else 0.05,
+    nonselection_alpha = 0.05,
+    hover_fill_alpha=0.65
   )
   plt.add_layout(colorBar, 'right')
   plt.add_tools(hoverTool)
@@ -366,7 +367,15 @@ def geographic_overlay(
   
   return plt
 
-def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
+def lakshadweep_correction(
+  plt, 
+  input_df=None, 
+  advanced_plotting=False,
+  geosourceJson=None, 
+  colorBar=None,
+  colorMapper=None,
+  colorMode=None
+  ):
   if advanced_plotting:
     source = ColumnDataSource(
                data = dict(
@@ -408,9 +417,13 @@ def lakshadweep_correction(plt, input_df=None, advanced_plotting=False):
     size=25, 
     source=source,
     line_color='purple',
-    fill_alpha=0.075,
-    nonselection_alpha=0.20,
-    color='blue'
+    fill_alpha=0.05,
+    line_width=0.05,
+    fill_color={'field'     : colorMode, 
+                'transform' : colorMapper},
+    nonselection_alpha=0.05,
+    hover_fill_alpha=0.65, 
+    #color='blue'
   )
   
   return plt
@@ -484,9 +497,10 @@ def CustomTitleOverlay(
     color="#CAB2D6",
     source=source,
     line_color='purple',
+    line_width=0.01,
     #width_units='screen',
     #height_units='screen',
-    fill_alpha=0.25
+    fill_alpha=0.1
   )  
   
   return plt
@@ -564,10 +578,14 @@ def covid19_plot(
   
   if enable_lakshadweep_stats:
     plt = lakshadweep_correction(
-            plt, 
-            input_df=input_df, 
-            advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
-          )
+      plt,
+      input_df=input_df, 
+      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False,
+      geosourceJson=covid19_geosource,
+      colorBar=color_bar, 
+      colorMapper=color_mapper, 
+      colorMode=input_field
+    )
 
   if enable_India_stats:
     xtext, ytext, xbox, ybox = CustomTitleFormatter()
