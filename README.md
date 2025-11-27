@@ -34,7 +34,7 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
 ### 2. Bokeh server app
 
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
-* Launch the Bokeh server: ```bokeh serve --show ./app/COVID19_India.py```
+* Launch the Bokeh server: ```bokeh serve --show ./app/SARS_CoV2_India.py```
 * Go to your browser location and the app will be served
   [![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/COVID19_India_Bokeh_output.png)](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python)
 

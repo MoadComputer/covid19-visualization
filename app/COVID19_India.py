@@ -196,8 +196,8 @@ if verbose:
     for no_sars_cov2_state in no_sars_cov2_list:
       print(f'\n{no_sars_cov2_state} ...')
 
-def sars_cov2_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
-    merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
+def sars_cov2_json(sars_cov2_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
+    merged_df = pd.merge(geo_df, sars_cov2_df, on='state', how='left')
 
     try:
       merged_df = merged_df.fillna(0)
