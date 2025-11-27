@@ -8,7 +8,7 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
   **For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines** 
     
   * Run the notebook by selecting from the menu: ```Kernel``` and  then: ```Restart & Run All```
-  [![Jupyter how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Jupyer_howto.png)](https://github.com/MoadComputer/covid19-visualization/blob/main/examples/COVID19_India.ipynb)
+  [![Jupyter how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Jupyer_howto.png)](https://github.com/MoadComputer/covid19-visualization/blob/main/examples/India_SARS_CoV2.ipynb)
 
   **For Jupyter in AARCH64 Linux machines**
     
