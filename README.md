@@ -3,7 +3,7 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
 
 ## **App deployment**
 
-### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/main/examples/COVID19_India.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/COVID19_India.ipynb)
+### 1. [Jupyter notebook](https://github.com/MoadComputer/covid19-visualization/blob/main/examples/India_SARS_CoV2.ipynb) or [Google Colab](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/India_SARS_CoV2.ipynb)
 
   **For Jupyter/JupyterHub/JupyterLab in AMD64/x86-64 Linux machines** 
     
