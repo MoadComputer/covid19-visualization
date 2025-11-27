@@ -98,7 +98,7 @@ def os_style_formatter(input_str:str)->str:
 try:
   India_statewise = geopandas.read_file(f'{DATA_URL}{GEOJSON_FILENAME_POINTER_STR}')
   India_stats = pd.read_csv(f'{DATA_URL}{POPUL_STATS_CSV_FILENAME_POINTER_STR}')
-  covid19_data = pd.read_csv(f'{DATA_URL}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}')
+  sars_cov2_data = pd.read_csv(f'{DATA_URL}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}')
   preds_df = pd.read_csv(f'{DATA_URL}{SARSCOV2_FORECASTS_FILENAME_POINTER_STR}')
 except Exception as e:
   e = getattr(e, 'message', repr(e))
@@ -108,7 +108,7 @@ except Exception as e:
   India_GeoJSON_repoFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{GEOJSON_FILENAME_POINTER_STR}'
   ) 
-  covid19_statewise_repoFile = os_style_formatter(
+  sars_cov2_statewise_repoFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{SARSCOV2_STATS_CSV_FILENAME_POINTER_STR}'
   )
   India_statewise_statsFile = os_style_formatter(
@@ -124,11 +124,11 @@ except Exception as e:
   else:
     sys.exit('Failed to read GeoJSON file for India ...')
 
-  if os.path.exists(covid19_statewise_repoFile):
-    covid19_data = pd.read_csv(covid19_statewise_repoFile)  
-    print('Reading India COVID19 file from saved repo ...')
+  if os.path.exists(sars_cov2_statewise_repoFile):
+    sars_cov2_data = pd.read_csv(sars_cov2_statewise_repoFile)  
+    print('Reading India SARS-CoV2 file from saved repo ...')
   else:
-    sys.exit('Failed to read India COVID19 file ...')
+    sys.exit('Failed to read India SARS-CoV2 file ...')
     
   if os.path.exists(India_statewise_statsFile):
     India_stats = pd.read_csv(India_statewise_statsFile)  
@@ -142,7 +142,7 @@ except Exception as e:
     print('Advanced mode disabled ...')
     advanced_mode=False
 
-covid19_data.fillna(0)
+sars_cov2_data.fillna(0)
 
 preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
@@ -179,24 +179,24 @@ if enable_GeoJSON_saving:
 
 India_stats = apply_corrections(India_stats)
 
-if len(covid19_data.columns) ==6:
-  del covid19_data['active_cases']
+if len(sars_cov2_data.columns) ==6:
+  del sars_cov2_data['active_cases']
 
-covid19_data = apply_corrections(covid19_data)
+sars_cov2_data = apply_corrections(sars_cov2_data)
 
-covid19_data = pd.merge(India_stats, covid19_data, on='state', how='left')
-covid19_data = covid19_data.fillna(0)
-covid19_data_copy = covid19_data.copy()
+sars_cov2_data = pd.merge(India_stats, sars_cov2_data, on='state', how='left')
+sars_cov2_data = sars_cov2_data.fillna(0)
+sars_cov2_data_copy = sars_cov2_data.copy()
 
-noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
+no_sars_cov2_list = list(set(list(India_statewise.state.values)) -set(list(sars_cov2_data.state)))
 if verbose:
-  print('A total of: {} states with no reports of COVID19 ...'.format(len(noCOVID19_list)))
-  if len(noCOVID19_list)>=1:
+  print('A total of: {} states with no reports of SARS-CoV2 ...'.format(len(no_sars_cov2_list)))
+  if len(no_sars_cov2_list)>=1:
     print('\nStates in India with no SARS-CoV2 reports:')
-    for noCOVID19_state in noCOVID19_list:
-      print(f'\n{noCOVID19_state} ...')
+    for no_sars_cov2_state in no_sars_cov2_list:
+      print(f'\n{no_sars_cov2_state} ...')
 
-def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
+def sars_cov2_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose:bool=False)->dict:
     merged_df = pd.merge(geo_df, covid_df, on='state', how='left')
 
     try:
@@ -214,8 +214,8 @@ def covid19_json(covid_df:'Pandas dataframe', geo_df:'Pandas dataframe', verbose
     json_data = json.dumps(merged_json)
     return {'json_data': json_data, 'data_frame': merged_df}
 
-merged_data = covid19_json(
-                covid19_data, 
+merged_data = sars_cov2_json(
+                sars_cov2_data, 
                 India_statewise, 
                 verbose=verbose
               )
@@ -405,12 +405,13 @@ def union_territory_correction(
       advanced_plotting=False,
       verbose=False
     ):
+
   xx, yy = np.array(India_statewise[India_statewise['state'] == state]['geometry'])[idx].exterior.coords.xy
 
   opt_list = []
-  for i in ['total_cases', 'deaths',                        \
-            'preds_cases', 'preds_cases_std', 'MAPE',       \
-            'preds_cases_3', 'preds_cases_3_std', 'MAPE_3', \
+  for i in ['total_cases',   'deaths',                        \
+            'preds_cases',   'preds_cases_std',   'MAPE',     \
+            'preds_cases_3', 'preds_cases_3_std', 'MAPE_3',   \
             'preds_cases_7', 'preds_cases_7_std', 'MAPE_7']:
     try:
       opt_val = input_df.loc[input_df['state']==state, i]
@@ -422,33 +423,41 @@ def union_territory_correction(
 
   if advanced_plotting:
     source = ColumnDataSource(
-              data = dict(
-                        x=[np.mean(xx)],
-                        y=[np.mean(yy)],
-                        state=[state],
-                        total_cases=opt_list[0],
-                        deaths=opt_list[1],
-                        preds_cases=opt_list[2],
-                        preds_cases_std=opt_list[3],
-                        MAPE=opt_list[4],
-                        preds_cases_3=opt_list[5],
-                        preds_cases_3_std=opt_list[6],
-                        MAPE_3=opt_list[7],
-                        preds_cases_7=opt_list[8],
-                        preds_cases_7_std=opt_list[9],
-                        MAPE_7=opt_list[10]
-                      )
-            )
+
+      data = dict(
+
+        x=[np.mean(xx)],
+        y=[np.mean(yy)],
+        state=[state],
+        total_cases=opt_list[0],
+        deaths=opt_list[1],
+        preds_cases=opt_list[2],
+        preds_cases_std=opt_list[3],
+        MAPE=opt_list[4],
+        preds_cases_3=opt_list[5],
+        preds_cases_3_std=opt_list[6],
+        MAPE_3=opt_list[7],
+        preds_cases_7=opt_list[8],
+        preds_cases_7_std=opt_list[9],
+        MAPE_7=opt_list[10]
+
+      )
+
+    )
   else:
     source = ColumnDataSource(
-              data=dict(
-                      x=[np.mean(xx)],
-                      y=[np.mean(yy)],
-                      state=[state],
-                      total_cases=[input_df.loc[input_df['state']==state,'total_cases']],
-                      deaths=[input_df.loc[input_df['state']==state,'deaths']]
-                    )
-            )
+
+      data = dict(
+
+        x=[np.mean(xx)],
+        y=[np.mean(yy)],
+        state=[state],
+        total_cases=[input_df.loc[input_df['state']==state,'total_cases']],
+        deaths=[input_df.loc[input_df['state']==state,'deaths']]
+
+      )
+
+    )
 
   if version_check:
     plot_circle = plt.scatter
@@ -456,6 +465,7 @@ def union_territory_correction(
     plot_circle = plt.circle
 
   plot_circle(
+
     x='x', 
     y='y', 
     size=25, 
@@ -467,11 +477,14 @@ def union_territory_correction(
     fill_color={'field'     : colorMode, 
                 'transform' : colorMapper},  
     nonselection_alpha=0.1,
-    hover_fill_alpha=0.15,   
+    hover_fill_alpha=0.15
+
   )
+
   return plt
 
 def CustomTitleFormatter():
+
   xtext=8350000
   ytext=4425000
   xbox=9400000
@@ -487,40 +500,46 @@ def CustomTitleOverlay(
       ybox=0,
       input_df=None, 
       advanced_plotting=False
-):
+    ):
   
   overlay_text = Label(
-                   x=xtext, 
-                   y=ytext, 
-                   text='SARS-CoV2 in India',
-                   text_font=PLOT_FONT,
-                   text_font_size='21pt',
-                   text_font_style='bold'
-                 )
+
+    x=xtext, 
+    y=ytext, 
+    text='SARS-CoV2 in India',
+    text_font=PLOT_FONT,
+    text_font_size='21pt',
+    text_font_style='bold'
+
+  )
     
   plt.add_layout(overlay_text) 
 
   if advanced_plotting:
-    print(covid19_data['total_cases'].sum())  
+    print(sars_cov2_data['total_cases'].sum())  
     
     source = ColumnDataSource(
-               data = dict(
-                        x=[xbox],
-                        y=[ybox],
-                        state=['India'],
-                        total_cases=[covid19_data['total_cases'].sum()],
-                        deaths=[covid19_data['deaths'].sum()],
-                        preds_cases=[preds_df['preds_cases'].sum()],
-                        preds_cases_std=[preds_df['preds_cases_std'].sum()],
-                        MAPE=[preds_df['MAPE'].mean()],
-                        preds_cases_3=[preds_df['preds_cases_3'].sum()],
-                        preds_cases_3_std=[preds_df['preds_cases_3_std'].sum()],
-                        MAPE_3=[preds_df['MAPE_3'].mean()],
-                        preds_cases_7=[preds_df['preds_cases_7'].sum()],
-                        preds_cases_7_std=[preds_df['preds_cases_7_std'].sum()],
-                        MAPE_7=[np.mean(np.abs(preds_df['MAPE_7']))]
-                      )
-             )
+
+      data = dict(
+
+        x=[xbox],
+        y=[ybox],
+        state=['India'],
+        total_cases=[sars_cov2_data['total_cases'].sum()],
+        deaths=[sars_cov2_data['deaths'].sum()],
+        preds_cases=[preds_df['preds_cases'].sum()],
+        preds_cases_std=[preds_df['preds_cases_std'].sum()],
+        MAPE=[preds_df['MAPE'].mean()],
+        preds_cases_3=[preds_df['preds_cases_3'].sum()],
+        preds_cases_3_std=[preds_df['preds_cases_3_std'].sum()],
+        MAPE_3=[preds_df['MAPE_3'].mean()],
+        preds_cases_7=[preds_df['preds_cases_7'].sum()],
+        preds_cases_7_std=[preds_df['preds_cases_7_std'].sum()],
+        MAPE_7=[np.mean(np.abs(preds_df['MAPE_7']))]
+
+      )
+
+    )
   else:
     source = ColumnDataSource(
                data = dict(
@@ -548,8 +567,8 @@ def CustomTitleOverlay(
   
   return plt
 
-def covid19_plot(
-      covid19_geosource,
+def sars_cov2_plot(
+      sars_cov2_geosource,
       input_df=None,
       input_field=None,
       color_field='total_cases',
@@ -608,7 +627,7 @@ def covid19_plot(
         
   plt = geographic_overlay(
           plt, 
-          geosourceJson=covid19_geosource,
+          geosourceJson=sars_cov2_geosource,
           colorBar=color_bar,
           colorMapper=color_mapper,
           colorMode=input_field,
@@ -625,7 +644,7 @@ def covid19_plot(
         state='Andaman and Nicobar Islands',
         idx=i,
         input_df=input_df,
-        geosourceJson=covid19_geosource,
+        geosourceJson=sars_cov2_geosource,
         colorBar=color_bar, 
         colorMapper=color_mapper, 
         colorMode=input_field,
@@ -637,7 +656,7 @@ def covid19_plot(
       state='Chandigarh',
       idx=0,
       input_df=input_df,
-      geosourceJson=covid19_geosource,
+      geosourceJson=sars_cov2_geosource,
       colorBar=color_bar, 
       colorMapper=color_mapper, 
       colorMode=input_field,
@@ -650,7 +669,7 @@ def covid19_plot(
         state='Dadra and Nagar Haveli and Daman and Diu',
         idx=i,
         input_df=input_df,
-        geosourceJson=covid19_geosource,
+        geosourceJson=sars_cov2_geosource,
         colorBar=color_bar, 
         colorMapper=color_mapper, 
         colorMode=input_field,
@@ -662,7 +681,7 @@ def covid19_plot(
       state='Delhi',
       idx=0,
       input_df=input_df,
-      geosourceJson=covid19_geosource,
+      geosourceJson=sars_cov2_geosource,
       colorBar=color_bar, 
       colorMapper=color_mapper, 
       colorMode=input_field,
@@ -674,7 +693,7 @@ def covid19_plot(
       state='Chandigarh',
       idx=0,
       input_df=input_df,
-      geosourceJson=covid19_geosource,
+      geosourceJson=sars_cov2_geosource,
       colorBar=color_bar, 
       colorMapper=color_mapper, 
       colorMode=input_field,
@@ -686,7 +705,7 @@ def covid19_plot(
       state='Lakshadweep',
       idx=0,
       input_df=input_df,
-      geosourceJson=covid19_geosource,
+      geosourceJson=sars_cov2_geosource,
       colorBar=color_bar, 
       colorMapper=color_mapper, 
       colorMode=input_field,
@@ -699,7 +718,7 @@ def covid19_plot(
             state='Puducherry',
             idx=i,
             input_df=input_df,
-            geosourceJson=covid19_geosource,
+            geosourceJson=sars_cov2_geosource,
             colorBar=color_bar, 
             colorMapper=color_mapper, 
             colorMode=input_field,
@@ -736,13 +755,13 @@ def covid19_plot(
 
 advanced_mode = True
 
-covid19_geosource = GeoJSONDataSource(geojson=merged_json)
-covid19_geosource = np.nan_to_num(covid19_geosource, nan=0, posinf=0, neginf=0)
+sars_cov2_geosource = GeoJSONDataSource(geojson=merged_json)
+sars_cov2_geosource = np.nan_to_num(sars_cov2_geosource, nan=0, posinf=0, neginf=0)
 plot_title = None
 app_title = 'India SARS-CoV2 statewise statistics'
 
-india_total_cases = covid19_data['total_cases'].sum()
-india_total_deaths = covid19_data['deaths'].sum()
+india_total_cases = sars_cov2_data['total_cases'].sum()
+india_total_deaths = sars_cov2_data['deaths'].sum()
 
 if verbose:
   print(f'Total reported cases for {DATA_UPDATE_DATE}: {india_total_cases} ...')
@@ -750,16 +769,16 @@ if verbose:
 
 def create_visualization_tabs(advanced_mode=True):
   tabs = []
-  basic_covid19_plot = covid19_plot(
-                         covid19_geosource, 
-                         input_df=covid19_data,
+  basic_sars_cov2_plot = sars_cov2_plot(
+                         sars_cov2_geosource, 
+                         input_df=sars_cov2_data,
                          input_field='total_cases',
                          color_field='total_cases',
                          enable_India_stats=True,
                          integer_plot=True,
                          plot_title=plot_title
                        )
-  basic_plot_tab = Tab_Panel(child=basic_covid19_plot, title="⌂")
+  basic_plot_tab = Tab_Panel(child=basic_sars_cov2_plot, title="⌂")
   tabs.append(basic_plot_tab)
 
   if advanced_mode:
@@ -769,51 +788,51 @@ def create_visualization_tabs(advanced_mode=True):
                         'MAPE', 'MAPE_3', 'MAPE_7']
     if verbose:
       print(preds_df.head(10))
-      print(covid19_data_copy.head(10))
-    preds_covid19_df = pd.merge(covid19_data_copy, preds_df, 
+      print(sars_cov2_data_copy.head(10))
+    preds_sars_cov2_df = pd.merge(sars_cov2_data_copy, preds_df, 
                                 on='state', 
                                 how='left')
-    preds_covid19_df = preds_covid19_df.fillna(0)
+    preds_sars_cov2_df = preds_sars_cov2_df.fillna(0)
     if verbose:
-      print(preds_covid19_df.head(10))
+      print(preds_sars_cov2_df.head(10))
     
     try:
-      del preds_covid19_df['ID']
+      del preds_sars_cov2_df['ID']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
       if verbose:
         print(f'Unable to delete dataframe item: ID due to: {e} ...')
 
     try:
-      del preds_covid19_df['id']
+      del preds_sars_cov2_df['id']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
       if verbose:
         print(f'Unable to delete dataframe item: id due to: {e} ...')
 
     try:
-      del preds_covid19_df['discharged']
+      del preds_sars_cov2_df['discharged']
     except Exception as e:
       e = getattr(e, 'message', repr(e))
       if verbose:
         print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
-    merged_preds_data  = covid19_json(preds_covid19_df, India_statewise)
+    merged_preds_data  = sars_cov2_json(preds_sars_cov2_df, India_statewise)
     merged_preds_json  = merged_preds_data['json_data']
-    preds_covid19_data = merged_preds_data['data_frame']
+    preds_sars_cov2_data = merged_preds_data['data_frame']
 
     if verbose:
-      print(preds_covid19_data['state'].equals(covid19_data['state']))
-      print(set(list(preds_covid19_data['state'])) - set(list(covid19_data['state'])))
+      print(preds_sars_cov2_data['state'].equals(sars_cov2_data['state']))
+      print(set(list(preds_sars_cov2_data['state'])) - set(list(sars_cov2_data['state'])))
 
-    preds_covid19_geosource = GeoJSONDataSource(geojson=merged_preds_json)
+    preds_sars_cov2_geosource = GeoJSONDataSource(geojson=merged_preds_json)
 
-    preds_covid19_geosource= np.nan_to_num(preds_covid19_geosource, nan=0, posinf=0, neginf=0)
-    preds_covid19_data = preds_covid19_data.fillna(0)
+    preds_sars_cov2_geosource= np.nan_to_num(preds_sars_cov2_geosource, nan=0, posinf=0, neginf=0)
+    preds_sars_cov2_data = preds_sars_cov2_data.fillna(0)
 
-    advanced_covid19_plot = covid19_plot(
-                              preds_covid19_geosource, 
-                              input_df=preds_covid19_data,
+    advanced_sars_cov2_plot = sars_cov2_plot(
+                              preds_sars_cov2_geosource, 
+                              input_df=preds_sars_cov2_data,
                               input_field='preds_cases_7',
                               color_field='total_cases',
                               enable_India_stats=True,
@@ -821,12 +840,12 @@ def create_visualization_tabs(advanced_mode=True):
                               integer_plot=True,
                               plot_title=None
                             )
-    advanced_plot_tab = Tab_Panel(child=advanced_covid19_plot, title='Forecast')
+    advanced_plot_tab = Tab_Panel(child=advanced_sars_cov2_plot, title='Forecast')
     tabs.append(advanced_plot_tab)
 
-    performance_covid19_plot = covid19_plot(
-                                 preds_covid19_geosource, 
-                                 input_df=preds_covid19_data,
+    performance_sars_cov2_plot = sars_cov2_plot(
+                                 preds_sars_cov2_geosource, 
+                                 input_df=preds_sars_cov2_data,
                                  palette_type='Greens',
                                  input_field='MAPE_7',
                                  color_field='MAPE_7',
@@ -834,7 +853,7 @@ def create_visualization_tabs(advanced_mode=True):
                                  enable_performance_stats=True,
                                  plot_title=None
                                )
-    performance_plot_tab = Tab_Panel(child=performance_covid19_plot, title='Forecast quality')
+    performance_plot_tab = Tab_Panel(child=performance_sars_cov2_plot, title='Forecast quality')
     tabs.append(performance_plot_tab)
 
   return tabs
@@ -1357,13 +1376,13 @@ class SARS_COV2_Layout():
       sars_cov2_layout = sars_cov2_layout_tabs
       return sars_cov2_layout, self.state_select
     else:
-      sars_cov2_layout = Column_Layout(basic_covid19_plot)
+      sars_cov2_layout = Column_Layout(basic_sars_cov2_plot)
       return sars_cov2_layout, None
 
 curdoc().title = app_title
 
 if __name__ == '__main__':
-  out_file('India_COVID19.html')
+  out_file('India_SARS_CoV2.html')
   viz_tabs = create_visualization_tabs(advanced_mode=advanced_mode)
   plot_layout = SARS_COV2_Layout(advanced_mode=advanced_mode)
   perf_tab = plot_layout.create_countrywide_model_performance_tab()
