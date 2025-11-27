@@ -29,14 +29,14 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
     
   * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all``` or press ```CTRL+F9```
   * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
-  [![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Google_Colab_howto.png)](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/COVID19_India.ipynb)
+  [![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Google_Colab_howto.png)](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/India_SARS_CoV2.ipynb)
 
 ### 2. Bokeh server app
 
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
 * Launch the Bokeh server: ```bokeh serve --show ./app/India_SARS_CoV2.py```
 * Go to your browser location and the app will be served
-  [![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/COVID19_India_Bokeh_output.png)](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python)
+  [![Bokeh static output](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/India_SARS_CoV2_Bokeh_output.png)](https://www.moad.computer/blog/covid19-outbreak-visualized-using-python)
 
 ## **Bokeh server deployment cheatsheet**
 
