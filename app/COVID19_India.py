@@ -140,17 +140,42 @@ except Exception as e:
     preds_df = pd.read_csv(saved_predsFile)
   else:
     print('Advanced mode disabled ...')
-    advanced_mode=False  
+    advanced_mode=False
+
+covid19_data.fillna(0)
 
 preds_df = preds_df[['state',                                                        \
                      'preds_cases_7', 'preds_cases_3', 'preds_cases',                \
                      'preds_cases_7_std', 'preds_cases_3_std', 'preds_cases_std',    \
                      'MAPE', 'MAPE_3', 'MAPE_7']]
 
+preds_df.fillna(0)
+
 India_statewise = apply_corrections(India_statewise)
+def convert_multi_polygon_to_list(state, input_df):
+    polygon_arr = np.array(input_df[input_df['state'] == state]['geometry'])
+    return list(polygon_arr[0].geoms)
+
+def update_polygon_geojson_dataframe(state, input_df):
+    polygon_list = convert_multi_polygon_to_list(state, input_df)
+    print(f'Number of polygons from Multipolygon for: {state}: ', len(polygon_list))
+    for p_idx, polygon in enumerate(polygon_list):
+        if p_idx == 0:
+            input_df.loc[input_df['state'] == state,'geometry'] = polygon
+        else:
+            input_df.loc[len(input_df) + 1] = [state, polygon]
+    return input_df
+
+India_statewise = India_statewise.to_crs('EPSG:3395')
+
+state = 'Puducherry'
+India_statewise = update_polygon_geojson_dataframe(state, India_statewise)
+
+state = 'Andaman and Nicobar Islands'
+India_statewise = update_polygon_geojson_dataframe(state, India_statewise)
+
 if enable_GeoJSON_saving:
   India_statewise.to_file('India_statewise_minified.geojson', driver='GeoJSON')
-India_statewise = India_statewise.to_crs('EPSG:3395')
 
 India_stats = apply_corrections(India_stats)
 
@@ -159,7 +184,8 @@ if len(covid19_data.columns) ==6:
 
 covid19_data = apply_corrections(covid19_data)
 
-covid19_data = pd.merge(covid19_data, India_stats, on='state', how='left')
+covid19_data = pd.merge(India_stats, covid19_data, on='state', how='left')
+covid19_data = covid19_data.fillna(0)
 covid19_data_copy = covid19_data.copy()
 
 noCOVID19_list = list(set(list(India_statewise.state.values)) -set(list(covid19_data.state)))
@@ -367,44 +393,62 @@ def geographic_overlay(
   
   return plt
 
-def lakshadweep_correction(
-  plt, 
-  input_df=None, 
-  advanced_plotting=False,
-  geosourceJson=None, 
-  colorBar=None,
-  colorMapper=None,
-  colorMode=None
-  ):
+def union_territory_correction(
+      plt,
+      state=None,
+      idx=None,  
+      input_df=None,
+      geosourceJson=None, 
+      colorBar=None,
+      colorMapper=None,
+      colorMode=None,
+      advanced_plotting=False,
+      verbose=False
+    ):
+  xx, yy = np.array(India_statewise[India_statewise['state'] == state]['geometry'])[idx].exterior.coords.xy
+
+  opt_list = []
+  for i in ['total_cases', 'deaths',                        \
+            'preds_cases', 'preds_cases_std', 'MAPE',       \
+            'preds_cases_3', 'preds_cases_3_std', 'MAPE_3', \
+            'preds_cases_7', 'preds_cases_7_std', 'MAPE_7']:
+    try:
+      opt_val = input_df.loc[input_df['state']==state, i]
+      opt_list.append([opt_val if len(opt_val) == 1 else list(opt_val)[0]])
+    except Exception as e:
+      if verbose:
+        print(state, e, i)
+      opt_list.append([0])
+
   if advanced_plotting:
     source = ColumnDataSource(
-               data = dict(
-                        x=[8075000],
-                        y=[1250000],
-                        state=['Lakshadweep'],
-                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
-                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']],
-                        preds_cases=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases']],
-                        preds_cases_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_std']],
-                        MAPE=[input_df.loc[input_df['state']=='Lakshadweep','MAPE']],
-                        preds_cases_3=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3']],
-                        preds_cases_3_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_3_std']],
-                        MAPE_3=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_3']],
-                        preds_cases_7=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7']],
-                        preds_cases_7_std=[input_df.loc[input_df['state']=='Lakshadweep','preds_cases_7_std']],
-                        MAPE_7=[input_df.loc[input_df['state']=='Lakshadweep','MAPE_7']]
+              data = dict(
+                        x=[np.mean(xx)],
+                        y=[np.mean(yy)],
+                        state=[state],
+                        total_cases=opt_list[0],
+                        deaths=opt_list[1],
+                        preds_cases=opt_list[2],
+                        preds_cases_std=opt_list[3],
+                        MAPE=opt_list[4],
+                        preds_cases_3=opt_list[5],
+                        preds_cases_3_std=opt_list[6],
+                        MAPE_3=opt_list[7],
+                        preds_cases_7=opt_list[8],
+                        preds_cases_7_std=opt_list[9],
+                        MAPE_7=opt_list[10]
                       )
-             )
+            )
   else:
     source = ColumnDataSource(
-               data = dict(
-                        x=[8075000],
-                        y=[1250000],
-                        state=['Lakshadweep'],
-                        total_cases=[input_df.loc[input_df['state']=='Lakshadweep','total_cases']],
-                        deaths=[input_df.loc[input_df['state']=='Lakshadweep','deaths']]
-                      )
-             )
+              data=dict(
+                      x=[np.mean(xx)],
+                      y=[np.mean(yy)],
+                      state=[state],
+                      total_cases=[input_df.loc[input_df['state']==state,'total_cases']],
+                      deaths=[input_df.loc[input_df['state']==state,'deaths']]
+                    )
+            )
 
   if version_check:
     plot_circle = plt.scatter
@@ -416,16 +460,15 @@ def lakshadweep_correction(
     y='y', 
     size=25, 
     source=source,
-    line_color='purple',
-    fill_alpha=0.05,
-    line_width=0.05,
+    line_color='blue',
+    line_width=0.25,  
+    #color='blue',
+    fill_alpha=0.05, 
     fill_color={'field'     : colorMode, 
-                'transform' : colorMapper},
-    nonselection_alpha=0.05,
-    hover_fill_alpha=0.65, 
-    #color='blue'
+                'transform' : colorMapper},  
+    nonselection_alpha=0.1,
+    hover_fill_alpha=0.15,   
   )
-  
   return plt
 
 def CustomTitleFormatter():
@@ -505,7 +548,6 @@ def CustomTitleOverlay(
   
   return plt
 
-    
 def covid19_plot(
       covid19_geosource,
       input_df=None,
@@ -516,7 +558,7 @@ def covid19_plot(
       palette_type='OrRd',
       integer_plot=False,
       enable_simple_hover_tool=True,
-      enable_lakshadweep_stats=True,
+      enable_union_territory_stats=True,
       enable_India_stats=False,                 
       enable_advanced_stats=False,
       enable_performance_stats=False,
@@ -576,16 +618,93 @@ def covid19_plot(
           enableTapTool=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
         )
   
-  if enable_lakshadweep_stats:
-    plt = lakshadweep_correction(
+  if enable_union_territory_stats:
+    for i in range(8):
+      plt = union_territory_correction(
+        plt,
+        state='Andaman and Nicobar Islands',
+        idx=i,
+        input_df=input_df,
+        geosourceJson=covid19_geosource,
+        colorBar=color_bar, 
+        colorMapper=color_mapper, 
+        colorMode=input_field,
+        advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+      )  
+
+    plt = union_territory_correction(
       plt,
-      input_df=input_df, 
-      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False,
+      state='Chandigarh',
+      idx=0,
+      input_df=input_df,
       geosourceJson=covid19_geosource,
       colorBar=color_bar, 
       colorMapper=color_mapper, 
-      colorMode=input_field
+      colorMode=input_field,
+      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
     )
+
+    for i in range(2):  
+      plt = union_territory_correction(
+        plt,
+        state='Dadra and Nagar Haveli and Daman and Diu',
+        idx=i,
+        input_df=input_df,
+        geosourceJson=covid19_geosource,
+        colorBar=color_bar, 
+        colorMapper=color_mapper, 
+        colorMode=input_field,
+        advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+      )
+
+    plt = union_territory_correction(
+      plt,
+      state='Delhi',
+      idx=0,
+      input_df=input_df,
+      geosourceJson=covid19_geosource,
+      colorBar=color_bar, 
+      colorMapper=color_mapper, 
+      colorMode=input_field,
+      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+    )
+
+    plt = union_territory_correction(
+      plt,
+      state='Chandigarh',
+      idx=0,
+      input_df=input_df,
+      geosourceJson=covid19_geosource,
+      colorBar=color_bar, 
+      colorMapper=color_mapper, 
+      colorMode=input_field,
+      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+    )
+
+    plt = union_territory_correction(
+      plt,
+      state='Lakshadweep',
+      idx=0,
+      input_df=input_df,
+      geosourceJson=covid19_geosource,
+      colorBar=color_bar, 
+      colorMapper=color_mapper, 
+      colorMode=input_field,
+      advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+    )
+
+    for i in range(2):
+      plt = union_territory_correction(
+            plt,
+            state='Puducherry',
+            idx=i,
+            input_df=input_df,
+            geosourceJson=covid19_geosource,
+            colorBar=color_bar, 
+            colorMapper=color_mapper, 
+            colorMode=input_field,
+            advanced_plotting=True if ((enable_advanced_stats) or (enable_performance_stats)) else False
+          )
 
   if enable_India_stats:
     xtext, ytext, xbox, ybox = CustomTitleFormatter()
@@ -618,6 +737,7 @@ def covid19_plot(
 advanced_mode = True
 
 covid19_geosource = GeoJSONDataSource(geojson=merged_json)
+covid19_geosource = np.nan_to_num(covid19_geosource, nan=0, posinf=0, neginf=0)
 plot_title = None
 app_title = 'India SARS-CoV2 statewise statistics'
 
@@ -678,7 +798,7 @@ def create_visualization_tabs(advanced_mode=True):
       if verbose:
         print(f'Unable to delete dataframe item: discharged due to: {e} ...')
 
-    merged_preds_data  = covid19_json(preds_covid19_df,India_statewise)
+    merged_preds_data  = covid19_json(preds_covid19_df, India_statewise)
     merged_preds_json  = merged_preds_data['json_data']
     preds_covid19_data = merged_preds_data['data_frame']
 
@@ -687,6 +807,9 @@ def create_visualization_tabs(advanced_mode=True):
       print(set(list(preds_covid19_data['state'])) - set(list(covid19_data['state'])))
 
     preds_covid19_geosource = GeoJSONDataSource(geojson=merged_preds_json)
+
+    preds_covid19_geosource= np.nan_to_num(preds_covid19_geosource, nan=0, posinf=0, neginf=0)
+    preds_covid19_data = preds_covid19_data.fillna(0)
 
     advanced_covid19_plot = covid19_plot(
                               preds_covid19_geosource, 
@@ -744,7 +867,7 @@ def model_performance_plot(
       x=source.data['x']
     else:
       plotIndex_labels  = list(source['date'].astype('str'))  
-      model_performance = source.dropna()  
+      model_performance = source.fillna(0)  
       x = [i for i in range(len(list(source['date'].astype('str'))))]
 
       y_cases  = list(source['total_cases'].astype('int'))
@@ -1018,7 +1141,7 @@ def make_dataset(state):
   model_performance['date'] = model_performance['date'].apply(lambda x: date_formatter(x))  
   plotIndex_labels = list(model_performance['date'].astype('str'))
   
-  model_performance = model_performance.dropna()
+  model_performance = model_performance.fillna(0)
   plotIndex = list(model_performance['date'].astype('str'))   
     
   x=[i for i in range(len(list(model_performance['date'].astype('str'))))]
