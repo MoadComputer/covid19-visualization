@@ -58,7 +58,7 @@ ALT_LOCAL_DATA_DIR = '../data'
 
 GEOJSON_FILENAME = 'India_statewise.geojson'
 POPUL_STATS_CSV_FILENAME = 'Population_stats_India_statewise.csv'
-SARSCOV2_STATS_CSV_FILENAME = 'COVID19_India_statewise.csv'
+SARSCOV2_STATS_CSV_FILENAME = 'India_SARS_CoV2_statewise.csv'
 SARSCOV2_FORECASTS_FILENAME = 'output_preds.csv'
 
 GEOJSON_FILENAME_POINTER_STR = f'/GeoJSON_assets/{GEOJSON_FILENAME}'
