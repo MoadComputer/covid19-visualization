@@ -9,11 +9,11 @@ ID,state,total_cases,discharged,deaths,active_cases
 8,Goa,29,29,0,0
 9,Gujarat,3679,3677,2,0
 10,Haryana,676,671,5,0
-11,Himachal Pradesh,10,10,0,0
+11,Himachal Pradesh,11,10,0,1
 12,Jammu and Kashmir,225,224,1,0
 13,Jharkhand,82,81,1,0
-14,Karnataka,3015,3004,11,0
-15,Kerala,8815,8753,60,2
+14,Karnataka,3016,3004,11,1
+15,Kerala,8816,8755,60,1
 16,Ladakh,5,5,0,0
 17,Madhya Pradesh,354,343,11,0
 18,Maharashtra,2784,2737,46,1
@@ -26,9 +26,9 @@ ID,state,total_cases,discharged,deaths,active_cases
 25,Punjab,285,279,6,0
 26,Rajasthan,835,832,3,0
 27,Sikkim,289,288,1,0
-28,Tamil Nadu,1247,1239,7,1
+28,Tamil Nadu,1248,1240,7,1
 29,Telangana,33,33,0,0
 30,Tripura,31,31,0,0
 31,Uttarakhand,125,125,0,0
 32,Uttar Pradesh,1182,1180,2,0
-33,West Bengal,1189,1188,1,0
+33,West Bengal,1190,1188,1,1
