@@ -50,7 +50,7 @@ verbose = False
 enable_GeoJSON_saving = False
 
 DATA_UPDATE_DATE = '02-January-2026'
-FORECASTS_UPDATE_DATE = '01-January-2026'
+FORECASTS_UPDATE_DATE = '02-January-2026'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
 LOCAL_DATA_DIR = './GitHub/MoadComputer/covid19-visualization/data'
