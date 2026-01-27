@@ -25,12 +25,6 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
   * Edit the first cell to: ```setup=False```
   * Run the notebook
 
-  **For Google Colab**
-    
-  * Launch using the Google Colab link, go to: ```Runtime```, select: ```Run all``` or press ```CTRL+F9```
-  * Accept the Google Colab warning about notebook not authored by Google by clicking: ```Run anyway```
-  [![Google Colab how-to](https://github.com/MoadComputer/covid19-visualization/raw/main/examples/Google_Colab_howto.png)](https://colab.research.google.com/github/MoadComputer/covid19-visualization/blob/main/examples/India_SARS_CoV2.ipynb)
-
 ### 2. Bokeh server app
 
 * Git clone the repositroy: ```git clone https://github.com/MoadComputer/covid19-visualization; cd covid19-visualization```
@@ -68,6 +62,7 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
 * Install git: ```conda install -n GeoPandas -c anaconda git```
 * Install bokeh: ```conda install -n GeoPandas -c bokeh bokeh```
 * Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
+* Install ipympl: ```conda install -n GeoPandas -c conda-forge ipympl```
 * Install nbformat: ```conda install -n GeoPandas -c anaconda nbformat```
 * Update nbformat: ```conda update nbformat```
 * Install jupyter: ```conda install -n GeoPandas -c anaconda jupyter```
