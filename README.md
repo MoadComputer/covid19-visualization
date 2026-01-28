@@ -63,6 +63,7 @@ Visualization tool for SARS-CoV2 outbreak in India using GeoPandas and Bokeh
 * Install bokeh: ```conda install -n GeoPandas -c bokeh bokeh```
 * Install matplolib: ```conda install -n GeoPandas -c conda-forge matplotlib descartes```
 * Install ipympl: ```conda install -n GeoPandas -c conda-forge ipympl```
+* Install nodejs: ```conda install nodejs```
 * Install nbformat: ```conda install -n GeoPandas -c anaconda nbformat```
 * Update nbformat: ```conda update nbformat```
 * Install jupyter: ```conda install -n GeoPandas -c anaconda jupyter```
