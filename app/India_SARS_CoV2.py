@@ -117,7 +117,7 @@ except Exception as e:
   saved_predsFile = os_style_formatter(
       f'{LOCAL_DATA_DIR}{SARSCOV2_FORECASTS_FILENAME_POINTER_STR}'
   ) 
-    
+
   if os.path.exists(India_GeoJSON_repoFile):
     India_statewise = geopandas.read_file(India_GeoJSON_repoFile)  
     print('Reading India GeoJSON file from saved repo ...')
@@ -129,13 +129,13 @@ except Exception as e:
     print('Reading India SARS-CoV2 file from saved repo ...')
   else:
     sys.exit('Failed to read India SARS-CoV2 file ...')
-    
+
   if os.path.exists(India_statewise_statsFile):
     India_stats = pd.read_csv(India_statewise_statsFile)  
     print('Reading India stats file from saved repo ...')
   else:
     sys.exit('Failed to read India stats file ...')
-    
+
   if os.path.exists(saved_predsFile):
     preds_df = pd.read_csv(saved_predsFile)
   else:
@@ -152,6 +152,7 @@ preds_df = preds_df[['state',                                                   
 preds_df.fillna(0)
 
 India_statewise = apply_corrections(India_statewise)
+
 def convert_multi_polygon_to_list(state, input_df):
     polygon_arr = np.array(input_df[input_df['state'] == state]['geometry'])
     return list(polygon_arr[0].geoms)
@@ -166,7 +167,10 @@ def update_polygon_geojson_dataframe(state, input_df):
             input_df.loc[len(input_df) + 1] = [state, polygon]
     return input_df
 
-India_statewise = India_statewise.to_crs('EPSG:3395')
+India_statewise = India_statewise.to_crs(
+   'EPSG:3857'
+  #'EPSG:3395'
+)
 
 state = 'Puducherry'
 India_statewise = update_polygon_geojson_dataframe(state, India_statewise)
@@ -179,7 +183,7 @@ if enable_GeoJSON_saving:
 
 India_stats = apply_corrections(India_stats)
 
-if len(sars_cov2_data.columns) ==6:
+if len(sars_cov2_data.columns) == 6:
   del sars_cov2_data['active_cases']
 
 sars_cov2_data = apply_corrections(sars_cov2_data)
