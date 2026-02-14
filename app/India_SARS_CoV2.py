@@ -49,7 +49,7 @@ else:
 verbose = False
 enable_GeoJSON_saving = False
 
-DATA_UPDATE_DATE = '13-February-2026'
+DATA_UPDATE_DATE = '14-February-2026'
 FORECASTS_UPDATE_DATE = '13-February-2026'
 
 DATA_URL = 'https://raw.githubusercontent.com/MoadComputer/covid19-visualization/main/data'
